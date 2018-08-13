@@ -1,0 +1,23 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.appHeader{
+  flex: 0 0 auto;
+  height: 50px;
+  color: white;
+  background-color: dodgerblue;
+}
+
+.mainContent{
+  flex: auto;
+}
+
+.appFooter{
+  flex: 0 0 auto;
+  height: 50px;
+  color: white;
+  background-color: dodgerblue;
+}
