@@ -21,10 +21,10 @@ export function logout() {
 
 /**
  * 获取当前行情
- * @param {*} params 
+ * @param {*} symbol 市场标记 
  */
-export function getTicker(params) {
-  return request('/api/get_ticker', params);
+export function getTicker(symbol) {
+  return request('/api/get_ticker', symbol);
 }
 
 /**

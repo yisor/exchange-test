@@ -5,12 +5,12 @@ import { TabBar } from 'antd-mobile';
 import { injectIntl } from 'react-intl';
 import styles from './AppLayout.css';
 
-import tabbarPriceSelect from 'assets/tabbar/tabbar_price.png';
-import tabbarPriceUnselect from 'assets/tabbar/tabbar_price2.png';
-import tabbarDealSelect from 'assets/tabbar/tabbar_deal.png';
-import tabbarDealUnselect from 'assets/tabbar/tabbar_deal.png';
-import tabbarUserSelect from 'assets/tabbar/tabbar_user.png';
-import tabbarUserUnselect from 'assets/tabbar/tabbar_user2.png';
+import tabbarPriceSelect from 'assets/tabbar/tabbar_price.svg';
+import tabbarPriceUnselect from 'assets/tabbar/tabbar_price2.svg';
+import tabbarDealSelect from 'assets/tabbar/tabbar_deal.svg';
+import tabbarDealUnselect from 'assets/tabbar/tabbar_deal.svg';
+import tabbarUserSelect from 'assets/tabbar/tabbar_user.svg';
+import tabbarUserUnselect from 'assets/tabbar/tabbar_user2.svg';
 
 class AppLayout extends Component {
   render() {

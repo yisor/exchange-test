@@ -6,11 +6,11 @@ export default {
     ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib", "style": true }]
   ],
   "proxy": {
-    "/api": {
-      "target": "http://jsonplaceholder.typicode.com/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api": "" }
-    }
+    // "/api": {
+    //   "target": " http://staging.365os.com/exchange-api/",
+    //   "changeOrigin": true,
+    //   "pathRewrite": { "^/api": "" }
+    // }
   },
   alias: {
     components: resolve(__dirname, "./src/components"),

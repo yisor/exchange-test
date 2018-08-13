@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { ListView } from 'components';
-import { SearchBar, Tabs } from 'antd-mobile';
+import { ListView, } from 'components';
+import { Tabs, SearchBar } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 
 const tabs = [
@@ -13,23 +13,27 @@ const tabs = [
 ];
 
 const PriceItem = (props) => {
-  const item = props.itemInfo
+  const item = props.itemInfo;
   return (
     <div style={styles.container}>
       <div style={{
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>BTC/USDT</div>
-        <div style={styles.font11}>24h量 160007</div>
+        <div style={styles.font16}>
+          BTC<font style={styles.font11}>/USDT</font>
+        </div>
+        <div style={[styles.font11, { marginTop: 9 }]}>
+          {`24h量 ${item.vol}`}
+        </div>
       </div>
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left'
       }}>
-        <div style={styles.font16}>  6956.09</div>
-        <div style={styles.font11}>￥1600.38</div>
+        <div style={styles.font16}>{` ${item.last}`}</div>
+        <div style={[styles.font11, { marginTop: 9 }]}>￥1600.38</div>
       </div>
       <div style={styles.button}>
         -0.25%
@@ -41,30 +45,38 @@ const PriceItem = (props) => {
 class PricePage extends Component {
 
   componentDidMount() {
-    this.props.getTicker();
+    const { symbols, getTicker } = this.props;
+    symbols.forEach(ele => {
+      getTicker(ele.symbol);
+    });
+  }
+
+  onTabChange = (tab, index) => {
+    console.log('onTabChange', index, tab);
   }
 
   render() {
-    const { ticker, loading } = this.props;
+    const { tickers, loading } = this.props;
     return (
       <div>
         <SearchBar
           placeholder="搜索币种"
-          maxLength={20} />
+          maxLength={20}
+          showCancelButton={false}
+          style={{
+            textAlign: 'left',
+            backgroundColor: 'white',
+            borderBottom: '1px solid #ddd',
+          }} />
         <Tabs
           tabs={tabs}
           initialPage={1}
           tabBarActiveTextColor="#35BAA0"
           tabBarInactiveTextColor="#797F85"
-          onChange={(tab, index) => { 
-            console.log('onChange', index, tab); 
-          }}
-          onTabClick={(tab, index) => {
-             console.log('onTabClick', index, tab); 
-            }}
+          onChange={this.onTabChange}
         >
           <ListView
-            data={ticker}
+            data={tickers}
             ListItem={PriceItem}
             loading={loading}
           />
@@ -75,13 +87,14 @@ class PricePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ticker: state.price.ticker,
-  loading: state.loading.effects['price/fetch']
+  symbols: state.symbols,
+  tickers: state.price.tickers,
+  loading: state.loading.effects['price/getTicker']
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getTicker: () => {
-    dispatch({ type: 'price/fetch' });
+  getTicker: (symbol) => {
+    dispatch({ type: 'price/getTicker', payload: symbol });
   },
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
@@ -94,12 +107,8 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: 45,
     justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
+    padding: '20px 10px 5px 10px'
   },
   button: {
     display: 'flex',
@@ -109,9 +118,10 @@ const styles = {
     width: 65,
     justifyContent: 'center',
     alignItems: 'center',
+    color: 'white'
   },
   font11: {
-    color: '#797F85', fontSize: 11, marginTop: 8
+    color: '#797F85', fontSize: 11,
   },
   font16: {
     color: '#323B43', fontSize: 16
