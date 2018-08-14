@@ -19,6 +19,7 @@ export default {
     models: resolve(__dirname, "./src/models"),
     routes: resolve(__dirname, "./src/routes"),
     locales: resolve(__dirname, "./src/locales"),
-    assets: resolve(__dirname, "./src/assets")
+    assets: resolve(__dirname, "./src/assets"),
+    constants: resolve(__dirname, "./src/constants")
   }
 }

@@ -3,8 +3,7 @@ import { getTicker } from '../services/app';
 export default {
   namespace: 'price',
   state: {
-    tickers: [],
-    optionals: []
+    tickers: []
   },
   reducers: {
     save(state, { payload }) {

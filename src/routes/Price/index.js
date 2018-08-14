@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { ListView, } from 'components';
-import { Tabs, SearchBar } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
+import { Tabs } from 'antd-mobile';
+import { intlShape } from 'react-intl';
+import { ListView, SearchBar, DocumentTitle } from 'components';
 
-const tabs = [
-  { title: '自选' },
-  { title: 'USDT' },
-  { title: 'BTC' },
-  { title: 'ETH' },
-  { title: 'HT' }
-];
+const tabs = (formatMessage) => (
+  [
+    { title: formatMessage({ id: 'price.favorites' }) },
+    { title: 'USDT' },
+    { title: 'BTC' },
+    { title: 'ETH' },
+    { title: 'HT' }
+  ]);
 
 const PriceItem = (props) => {
-  const item = props.itemInfo;
+  const { itemInfo, onItemClick } = props;
   return (
-    <div style={styles.container}>
+    <div style={styles.container} onClick={() => onItemClick(itemInfo)}>
       <div style={{
         display: 'flex',
         flexDirection: 'column'
       }}>
         <div style={styles.font16}>
-          BTC<font style={styles.font11}>/USDT</font>
+          BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
         </div>
-        <div style={[styles.font11, { marginTop: 9 }]}>
-          {`24h量 ${item.vol}`}
+        <div style={{ ...styles.font11, marginTop: 8 }}>
+          {`24h量 ${itemInfo.vol}`}
         </div>
       </div>
       <div style={{
@@ -32,8 +34,8 @@ const PriceItem = (props) => {
         flexDirection: 'column',
         alignItems: 'left'
       }}>
-        <div style={styles.font16}>{` ${item.last}`}</div>
-        <div style={[styles.font11, { marginTop: 9 }]}>￥1600.38</div>
+        <div style={styles.font16}>{` ${itemInfo.last}`}</div>
+        <div style={{ ...styles.font11, marginTop: 8 }}>￥1600.38</div>
       </div>
       <div style={styles.button}>
         -0.25%
@@ -44,51 +46,75 @@ const PriceItem = (props) => {
 
 class PricePage extends Component {
 
+  static contextTypes = {
+    intl: intlShape
+  }
+
   componentDidMount() {
-    const { symbols, getTicker } = this.props;
+    const { symbols } = this.props;
+    this.fetchTicker(symbols);
+  }
+
+  fetchTicker = (symbols) => {
+    const { getTicker } = this.props;
     symbols.forEach(ele => {
       getTicker(ele.symbol);
     });
   }
 
   onTabChange = (tab, index) => {
-    console.log('onTabChange', index, tab);
+    const { optionals, symbols } = this.props;
+    switch (index) {
+      case 0:
+        // 自选
+        this.fetchTicker(optionals);
+        break;
+      case 2:
+        this.fetchTicker(symbols);
+        break;
+      default: break;
+    }
+  }
+
+  onItemClick = (item) => {
+    alert('点击：' + item.vol);
   }
 
   render() {
     const { tickers, loading } = this.props;
+    const formatMessage = this.context.intl.formatMessage;
     return (
-      <div>
-        <SearchBar
-          placeholder="搜索币种"
-          maxLength={20}
-          showCancelButton={false}
-          style={{
-            textAlign: 'left',
-            backgroundColor: 'white',
-            borderBottom: '1px solid #ddd',
-          }} />
-        <Tabs
-          tabs={tabs}
-          initialPage={1}
-          tabBarActiveTextColor="#35BAA0"
-          tabBarInactiveTextColor="#797F85"
-          onChange={this.onTabChange}
-        >
-          <ListView
-            data={tickers}
-            ListItem={PriceItem}
-            loading={loading}
+      <DocumentTitle title={formatMessage({ id: 'title.price' })}>
+        <div>
+          <SearchBar
+            placeholder={formatMessage({ id: 'price.search' })}
+            maxLength={20}
+            onChange={(text) => { console.log('输入框：', text) }}
           />
-        </Tabs>
-      </div>
+          <Tabs
+            tabs={tabs(formatMessage)}
+            initialPage={1}
+            tabBarActiveTextColor="#35BAA0"
+            tabBarInactiveTextColor="#797F85"
+            onChange={this.onTabChange}
+          >
+            <ListView
+              data={tickers}
+              ListItem={PriceItem}
+              loading={loading}
+              onItemClick={this.onItemClick}
+            />
+          </Tabs>
+        </div>
+      </DocumentTitle>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  symbols: state.symbols,
+  symbols: state.app.symbols,
   tickers: state.price.tickers,
+  optionals: state.app.optionals,
   loading: state.loading.effects['price/getTicker']
 })
 
@@ -124,6 +150,7 @@ const styles = {
     color: '#797F85', fontSize: 11,
   },
   font16: {
-    color: '#323B43', fontSize: 16
+    color: '#323B43',
+    fontSize: 16,
   }
 }

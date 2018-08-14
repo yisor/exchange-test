@@ -1,22 +1,33 @@
 import request from '../utils/request';
-
-export function query() {
-  return request('/api/users');
-}
+import api from 'constants/api';
 
 /**
  * 登录
  * @param {*} params 
  */
 export function login(params) {
-  return request('/api/login', params, 'post');
+  return request(api.login, params, 'post');
 }
 
 /**
  * 登出
  */
 export function logout() {
-  return request('/api/logout');
+  return request(api.logout);
+}
+
+/**
+ * 查询系统支持的所有交易对及精度
+ */
+export function getSymbols() {
+  return request(api.commonSymbols);
+}
+
+/**
+ * 查询汇率
+ */
+export function queryRate() {
+  return request(api.publicRate);
 }
 
 /**
@@ -24,12 +35,5 @@ export function logout() {
  * @param {*} symbol 市场标记 
  */
 export function getTicker(symbol) {
-  return request('/api/get_ticker', symbol);
-}
-
-/**
- * 查询系统支持的所有交易对及精度
- */
-export function getSymbols() {
-  return request('/api/common/symbols');
+  return request(api.getTicker, symbol);
 }
