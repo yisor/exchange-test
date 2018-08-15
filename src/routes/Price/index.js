@@ -1,35 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { ListView } from 'components';
-import { SearchBar, Tabs } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
+import { Tabs } from 'antd-mobile';
+import { intlShape } from 'react-intl';
+import { ListView, SearchBar, DocumentTitle } from 'components';
 
-const tabs = [
-  { title: '自选' },
-  { title: 'USDT' },
-  { title: 'BTC' },
-  { title: 'ETH' },
-  { title: 'HT' }
-];
+const tabs = (formatMessage) => (
+  [
+    { title: formatMessage({ id: 'price.favorites' }) },
+    { title: 'USDT' },
+    { title: 'BTC' },
+    { title: 'ETH' },
+    { title: 'HT' }
+  ]);
 
 const PriceItem = (props) => {
-  const item = props.itemInfo
+  const { itemInfo, onItemClick } = props;
   return (
-    <div style={styles.container}>
+    <div style={styles.container} onClick={() => onItemClick(itemInfo)}>
       <div style={{
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>BTC/USDT</div>
-        <div style={styles.font11}>24h量 160007</div>
+        <div style={styles.font16}>
+          BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
+        </div>
+        <div style={{ ...styles.font11, marginTop: 8 }}>
+          {`24h量 ${itemInfo.vol}`}
+        </div>
       </div>
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left'
       }}>
-        <div style={styles.font16}>  6956.09</div>
-        <div style={styles.font11}>￥1600.38</div>
+        <div style={styles.font16}>{` ${itemInfo.last}`}</div>
+        <div style={{ ...styles.font11, marginTop: 8 }}>￥1600.38</div>
       </div>
       <div style={styles.button}>
         -0.25%
@@ -40,48 +46,81 @@ const PriceItem = (props) => {
 
 class PricePage extends Component {
 
+  static contextTypes = {
+    intl: intlShape
+  }
+
   componentDidMount() {
-    this.props.getTicker();
+    const { symbols } = this.props;
+    this.fetchTicker(symbols);
+  }
+
+  fetchTicker = (symbols) => {
+    const { getTicker } = this.props;
+    symbols.forEach(ele => {
+      getTicker(ele.symbol);
+    });
+  }
+
+  onTabChange = (tab, index) => {
+    const { optionals, symbols } = this.props;
+    switch (index) {
+      case 0:
+        // 自选
+        this.fetchTicker(optionals);
+        break;
+      case 2:
+        this.fetchTicker(symbols);
+        break;
+      default: break;
+    }
+  }
+
+  onItemClick = (item) => {
+    alert('点击：' + item.vol);
   }
 
   render() {
-    const { ticker, loading } = this.props;
+    const { tickers, loading } = this.props;
+    const formatMessage = this.context.intl.formatMessage;
     return (
-      <div>
-        <SearchBar
-          placeholder="搜索币种"
-          maxLength={20} />
-        <Tabs
-          tabs={tabs}
-          initialPage={1}
-          tabBarActiveTextColor="#35BAA0"
-          tabBarInactiveTextColor="#797F85"
-          onChange={(tab, index) => { 
-            console.log('onChange', index, tab); 
-          }}
-          onTabClick={(tab, index) => {
-             console.log('onTabClick', index, tab); 
-            }}
-        >
-          <ListView
-            data={ticker}
-            ListItem={PriceItem}
-            loading={loading}
+      <DocumentTitle title={formatMessage({ id: 'title.price' })}>
+        <div>
+          <SearchBar
+            placeholder={formatMessage({ id: 'price.search' })}
+            maxLength={20}
+            onChange={(text) => { console.log('输入框：', text) }}
           />
-        </Tabs>
-      </div>
+          <Tabs
+            tabs={tabs(formatMessage)}
+            initialPage={1}
+            tabBarActiveTextColor="#35BAA0"
+            tabBarInactiveTextColor="#797F85"
+            onChange={this.onTabChange}
+          >
+            <ListView
+              data={tickers}
+              ListItem={PriceItem}
+              loading={loading}
+              onItemClick={this.onItemClick}
+            />
+          </Tabs>
+        </div>
+      </DocumentTitle>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  ticker: state.price.ticker,
-  loading: state.loading.effects['price/fetch']
+  symbols: state.app.symbols,
+  tickers: state.price.tickers,
+  optionals: state.app.optionals,
+  loading: state.loading.effects['price/getTicker']
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getTicker: () => {
-    dispatch({ type: 'price/fetch' });
+  getTicker: (symbol) => {
+    dispatch({ type: 'price/getTicker', payload: symbol });
   },
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
@@ -94,12 +133,8 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: 45,
     justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
+    padding: '20px 10px 5px 10px'
   },
   button: {
     display: 'flex',
@@ -109,11 +144,13 @@ const styles = {
     width: 65,
     justifyContent: 'center',
     alignItems: 'center',
+    color: 'white'
   },
   font11: {
-    color: '#797F85', fontSize: 11, marginTop: 8
+    color: '#797F85', fontSize: 11,
   },
   font16: {
-    color: '#323B43', fontSize: 16
+    color: '#323B43',
+    fontSize: 16,
   }
 }
