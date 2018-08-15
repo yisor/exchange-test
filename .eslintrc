@@ -1,4 +1,3 @@
 {
-  "extends": "umi",
-  "parser": "babel-eslint"
+  "extends": "umi"
 }
