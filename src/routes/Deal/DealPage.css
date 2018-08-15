@@ -3,6 +3,9 @@
   text-align: center;
   color:white;
   font-weight: bold;
+  border-width: 0px;
+  border-color: transparent;
+  background-color: transparent;
 }
 .btn:active{
   border-color: rgba(0,0,0,.3);
