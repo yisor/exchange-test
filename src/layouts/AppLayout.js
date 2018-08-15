@@ -51,8 +51,9 @@ class AppLayout extends Component {
               selectedIcon={
                 <img
                   src={tabbarDealUnselect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{width: 22, height: 22}} alt=""/>
               }
+                onPress={() => { changeUrl('/deal') }}
             />
 
             <TabBar.Item

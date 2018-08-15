@@ -14,6 +14,14 @@ const routes = [
     },
     childRoutes: [
       {
+        path: '/deal',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Deal').default);
+          });
+        },
+      },
+      {
         path: '/mine',
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
