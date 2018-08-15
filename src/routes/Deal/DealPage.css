@@ -1,0 +1,10 @@
+.btn {
+  display: inline-block;
+  text-align: center;
+  color:white;
+  font-weight: bold;
+}
+.btn:active{
+  border-color: rgba(0,0,0,.3);
+  background: #bbb;
+}

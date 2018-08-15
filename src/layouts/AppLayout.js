@@ -55,6 +55,7 @@ class AppLayout extends Component {
                   src={tabbarDealSelect}
                   style={{ width: 22, height: 22 }} alt="" />
               }
+              onPress={() => { changeUrl('/deal') }}
             />
 
             <TabBar.Item
