@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { ListView } from 'components';
+import { ListView, DocumentTitle } from 'components';
 import { Flex, PullToRefresh } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import MarketPage from './Market'
 import DealView from './DealView'
+import {intlShape} from "react-intl";
 
 
 const header = ({data,onClick=()=>{}}) => {
@@ -19,6 +20,10 @@ const header = ({data,onClick=()=>{}}) => {
 }
 
 class DealPage extends Component {
+
+  static contextTypes = {
+    intl: intlShape
+  }
 
   constructor(props) {
     super(props);
@@ -35,7 +40,10 @@ class DealPage extends Component {
 
   render() {
     const { ticker, loading } = this.props;
+
+    const formatMessage = this.context.intl.formatMessage;
     return (
+      <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
       <div style={{height: '100vh', display: 'flex', flexDirection: 'column'}}>
         {header(1, 1)}
         <MarketPage/>
@@ -48,7 +56,7 @@ class DealPage extends Component {
               height: this.state.height,
               overflow: 'auto',
             }}
-            indicator={{activate:'您hhhhh',deactivate: '上拉可以刷新'}}
+            indicator={{deactivate: '上拉可以刷新'}}
             direction={'down'}
             refreshing={this.state.refreshing}
             onRefresh={() => {
@@ -65,6 +73,7 @@ class DealPage extends Component {
         {/*</div>*/}
 
       </div>
+      </DocumentTitle>
     );
   }
 }

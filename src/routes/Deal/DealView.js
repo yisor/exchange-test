@@ -5,8 +5,9 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import {Flex, Button, Modal, List, InputItem} from 'antd-mobile';
-import {ListView} from 'components';
+import {ListView,} from 'components';
 import DealCss from './DealPage.css'
+import { intlShape } from 'react-intl';
 
 const styleArr = [
   {borderWidth: 1, borderColor: '#35BAA0', borderStyle: 'solid', marginRight: 10, width: 50,},
@@ -44,6 +45,11 @@ const DealItem = (props) => {
 }
 
 class DealView extends Component {
+
+  static contextTypes = {
+    intl: intlShape
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -89,6 +95,8 @@ class DealView extends Component {
 
 
   render() {
+
+    const formatMessage = this.context.intl.formatMessage;
     return (
       <div style={{display: 'flex', width: '100%', flexDirection: 'column'}}>
         <div>
@@ -188,7 +196,7 @@ class DealView extends Component {
         <Flex style={styles.moneyInput}>
           <div style={{display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center',}}>
             <input type="text" value={inputValue}
-                   style={{}}
+                   style={{ border: 'none',}}
                    onChange={this.handleInputChange}
             />
             <div style={{marginRight: 10, fontSize: 16, color: '#A0A4A8'}}>USDT</div>
@@ -203,7 +211,7 @@ class DealView extends Component {
         <Flex style={styles.numberInput}>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
             <input type="text" value={textareaValue}
-                   style={{flex: 1}}
+                   style={{flex: 1, border: 'none',}}
                    onChange={this.handleTextareaChange}
                    placeholder={'数量'}
             />
