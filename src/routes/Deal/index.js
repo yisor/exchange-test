@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { ListView, DocumentTitle } from 'components';
+import { DocumentTitle } from 'components';
 import { Flex, PullToRefresh } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import MarketPage from './Market'
-import DealView from './DealView'
-import {intlShape} from "react-intl";
+import MarketPage from './Market';
+import DealView from './DealView';
+import { intlShape } from "react-intl";
+import CurrencySelectModal from './components/CurrencySelectModal';
 
 
-const header = ({data,onClick=()=>{}}) => {
+const Header = ({ data, onSwitch = () => { } }) => {
   return (
-    <Flex style={{height:44}}>
+    <Flex style={{ height: 44 }}>
       <img
+        onClick={onSwitch}
         src={require('../../assets/Deal/change.png')}
-        style={{ width: 24, height: 24,marginRight:12,marginLeft:10 }} alt="" />
-      <div style={{fontSize:16,fontWeight:"bold"}}>BTC/USDT</div>
+        style={{ width: 24, height: 24, marginRight: 12, marginLeft: 10 }} alt="" />
+      <div style={{ fontSize: 16, fontWeight: "bold" }}>BTC/USDT</div>
     </Flex>
   )
 }
@@ -25,30 +27,43 @@ class DealPage extends Component {
     intl: intlShape
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false,
-      down: true,
-      height: document.documentElement.clientHeight,
-    };
-  }
+  state = {
+    switchVisible: false,
+    refreshing: false,
+    down: true,
+    height: document.documentElement.clientHeight,
+  };
 
   componentDidMount() {
     this.props.getTicker();
   }
 
-  render() {
-    const { ticker, loading } = this.props;
+  showModal = key => (e) => {
+    e.preventDefault(); // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    });
+  }
 
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
+    });
+  }
+
+  onItemClick = (item) => {
+    alert('选择币种：' + item.vol);
+  }
+
+  render() {
+    const { loading, tickers } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
-      <div style={{height: '100vh', display: 'flex', flexDirection: 'column'}}>
-        {header(1, 1)}
-        <MarketPage/>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Header onSwitch={this.showModal('switchVisible')} />
+          <MarketPage />
 
-        {/*<div style={{display: 'flex', flex: 1, width: '100%', overflowY: "auto"}}>*/}
           <PullToRefresh
             damping={60}
             ref={el => this.ptr = el}
@@ -56,36 +71,41 @@ class DealPage extends Component {
               height: this.state.height,
               overflow: 'auto',
             }}
-            indicator={{deactivate: '上拉可以刷新'}}
-            direction={'down'}
+            indicator={{ deactivate: '上拉可以刷新' }}
+            direction='down'
             refreshing={this.state.refreshing}
             onRefresh={() => {
-              this.setState({refreshing: true});
+              this.setState({ refreshing: true });
               setTimeout(() => {
-                this.setState({refreshing: false});
+                this.setState({ refreshing: false });
               }, 1000);
             }}
           >
             <div>
-              <DealView/>
+              <DealView />
             </div>
           </PullToRefresh>
-        {/*</div>*/}
-
-      </div>
+          <CurrencySelectModal
+            tickers={tickers}
+            loading={loading}
+            visible={this.state.switchVisible}
+            onItemClick={this.onItemClick}
+            onClose={this.onClose('switchVisible')}
+          />
+        </div>
       </DocumentTitle>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  ticker: state.price.ticker,
-  loading: state.loading.effects['price/fetch']
+  tickers: state.price.tickers,
+  loading: state.loading.effects['price/getTicker']
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getTicker: () => {
-    dispatch({ type: 'price/fetch' });
+  getTicker: (symbol) => {
+    dispatch({ type: 'price/getTicker', payload: symbol });
   },
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));

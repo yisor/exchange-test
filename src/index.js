@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import dva from 'dva';
 import ReactDOM from 'react-dom';
 import createLoading from 'dva-loading';
