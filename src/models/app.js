@@ -3,6 +3,7 @@ import { getSymbols, queryRate } from '../services/app';
 export default {
   namespace: 'app',
   state: {
+    tab: 'home',
     rates: [],
     symbols: [],
     optionals: [],
@@ -14,14 +15,17 @@ export default {
     },
     * getSymbols({ payload = {} }, { call, put }) {
       const response = yield call(getSymbols);
-      yield put({ type: 'saveSymbols', payload: response });
+      yield put({ type: 'saveSymbols', payload: { symbols: response } });
     },
     * queryRate({ payload = {} }, { call, put }) {
       const response = yield call(queryRate);
-      yield put({ type: 'saveRates', payload: response });
+      yield put({ type: 'saveRates', payload: { rates: response } });
     },
   },
   reducers: {
+    changeTab(state, action) {
+      return { ...state, tab: action.payload };
+    },
     initParams(state, action) {
       return { ...state, ...action.payload };
     },
@@ -35,8 +39,18 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (pathname === '/') {
-          dispatch({ type: 'getBasicSysData' })
+        switch (pathname) {
+          case '/':
+            dispatch({ type: 'changeTab', payload: "price" });
+            dispatch({ type: 'getBasicSysData' });
+            break;
+          case '/deal':
+            dispatch({ type: 'changeTab', payload: "deal" });
+            break;
+          case '/mine':
+            dispatch({ type: 'changeTab', payload: "mine" });
+            break;
+          default: break;
         }
       });
     },
