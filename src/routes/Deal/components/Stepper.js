@@ -21,7 +21,7 @@ class stepper extends Component {
   }
 
   render() {
-    const { ticker, hideVal } = this.props;
+    const {  hideVal } = this.props;
     return (
       <div >
         <Flex>

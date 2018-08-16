@@ -5,17 +5,20 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Flex, Button, Modal, List, } from 'antd-mobile';
-import { ListView, } from 'components';
+import { ListView,} from 'components';
 import DealCss from './DealPage.css'
 import { intlShape } from 'react-intl';
 
 const styleArr = [
   { borderWidth: 1, borderColor: '#35BAA0', borderStyle: 'solid', marginRight: 10, width: 50, },
   { borderWidth: 1, borderColor: '#D9D9D9', borderStyle: 'solid', marginRight: 10, width: 50, },
+  { borderWidth: 1, borderColor: '#CC4D4D', borderStyle: 'solid', marginRight: 10, width: 50, },
 ]
 const textStyleArr = [
   { margin: 5, color: '#35BAA0', textAlign: 'center' },
   { margin: 5, color: '#D9D9D9', textAlign: 'center' },
+  { margin: 5, color: '#CC4D4D', textAlign: 'center' },
+
 ]
 
 const DealItem = (props) => {
@@ -46,10 +49,11 @@ const DealItem = (props) => {
         <div style={styles.font16}> 6956.09</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={styles.font16}> 1936</div>
-        <div style={styles.button}>
+        <div style={styles.font16}> 193676</div>
+        <button className={DealCss.btn} type="button" style={styles.button}
+                onClick={()=>{console.log('1111')}}>
           取消
-      </div>
+      </button>
       </div>
     </div>
   )
@@ -65,7 +69,7 @@ class DealView extends Component {
     super(props);
     this.state = {
       modal: false,
-      val: '限价',
+      val: '',
       buyOrSell: 0,//0 是买入 1是卖出
       coinPrice: 0,
       coinNum: 0,
@@ -76,10 +80,12 @@ class DealView extends Component {
   }
 
   componentDidMount() {
+    const formatMessage = this.context.intl.formatMessage;
     const { selectPrice } = this.props;
     this.setState({
       coinPrice: selectPrice,
       coinNum: 0,
+      val:formatMessage({id:'deal.limit'}),
       available: 133.4444222,
       sub: this.state.coinPrice > 0 ? true : false
 
@@ -129,27 +135,32 @@ class DealView extends Component {
   render() {
     const formatMessage = this.context.intl.formatMessage;
     return (
-      <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
-        <div>
-          <Flex style={{ marginLeft: 10, height: 60 }}>
+      <div style={{display: 'flex', width: '100%', flexDirection: 'column'}}>
 
-            <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+        <div>
+          <Flex style={{marginLeft: 10, height: 60}}>
+
+            <div style={{display: 'flex', flex: 1, flexDirection: 'row'}}>
               <div style={this.state.buyOrSell === 0 ? styleArr[0] : styleArr[1]}
-                onClick={() => this.buyOrSellStatus(0)}>
-                <div style={this.state.buyOrSell === 0 ? textStyleArr[0] : textStyleArr[1]}>买入</div>
+                   onClick={() => this.buyOrSellStatus(0)}>
+                <div style={this.state.buyOrSell === 0 ? textStyleArr[0] : textStyleArr[1]}>
+                  {formatMessage({id: 'deal.buy'})}
+                </div>
               </div>
 
-              <div style={this.state.buyOrSell === 1 ? styleArr[0] : styleArr[1]}
-                onClick={() => this.buyOrSellStatus(1)}>
-                <div style={this.state.buyOrSell === 1 ? textStyleArr[0] : textStyleArr[1]}>卖出</div>
+              <div style={this.state.buyOrSell === 1 ? styleArr[2] : styleArr[1]}
+                   onClick={() => this.buyOrSellStatus(1)}>
+                <div style={this.state.buyOrSell === 1 ? textStyleArr[2] : textStyleArr[1]}>
+                  {formatMessage({id: 'deal.sell'})}
+                </div>
               </div>
             </div>
-            <div style={{ textAlign: 'right', marginTop: 10 }}>
-              <div style={{ marginRight: 10, alignItems: "center" }} onClick={this.showModal('modal')}>
+            <div style={{textAlign: 'right', marginTop: 10}}>
+              <div style={{marginRight: 10, alignItems: "center"}} onClick={this.showModal('modal')}>
                 {this.state.val}
                 <img
                   src={require('../../assets/Deal/change.png')}
-                  style={{ width: 12, height: 12, marginRight: 12, marginLeft: 10 }} alt="" />
+                  style={{width: 12, height: 12, marginRight: 12, marginLeft: 10}} alt=""/>
               </div>
             </div>
           </Flex>
@@ -166,16 +177,16 @@ class DealView extends Component {
             margin: 10,
             backgroundColor: this.state.buyOrSell === 0 ? '#4DCC7B' : '#CC4D4D'
           }}
-            onClick={() => {
-              this.props.onSubmit && this.props.onSubmit({ 1: 222, 2: 3333 })
-            }}>
-            <div style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
-              {this.state.buyOrSell === 0 ? '买入' : '卖出'}BTC
+               onClick={() => {
+                 this.props.onSubmit && this.props.onSubmit({1: 222, 2: 3333})
+               }}>
+            <div style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
+              {this.state.buyOrSell === 0 ? formatMessage({id: 'deal.buy'}) : formatMessage({id: 'deal.sell'})}BTC
             </div>
           </div>
         </div>
 
-        <div style={{ width: '100%', height: 8, backgroundColor: '#F0F0F0' }} />
+        <div style={{width: '100%', height: 8, backgroundColor: '#F0F0F0'}}/>
 
         {this.renderList()}
         <Modal
@@ -185,11 +196,11 @@ class DealView extends Component {
           animationType="slide-up"
         >
           <List>
-            {['限价', '市价'].map((i, index) => (
+            {[formatMessage({id: 'deal.market'}), formatMessage({id: 'deal.limit'})].map((i, index) => (
               <List.Item key={index} onClick={() => this.onChance(i, 'modal')}>{i}</List.Item>
             ))}
             <List.Item>
-              <Button style={{ backgroundColor: '#4DCC7B' }} type="primary" onClick={this.onClose('modal')}>取消</Button>
+              <Button style={{backgroundColor: '#4DCC7B'}} type="primary" onClick={this.onClose('modal')}>取消</Button>
             </List.Item>
           </List>
         </Modal>
@@ -198,52 +209,64 @@ class DealView extends Component {
   }
 
   renderList = () => {
+    const formatMessage = this.context.intl.formatMessage;
     return (
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div>
           <Flex style={{ marginTop: 10, marginBottom: 10 }}>
-            <div style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 10, flex: 1 }}>当前订单</div>
+            <div style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 10, flex: 1 }}>
+              {formatMessage({id:'deal.currentorder'})}
+              </div>
 
             <div style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
               <img
                 src={require('../../assets/Deal/change.png')}
                 style={{ width: 12, height: 12, marginRight: 12, marginLeft: 10 }} alt="" />
-              <div>全部</div>
+              <div>{formatMessage({id:'deal.all'})}</div>
             </div>
           </Flex>
         </div>
         <ListView
-          data={[1, 2, 3, 4]}
+          data={[1, 2, 3, 4,5,6]}
           ListItem={DealItem}
+          offsetHeight={200}
+
         />
       </div>
     );
   }
 
   renderInputBtn = () => {
+    const formatMessage = this.context.intl.formatMessage;
     const { coinNum, coinPrice, available } = this.state;
     let price = coinPrice > 0 && coinNum > 0 ? coinNum * coinPrice : 0;
     return (
-      <div style={{ marginBottom: 4 }}>
-        {this.state.val === '限价' ?
+      <div style={{marginBottom: 4}}>
+        {this.state.val === '限价' || this.state.val === 'Limit' ?
           <Flex style={styles.moneyInput}>
-            <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center', }}>
-              <input type="text" value={coinPrice > 0 ? coinPrice : ''}
-                style={{ border: 'none', marginLeft: 10 }}
-                onChange={this.handleInputChange}
+            <div style={{display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center',}}>
+              <input type="text" value={coinPrice >=0 ? coinPrice : ''}
+                     style={{border: 'none', marginLeft: 10}}
+                     onChange={this.handleInputChange}
               />
-              <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>USDT</div>
+              <div style={{marginRight: 10, fontSize: 16, color: '#A0A4A8'}}>USDT</div>
             </div>
             <div style={styles.btnsStyle}>
               <button className={DealCss.btn} type="button"
-                disabled={this.state.sub}
-                style={styles.btnStyle}
-                onClick={() => { this.addOrSub('-') }}>-</button>
-              <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
+                      disabled={this.state.sub}
+                      style={styles.btnStyle}
+                      onClick={() => {
+                        this.addOrSub('-')
+                      }}>-
+              </button>
+              <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
               <button className={DealCss.btn} type="button"
-                disabled={this.state.add}
-                style={styles.btnStyle}
-                onClick={() => { this.addOrSub('+') }}>+</button>
+                      disabled={this.state.add}
+                      style={styles.btnStyle}
+                      onClick={() => {
+                        this.addOrSub('+')
+                      }}>+
+              </button>
             </div>
           </Flex> :
           <Flex style={styles.moneyInput2}>
@@ -258,26 +281,38 @@ class DealView extends Component {
         }
 
         <Flex style={styles.numberInput}>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
             <input type="text" value={coinNum > 0 ? coinNum : ''}
-              style={{ flex: 1, border: 'none', marginLeft: 10 }}
-              onChange={this.handleTextareaChange}
-              placeholder={'数量'}
+                   style={{flex: 1, border: 'none', marginLeft: 10}}
+                   onChange={this.handleTextareaChange}
+                   placeholder={formatMessage({id: 'deal.number'})}
             />
-            <div style={{ marginRight: 10, fontSize: 14, color: '#A0A4A8', }}>BTC</div>
+            <div style={{marginRight: 10, fontSize: 14, color: '#A0A4A8',}}>BTC</div>
           </div>
           <div style={styles.btnsStyle}>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => { this.coinNumClick('1/4') }}>1/4</button>
-            <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => { this.coinNumClick('1/2') }}>1/2</button>
-            <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => { this.coinNumClick('1') }}>全部</button>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {
+              this.coinNumClick('1/4')
+            }}>1/4
+            </button>
+            <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {
+              this.coinNumClick('1/2')
+            }}>1/2
+            </button>
+            <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {
+              this.coinNumClick('1')
+            }}>
+              {formatMessage({id: 'deal.all'})}
+            </button>
           </div>
         </Flex>
-        <div style={{ marginLeft: 10, color: '#A0A4A8', }}>可用{available}USDT</div>
-        <Flex style={{ marginTop: 15, marginBottom: 15 }}>
-          <div style={{ flex: 1, marginLeft: 10, color: '#A0A4A8', fontSize: 18, fontWeight: 'bold' }}>交易额</div>
-          <div style={{ marginRight: 10, color: '#A0A4A8' }}>{price}</div>
+        <div style={{marginLeft: 10, color: '#A0A4A8',}}>{formatMessage({id:'deal.avail'})} {available} USDT</div>
+        <Flex style={{marginTop: 15, marginBottom: 15}}>
+          <div style={{flex: 1, marginLeft: 10, color: '#797F85', fontSize: 18, fontWeight: 'bold'}}>
+            {formatMessage({id: 'deal.volumeoftrade'})}
+          </div>
+          <div style={{marginRight: 10, color: '#A0A4A8'}}>{price}</div>
         </Flex>
 
       </div>
@@ -342,7 +377,6 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: 30,
     justifyContent: 'space-between',
     paddingTop: 5,
     paddingBottom: 5,
@@ -352,10 +386,14 @@ const styles = {
   button: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#E26A6A',
+    // backgroundColor: '#E26A6A',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 44
+    width: 44,
+    color:'#797F85',
+    borderWidth:1,
+    borderStyle:'slid',
+    borderColor:'#D9D9D9'
   },
   font11: {
     color: '#797F85', fontSize: 11, marginTop: 8
