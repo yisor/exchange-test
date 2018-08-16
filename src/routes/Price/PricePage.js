@@ -2,7 +2,7 @@
  * @Author: lsl 
  * @Date: 2018-08-16 09:30:36 
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-16 13:49:52
+ * @Last Modified time: 2018-08-16 14:56:33
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -161,6 +161,7 @@ class PricePage extends Component {
                   ListItem={PriceItem}
                   loading={loading}
                   onItemClick={this.onItemClick}
+                  offsetHeight={100}
                 />
             }
 

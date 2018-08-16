@@ -1,4 +1,8 @@
-import "@babel/polyfill";
+import 'core-js/es6/promise';
+import 'core-js/es6/set';
+import 'core-js/es6/map';
+import 'raf/polyfill';
+
 import dva from 'dva';
 import ReactDOM from 'react-dom';
 import createLoading from 'dva-loading';
@@ -27,7 +31,7 @@ app.router(require('./router').default);
 // 5. Start
 const App = app.start();
 
-const lang = TranslatUtil.getLocale('en-US');
+const lang = TranslatUtil.getLocale('zh-CN');
 addLocaleData(lang.data);
 
 ReactDOM.render(
