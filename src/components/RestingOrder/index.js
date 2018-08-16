@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { Flex } from 'antd-mobile';
+import PropTypes from 'prop-types';
+
+
+
 
 class RestingOrderItem extends Component {
 
@@ -10,51 +14,52 @@ class RestingOrderItem extends Component {
 
   onClick = (item) => {
     const { onItemClick } = this.props;
+    console.log(item)
     onItemClick && onItemClick(item);
   }
 
   render() {
-    const { data, color} = this.props;
+    const { data, titleColor,style} = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
-      <div>
+      <div style={{...style}}>
         <Flex>
           <div style={{flex:1}}>
             <Flex>
-              <div style={{ flex: 1, textAlign: "center", color: '#A0A4A8' }}>买</div>
-              <div style={{ flex: 3, textAlign: "right", color: '#A0A4A8' }}>数量</div>
-              <div style={{ flex: 4, textAlign: "right", color: '#A0A4A8',marginRight:4 }}>价格</div>
+              <div style={{ flex: 1, textAlign: "center", color: titleColor }}>{formatMessage({id:'deal.buy'})}</div>
+              <div style={{ flex: 3, textAlign: "right", color: titleColor }}>{formatMessage({id:'deal.number'})}</div>
+              <div style={{ flex: 4, textAlign: "right", color: titleColor,marginRight:4 }}>{formatMessage({id:'deal.price'})}</div>
             </Flex>
-            {this.PriceItem(1,false,this.onClick)}
+            {this.PriceItem(data,false)}
           </div>
 
           <div style={{flex:1}}>
             <Flex>
-              <div style={{ flex: 4, textAlign: "left", color: '#A0A4A8',marginLeft:4 }}>价格</div>
-              <div style={{ flex: 3, textAlign: "left", color: '#A0A4A8' }}>数量</div>
-              <div style={{ flex: 1, textAlign: "center", color: '#A0A4A8' }}>卖</div>
+              <div style={{ flex: 4, textAlign: "left", color: titleColor,marginLeft:4 }}>{formatMessage({id:'deal.price'})}</div>
+              <div style={{ flex: 3, textAlign: "left", color: titleColor }}>{formatMessage({id:'deal.number'})}</div>
+              <div style={{ flex: 1, textAlign: "center", color: titleColor }}>{formatMessage({id:'deal.sell'})}</div>
             </Flex>
-            {this.PriceItem(1,true,this.onClick)}
+            {this.PriceItem(data,true)}
           </div>
         </Flex>
       </div>
     );
   }
 
-  PriceItem = (data, type = false,onClick) => {
-
-    const item = data;
+  PriceItem = (data, type = false) => {
+    const {buyTextColor,sellTextColor,buyBgColor,sellBgColor} = this.props;
+    const item = [1,2,3,4,5];
     let arr = []
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < item.length; i++) {
       let width = (i+1)*15+'%';
       let left = type?'0':`${100-(i+1)*15}%`;
       arr.push(
         <div style={{display:'flex',flexDirection:'row',position:'relative'}} key={type + i}>
-          <div style={{position:'absolute',left:left,backgroundColor: type?'#E26A6A':'#35BAA0',
+          <div style={{position:'absolute',left:left,backgroundColor: type?sellBgColor:buyBgColor,
             zIndex:1,width:width,height:'100%',opacity:0.15}}
           />
 
-          <Flex style={styles.container} onClick={() => {onClick(6336.09 + i)}} >
+          <Flex style={styles.container} onClick={() => {this.onClick(6336.09 + i)}} >
             {type ?
               <div style={{
                 display: 'flex',
@@ -63,7 +68,7 @@ class RestingOrderItem extends Component {
                 flex: 4,
                 marginLeft:4
               }}>
-                <div style={{color: type ? '#E26A6A' : '#35BAA0', fontSize: 11}}> {6336.09 + i}</div>
+                <div style={{color: sellTextColor, fontSize: 11}}> {6336.09 + i}</div>
               </div> :
               <div style={{
                 display: 'flex',
@@ -90,7 +95,7 @@ class RestingOrderItem extends Component {
                 flexDirection: 'column',
                 flex: 1,
               }}>
-                <div style={styles.font11}>{5 - i}</div>
+                <div style={styles.font11}>{item.length - i}</div>
               </div> :
               <div style={{
                 display: 'flex',
@@ -99,7 +104,7 @@ class RestingOrderItem extends Component {
                 flex: 4,
                 marginRight:4
               }}>
-                <div style={{color: type ? '#E26A6A' : '#35BAA0', fontSize: 11}}> {6956.09 + i}</div>
+                <div style={{color: buyTextColor, fontSize: 11}}> {6956.09 + i}</div>
               </div>
             }
           </Flex>
@@ -110,16 +115,40 @@ class RestingOrderItem extends Component {
   }
 }
 
+RestingOrderItem.propTypes = {
+  data: PropTypes.object,
+  onClick: PropTypes.func,
+  style:PropTypes.object,
+  titleColor:PropTypes.string,
+  viewColor:PropTypes.string,
+  buyTextColor:PropTypes.string,
+  buyBgColor:PropTypes.string,
+  sellTextColor:PropTypes.string,
+  sellBgColor:PropTypes.string
+
+}
+
+RestingOrderItem.defaultProps = {
+  data: {},
+  titleColor:'#A0A4A8',
+  buyTextColor:'#35BAA0',
+  buyBgColor:'#35BAA0',
+  sellTextColor:'#E26A6A',
+  sellBgColor:'#E26A6A'
+}
 
 export default RestingOrderItem;
 
 const styles = {
   container: {
+    zIndex:2,
     display: 'flex',
-    flex: 1,
+    flex:1,
     flexDirection: 'row',
+    height: 30,
     justifyContent: 'space-between',
-    padding: '20px 10px 5px 10px'
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   button: {
     display: 'flex',
@@ -129,13 +158,13 @@ const styles = {
     width: 65,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'white'
   },
   font11: {
-    color: '#797F85', fontSize: 11,
+    color: '#A0A4A8',
+    fontSize: 11,
+    textAlign: 'center'
   },
   font16: {
-    color: '#323B43',
-    fontSize: 16,
+    fontSize: 16
   }
 }
