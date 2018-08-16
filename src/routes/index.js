@@ -9,7 +9,7 @@ const routes = [
     },
     indexRoute: {
       getComponent(location, callback) {
-        callback(null, require('./Price').default)
+        callback(null, require('./Price/PricePage').default)
       }
     },
     childRoutes: [
@@ -31,6 +31,15 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/price/detail',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Price/PriceDetailPage').default);
+      });
+    },
+  }
 ];
+
 
 export default routes;

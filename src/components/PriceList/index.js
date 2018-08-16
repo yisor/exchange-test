@@ -18,7 +18,8 @@ const PriceItem = (props) => {
     <div style={styles.container} onClick={() => onItemClick(itemInfo)}>
       <div style={{
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
           BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
@@ -85,6 +86,7 @@ export default PriceList;
 const styles = {
   container: {
     display: 'flex',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: '20px 10px 5px 10px'

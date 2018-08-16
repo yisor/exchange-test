@@ -2,7 +2,7 @@
  * @Author: lsl 
  * @Date: 2018-08-15 16:50:14 
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-15 16:50:42
+ * @Last Modified time: 2018-08-15 19:41:37
  * @Desc 币种选择
  */
 import React from 'react';
@@ -16,7 +16,8 @@ const CurrencySelectModal = (props) => {
       popup
       visible={visible}
       onClose={onClose}
-      style={{ height: '100vh' }}
+      maskClosable={false}
+      style={{ height: '100vh', width: '100vw' }}
       animationType="slide-down"
     >
       <NavBar
@@ -28,7 +29,7 @@ const CurrencySelectModal = (props) => {
       <PriceList
         tickers={tickers}
         loading={loading}
-        onItemClick={onItemClick} />
+        onItemClick={(item) => { onClose(); onItemClick(item); }} />
     </Modal>
   );
 }

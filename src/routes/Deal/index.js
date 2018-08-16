@@ -52,7 +52,7 @@ class DealPage extends Component {
   }
 
   onItemClick = (item) => {
-    alert('选择币种：' + item.vol);
+    console.log('选择币种：' + JSON.stringify(item));
   }
 
   render() {
