@@ -10,4 +10,14 @@ export default {
   // price
   'price.search': '搜索币种',
   'price.favorites': '自选',
+  //deal
+  'deal.buy':'买',
+  'deal.sell':'卖',
+  'deal.number':'数量',
+  'deal.all':'全部',
+  'deal.market':'市价',
+  'deal.limit':'限价',
+
+
+
 }

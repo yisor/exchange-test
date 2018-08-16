@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { DocumentTitle } from 'components';
 import { Flex, PullToRefresh } from 'antd-mobile';
+import dayjs from 'dayjs'
 import { routerRedux } from 'dva/router';
 import MarketPage from './Market';
 import DealView from './DealView';
@@ -11,7 +12,7 @@ import CurrencySelectModal from './components/CurrencySelectModal';
 
 const Header = ({ data, onSwitch = () => { } }) => {
   return (
-    <Flex style={{ height: 44 }}>
+    <Flex style={{ height: 64,margin:10,}}>
       <img
         onClick={onSwitch}
         src={require('../../assets/Deal/change.png')}
@@ -32,6 +33,7 @@ class DealPage extends Component {
     refreshing: false,
     down: true,
     height: document.documentElement.clientHeight,
+    selectPrice:0,
   };
 
   componentDidMount() {
@@ -55,6 +57,12 @@ class DealPage extends Component {
     console.log('选择币种：' + JSON.stringify(item));
   }
 
+  onSelectPrice = (data)=>{
+    this.setState({
+      selectPrice: data,
+    });
+  }
+
   render() {
     const { loading, tickers } = this.props;
     const formatMessage = this.context.intl.formatMessage;
@@ -62,27 +70,35 @@ class DealPage extends Component {
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
           <Header onSwitch={this.showModal('switchVisible')} />
-          <MarketPage />
+          <MarketPage onClick={this.onSelectPrice}/>
 
           <PullToRefresh
-            damping={60}
+            damping={100}
             ref={el => this.ptr = el}
             style={{
-              height: this.state.height,
+              // height: this.state.height,
               overflow: 'auto',
             }}
-            indicator={{ deactivate: '上拉可以刷新' }}
-            direction='down'
+            indicator={{activate:`下拉刷新,更新时间:${this.state.date}`,finish: `更新完成，最后时间:${this.state.date}`}}
+            direction={'down'}
             refreshing={this.state.refreshing}
             onRefresh={() => {
-              this.setState({ refreshing: true });
+              this.setState({
+                refreshing: true,
+                selectPrice:2222222,
+              });
               setTimeout(() => {
-                this.setState({ refreshing: false });
+                this.setState({
+                  refreshing: false,
+                  date:dayjs().format('MM-DD HH:mm:ss')
+                });
               }, 1000);
             }}
           >
             <div>
-              <DealView />
+              <DealView selectPrice={this.state.selectPrice}
+                        onSubmit={this.onSubmit}
+              />
             </div>
           </PullToRefresh>
           <CurrencySelectModal
