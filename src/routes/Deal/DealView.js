@@ -12,10 +12,13 @@ import { intlShape } from 'react-intl';
 const styleArr = [
   { borderWidth: 1, borderColor: '#35BAA0', borderStyle: 'solid', marginRight: 10, width: 50, },
   { borderWidth: 1, borderColor: '#D9D9D9', borderStyle: 'solid', marginRight: 10, width: 50, },
+  { borderWidth: 1, borderColor: '#CC4D4D', borderStyle: 'solid', marginRight: 10, width: 50, },
 ]
 const textStyleArr = [
   { margin: 5, color: '#35BAA0', textAlign: 'center' },
   { margin: 5, color: '#D9D9D9', textAlign: 'center' },
+  { margin: 5, color: '#CC4D4D', textAlign: 'center' },
+
 ]
 
 const DealItem = (props) => {
@@ -46,10 +49,11 @@ const DealItem = (props) => {
         <div style={styles.font16}> 6956.09</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={styles.font16}> 1936</div>
-        <div style={styles.button}>
+        <div style={styles.font16}> 193676</div>
+        <button className={DealCss.btn} type="button" style={styles.button}
+                onClick={()=>{console.log('1111')}}>
           取消
-      </div>
+      </button>
       </div>
     </div>
   )
@@ -144,9 +148,9 @@ class DealView extends Component {
                 </div>
               </div>
 
-              <div style={this.state.buyOrSell === 1 ? styleArr[0] : styleArr[1]}
+              <div style={this.state.buyOrSell === 1 ? styleArr[2] : styleArr[1]}
                    onClick={() => this.buyOrSellStatus(1)}>
-                <div style={this.state.buyOrSell === 1 ? textStyleArr[0] : textStyleArr[1]}>
+                <div style={this.state.buyOrSell === 1 ? textStyleArr[2] : textStyleArr[1]}>
                   {formatMessage({id: 'deal.sell'})}
                 </div>
               </div>
@@ -223,8 +227,10 @@ class DealView extends Component {
           </Flex>
         </div>
         <ListView
-          data={[1, 2, 3, 4]}
+          data={[1, 2, 3, 4,5,6]}
           ListItem={DealItem}
+          offsetHeight={200}
+
         />
       </div>
     );
@@ -239,7 +245,7 @@ class DealView extends Component {
         {this.state.val === '限价' || this.state.val === 'Limit' ?
           <Flex style={styles.moneyInput}>
             <div style={{display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center',}}>
-              <input type="text" value={coinPrice > 0 ? coinPrice : ''}
+              <input type="text" value={coinPrice >=0 ? coinPrice : ''}
                      style={{border: 'none', marginLeft: 10}}
                      onChange={this.handleInputChange}
               />
@@ -371,7 +377,6 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: 30,
     justifyContent: 'space-between',
     paddingTop: 5,
     paddingBottom: 5,
@@ -381,10 +386,14 @@ const styles = {
   button: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#E26A6A',
+    // backgroundColor: '#E26A6A',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 44
+    width: 44,
+    color:'#797F85',
+    borderWidth:1,
+    borderStyle:'slid',
+    borderColor:'#D9D9D9'
   },
   font11: {
     color: '#797F85', fontSize: 11, marginTop: 8

@@ -30,7 +30,7 @@ class RestingOrderItem extends Component {
               <div style={{ flex: 3, textAlign: "right", color: titleColor }}>{formatMessage({id:'deal.number'})}</div>
               <div style={{ flex: 4, textAlign: "right", color: titleColor,marginRight:4 }}>{formatMessage({id:'deal.price'})}</div>
             </Flex>
-            {this.PriceItem(data,false)}
+            {this.PriceItem(data['1'],false)}
           </div>
 
           <div style={{flex:1}}>
@@ -39,7 +39,7 @@ class RestingOrderItem extends Component {
               <div style={{ flex: 3, textAlign: "left", color: titleColor }}>{formatMessage({id:'deal.number'})}</div>
               <div style={{ flex: 1, textAlign: "center", color: titleColor }}>{formatMessage({id:'deal.sell'})}</div>
             </Flex>
-            {this.PriceItem(data,true)}
+            {this.PriceItem(data['2'],true)}
           </div>
         </Flex>
       </div>
@@ -48,15 +48,15 @@ class RestingOrderItem extends Component {
 
   PriceItem = (data, type = false) => {
     const {buyTextColor,sellTextColor,buyBgColor,sellBgColor} = this.props;
-    const item = [1,2,3,4,5];
+    const item = data;
     let arr = []
     for (let i = 0; i < item.length; i++) {
-      let width = (i+1)*15+'%';
-      let left = type?'0':`${100-(i+1)*15}%`;
+      let width = Math.ceil(Math.random()*100);
+      let left = type?'0':`${100-width}%`;
       arr.push(
         <div style={{display:'flex',flexDirection:'row',position:'relative'}} key={type + i}>
           <div style={{position:'absolute',left:left,backgroundColor: type?sellBgColor:buyBgColor,
-            zIndex:1,width:width,height:'100%',opacity:0.15}}
+            zIndex:1,width:`${width}%`,height:'100%',opacity:0.15}}
           />
 
           <Flex style={styles.container} onClick={() => {this.onClick(6336.09 + i)}} >

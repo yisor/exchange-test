@@ -14,16 +14,24 @@ class MarketPage extends Component {
   static contextTypes = {
     intl: intlShape
   }
-
+  state={
+  }
   constructor(props) {
     super(props);
     this.state = {
       currentPrice: 19999,
-      val: 1
+      val: 1,
+      data:''
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() {
+    this.timer = setInterval(()=>{
+      this.setState({
+        data: 1,
+      });
+    },1000)
+  }
 
   render() {
     // const formatMessage = this.context.intl.formatMessage;
@@ -41,7 +49,7 @@ class MarketPage extends Component {
         </Flex>
 
         <RestingOrder onItemClick={(data)=>this.onClick(data)}
-                      data={{1:[1,2,3,4,5],2:[1,2,3,4,5]}}
+                      data={{'1':[1,2,3,4,5],'2':[1,2,3,4,5]}}
         />
       </div>
     );
