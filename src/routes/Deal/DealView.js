@@ -2,20 +2,20 @@
  * Created by zhoujianxin on 2018/8/13.
  * @Desc
  */
-import React, {Component} from 'react';
-import {connect} from 'dva';
-import {Flex, Button, Modal, List, } from 'antd-mobile';
-import {ListView,} from 'components';
+import React, { Component } from 'react';
+import { connect } from 'dva';
+import { Flex, Button, Modal, List, } from 'antd-mobile';
+import { ListView, } from 'components';
 import DealCss from './DealPage.css'
 import { intlShape } from 'react-intl';
 
 const styleArr = [
-  {borderWidth: 1, borderColor: '#35BAA0', borderStyle: 'solid', marginRight: 10, width: 50,},
-  {borderWidth: 1, borderColor: '#D9D9D9', borderStyle: 'solid', marginRight: 10, width: 50,},
+  { borderWidth: 1, borderColor: '#35BAA0', borderStyle: 'solid', marginRight: 10, width: 50, },
+  { borderWidth: 1, borderColor: '#D9D9D9', borderStyle: 'solid', marginRight: 10, width: 50, },
 ]
 const textStyleArr = [
-  {margin: 5, color: '#35BAA0', textAlign: 'center'},
-  {margin: 5, color: '#D9D9D9', textAlign: 'center'},
+  { margin: 5, color: '#35BAA0', textAlign: 'center' },
+  { margin: 5, color: '#D9D9D9', textAlign: 'center' },
 ]
 
 const DealItem = (props) => {
@@ -26,7 +26,7 @@ const DealItem = (props) => {
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>进度{item*13}%</div>
+        <div style={styles.font16}>进度{item * 13}%</div>
       </div>
 
       <div style={{
@@ -35,7 +35,7 @@ const DealItem = (props) => {
         alignItems: 'left'
       }}>
         <div style={styles.font16}>BTC/USFT</div>
-        <div style={{color:item%2===0?'#E26A6A':'#35BAA0'}}>({item%2===0?'买':'卖'})</div>
+        <div style={{ color: item % 2 === 0 ? '#E26A6A' : '#35BAA0' }}>({item % 2 === 0 ? '买' : '卖'})</div>
       </div>
 
       <div style={{
@@ -45,10 +45,10 @@ const DealItem = (props) => {
       }}>
         <div style={styles.font16}> 6956.09</div>
       </div>
-      <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-      <div style={styles.font16}> 1936</div>
-      <div style={styles.button}>
-        取消
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={styles.font16}> 1936</div>
+        <div style={styles.button}>
+          取消
       </div>
       </div>
     </div>
@@ -67,31 +67,32 @@ class DealView extends Component {
       modal: false,
       val: '限价',
       buyOrSell: 0,//0 是买入 1是卖出
-      coinPrice:0,
-      coinNum:0,
-      available:0,
-      sub:false,
-      add:false
+      coinPrice: 0,
+      coinNum: 0,
+      available: 0,
+      sub: false,
+      add: false
     };
   }
 
   componentDidMount() {
-    const {selectPrice} = this.props;
+    const { selectPrice } = this.props;
     this.setState({
-      coinPrice:selectPrice,
-      coinNum:0,
-      available:133.4444222,
-      sub:this.state.coinPrice>0?true:false
+      coinPrice: selectPrice,
+      coinNum: 0,
+      available: 133.4444222,
+      sub: this.state.coinPrice > 0 ? true : false
 
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
-      coinPrice:nextProps.selectPrice,
-      available:133.4444,
+      coinPrice: nextProps.selectPrice,
+      available: 133.4444,
     })
   }
+
   showModal = key => (e) => {
     e.preventDefault(); // 修复 Android 上点击穿透
     this.setState({
@@ -126,30 +127,29 @@ class DealView extends Component {
 
 
   render() {
-
     const formatMessage = this.context.intl.formatMessage;
     return (
-      <div style={{display: 'flex', width: '100%', flexDirection: 'column'}}>
+      <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div>
-          <Flex style={{marginLeft: 10, height: 60}}>
+          <Flex style={{ marginLeft: 10, height: 60 }}>
 
-            <div style={{display: 'flex', flex: 1, flexDirection: 'row'}}>
+            <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
               <div style={this.state.buyOrSell === 0 ? styleArr[0] : styleArr[1]}
-                   onClick={() => this.buyOrSellStatus(0)}>
+                onClick={() => this.buyOrSellStatus(0)}>
                 <div style={this.state.buyOrSell === 0 ? textStyleArr[0] : textStyleArr[1]}>买入</div>
               </div>
 
               <div style={this.state.buyOrSell === 1 ? styleArr[0] : styleArr[1]}
-                   onClick={() => this.buyOrSellStatus(1)}>
+                onClick={() => this.buyOrSellStatus(1)}>
                 <div style={this.state.buyOrSell === 1 ? textStyleArr[0] : textStyleArr[1]}>卖出</div>
               </div>
             </div>
-            <div style={{textAlign: 'right', marginTop: 10}}>
-              <div style={{marginRight: 10, alignItems: "center"}} onClick={this.showModal('modal')}>
+            <div style={{ textAlign: 'right', marginTop: 10 }}>
+              <div style={{ marginRight: 10, alignItems: "center" }} onClick={this.showModal('modal')}>
                 {this.state.val}
                 <img
                   src={require('../../assets/Deal/change.png')}
-                  style={{width: 12, height: 12, marginRight: 12, marginLeft: 10}} alt=""/>
+                  style={{ width: 12, height: 12, marginRight: 12, marginLeft: 10 }} alt="" />
               </div>
             </div>
           </Flex>
@@ -166,16 +166,16 @@ class DealView extends Component {
             margin: 10,
             backgroundColor: this.state.buyOrSell === 0 ? '#4DCC7B' : '#CC4D4D'
           }}
-               onClick={() => {
-                 this.props.onSubmit&&this.props.onSubmit({1:222,2:3333})
-               }}>
-            <div style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
+            onClick={() => {
+              this.props.onSubmit && this.props.onSubmit({ 1: 222, 2: 3333 })
+            }}>
+            <div style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {this.state.buyOrSell === 0 ? '买入' : '卖出'}BTC
             </div>
           </div>
         </div>
 
-        <div style={{width: '100%', height: 8, backgroundColor: '#F0F0F0'}}/>
+        <div style={{ width: '100%', height: 8, backgroundColor: '#F0F0F0' }} />
 
         {this.renderList()}
         <Modal
@@ -189,7 +189,7 @@ class DealView extends Component {
               <List.Item key={index} onClick={() => this.onChance(i, 'modal')}>{i}</List.Item>
             ))}
             <List.Item>
-              <Button style={{backgroundColor:'#4DCC7B'}} type="primary" onClick={this.onClose('modal')}>取消</Button>
+              <Button style={{ backgroundColor: '#4DCC7B' }} type="primary" onClick={this.onClose('modal')}>取消</Button>
             </List.Item>
           </List>
         </Modal>
@@ -199,15 +199,15 @@ class DealView extends Component {
 
   renderList = () => {
     return (
-      <div style={{display: 'flex', width: '100%', flexDirection: 'column'}}>
+      <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div>
-          <Flex style={{marginTop: 10, marginBottom: 10}}>
-            <div style={{fontWeight: 'bold', fontSize: 18, marginLeft: 10, flex: 1}}>当前订单</div>
+          <Flex style={{ marginTop: 10, marginBottom: 10 }}>
+            <div style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 10, flex: 1 }}>当前订单</div>
 
-            <div style={{display: 'flex', flexDirection: 'row', marginRight: 10}}>
+            <div style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
               <img
                 src={require('../../assets/Deal/change.png')}
-                style={{width: 12, height: 12, marginRight: 12, marginLeft: 10}} alt=""/>
+                style={{ width: 12, height: 12, marginRight: 12, marginLeft: 10 }} alt="" />
               <div>全部</div>
             </div>
           </Flex>
@@ -221,61 +221,63 @@ class DealView extends Component {
   }
 
   renderInputBtn = () => {
-    const {coinNum,coinPrice,available} = this.state;
-    let price = coinPrice>0&&coinNum>0? coinNum*coinPrice:0;
+    const { coinNum, coinPrice, available } = this.state;
+    let price = coinPrice > 0 && coinNum > 0 ? coinNum * coinPrice : 0;
     return (
-      <div style={{marginBottom: 4}}>
-        {this.state.val==='限价'?
-        <Flex style={styles.moneyInput}>
-          <div style={{display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center',}}>
-            <input type="text" value={coinPrice>0?coinPrice:''}
-                   style={{ border: 'none',marginLeft:10}}
-                   onChange={this.handleInputChange}
-            />
-            <div style={{marginRight: 10, fontSize: 16, color: '#A0A4A8'}}>USDT</div>
-          </div>
-          <div style={styles.btnsStyle}>
-            <button className={DealCss.btn} type="button"
-                    disabled={this.state.sub}
-                    style={styles.btnStyle}
-                    onClick={() => {this.addOrSub('-')}}>-</button>
-            <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
-            <button className={DealCss.btn} type="button"
-                    disabled={this.state.add}
-                    style={styles.btnStyle}
-                    onClick={() => {this.addOrSub('+')}}>+</button>
-          </div>
-        </Flex>:
+      <div style={{ marginBottom: 4 }}>
+        {this.state.val === '限价' ?
+          <Flex style={styles.moneyInput}>
+            <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center', }}>
+              <input type="text" value={coinPrice > 0 ? coinPrice : ''}
+                style={{ border: 'none', marginLeft: 10 }}
+                onChange={this.handleInputChange}
+              />
+              <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>USDT</div>
+            </div>
+            <div style={styles.btnsStyle}>
+              <button className={DealCss.btn} type="button"
+                disabled={this.state.sub}
+                style={styles.btnStyle}
+                onClick={() => { this.addOrSub('-') }}>-</button>
+              <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
+              <button className={DealCss.btn} type="button"
+                disabled={this.state.add}
+                style={styles.btnStyle}
+                onClick={() => { this.addOrSub('+') }}>+</button>
+            </div>
+          </Flex> :
           <Flex style={styles.moneyInput2}>
-            <div style={{display: 'flex',
-              flex: 1, flexDirection: 'row',marginLeft:10, color:'#A0A4A8',
-              alignItems:'center',}}>
+            <div style={{
+              display: 'flex',
+              flex: 1, flexDirection: 'row', marginLeft: 10, color: '#A0A4A8',
+              alignItems: 'center',
+            }}>
               以当前最优价格交易
             </div>
           </Flex>
         }
 
         <Flex style={styles.numberInput}>
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <input type="text" value={coinNum>0?coinNum:''}
-                   style={{flex: 1, border: 'none',marginLeft:10}}
-                   onChange={this.handleTextareaChange}
-                   placeholder={'数量'}
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+            <input type="text" value={coinNum > 0 ? coinNum : ''}
+              style={{ flex: 1, border: 'none', marginLeft: 10 }}
+              onChange={this.handleTextareaChange}
+              placeholder={'数量'}
             />
-            <div style={{marginRight: 10, fontSize: 14, color: '#A0A4A8',}}>BTC</div>
+            <div style={{ marginRight: 10, fontSize: 14, color: '#A0A4A8', }}>BTC</div>
           </div>
           <div style={styles.btnsStyle}>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={()=>{this.coinNumClick('1/4')}}>1/4</button>
-            <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() =>{this.coinNumClick('1/2')}}>1/2</button>
-            <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {this.coinNumClick('1')}}>全部</button>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => { this.coinNumClick('1/4') }}>1/4</button>
+            <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => { this.coinNumClick('1/2') }}>1/2</button>
+            <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => { this.coinNumClick('1') }}>全部</button>
           </div>
         </Flex>
-          <div style={{marginLeft: 10, color: '#A0A4A8',}}>可用{available}USDT</div>
-        <Flex style={{marginTop:15, marginBottom:15}}>
-          <div style={{flex:1,marginLeft: 10, color: '#A0A4A8',fontSize:18,fontWeight:'bold'}}>交易额</div>
-          <div style={{marginRight: 10, color: '#A0A4A8'}}>{price}</div>
+        <div style={{ marginLeft: 10, color: '#A0A4A8', }}>可用{available}USDT</div>
+        <Flex style={{ marginTop: 15, marginBottom: 15 }}>
+          <div style={{ flex: 1, marginLeft: 10, color: '#A0A4A8', fontSize: 18, fontWeight: 'bold' }}>交易额</div>
+          <div style={{ marginRight: 10, color: '#A0A4A8' }}>{price}</div>
         </Flex>
 
       </div>
@@ -283,47 +285,47 @@ class DealView extends Component {
   }
 
   //设置inputValue
-  handleInputChange=(e)=>{
+  handleInputChange = (e) => {
     console.log('e')
     this.setState({
-      coinPrice:e.target.value
+      coinPrice: e.target.value
     });
   }
   //设置textareaValue
-  handleTextareaChange=(e)=>{
+  handleTextareaChange = (e) => {
     console.log(e.target.value)
     this.setState({
-      coinNum:e.target.value
+      coinNum: e.target.value
     })
   }
 
-  addOrSub=(type)=>{
-    if(type==='-'){
+  addOrSub = (type) => {
+    if (type === '-') {
       this.setState({
-        sub:this.state.coinPrice>0?false:true,
-        coinPrice:this.state.coinPrice>0?Number(this.state.coinPrice)-1:0,
-        add:false
+        sub: this.state.coinPrice > 0 ? false : true,
+        coinPrice: this.state.coinPrice > 0 ? Number(this.state.coinPrice) - 1 : 0,
+        add: false
       })
-    }else if(type==='+'){
+    } else if (type === '+') {
       this.setState({
-        sub:false,
-        coinPrice:Number(this.state.coinPrice)+1
+        sub: false,
+        coinPrice: Number(this.state.coinPrice) + 1
       })
     }
   }
 
-  coinNumClick=(type)=>{
-    if(type==='1/4'){
+  coinNumClick = (type) => {
+    if (type === '1/4') {
       this.setState({
-        coinNum:this.state.available/4
+        coinNum: this.state.available / 4
       })
-    }else if(type==='1/2'){
+    } else if (type === '1/2') {
       this.setState({
-        coinNum:this.state.available/2
+        coinNum: this.state.available / 2
       })
-    }else if(type==='1'){
+    } else if (type === '1') {
       this.setState({
-        coinNum:this.state.available/1
+        coinNum: this.state.available / 1
       })
     }
   }
@@ -345,7 +347,7 @@ const styles = {
     paddingTop: 5,
     paddingBottom: 5,
     margin: 10,
-    alignItems:'center'
+    alignItems: 'center'
   },
   button: {
     display: 'flex',
@@ -353,7 +355,7 @@ const styles = {
     backgroundColor: '#E26A6A',
     justifyContent: 'center',
     alignItems: 'center',
-    width:44
+    width: 44
   },
   font11: {
     color: '#797F85', fontSize: 11, marginTop: 8
@@ -375,42 +377,42 @@ const styles = {
     paddingTop: 5,
     paddingBottom: 5,
   },
-  numberInput:{
-    flex:3,
-    borderColor:'#D9D9D9',
-    borderWidth:0.5,
-    borderStyle:'solid',
-    height:44,
-    margin:10
+  numberInput: {
+    flex: 3,
+    borderColor: '#D9D9D9',
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    height: 44,
+    margin: 10
   },
-  moneyInput:{
-    borderColor:'#D9D9D9',
-    borderWidth:0.5,
-    borderStyle:'solid',
-    height:44,
-    margin:10,
+  moneyInput: {
+    borderColor: '#D9D9D9',
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    height: 44,
+    margin: 10,
   },
-  moneyInput2:{
-    borderColor:'#D9D9D9',
-    borderWidth:0.5,
-    borderStyle:'solid',
-    height:44,
-    margin:10,
-    backgroundColor:'#F0F0F0'
+  moneyInput2: {
+    borderColor: '#D9D9D9',
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    height: 44,
+    margin: 10,
+    backgroundColor: '#F0F0F0'
   },
-  btnsStyle:{
-    display:'flex',
-    flexDirection:'row',
-    flex:2,
-    height:44,
-    borderLeftColor:'#D9D9D9',
-    borderLeftWidth:0.5,
-    borderLeftStyle:'solid',
-    alignItems:'center'
+  btnsStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 2,
+    height: 44,
+    borderLeftColor: '#D9D9D9',
+    borderLeftWidth: 0.5,
+    borderLeftStyle: 'solid',
+    alignItems: 'center'
   },
-  btnStyle:{
-    flex:1,height:44,
-    color:'#A0A4A8',
-    fontSize:14
+  btnStyle: {
+    flex: 1, height: 44,
+    color: '#A0A4A8',
+    fontSize: 14
   }
 }

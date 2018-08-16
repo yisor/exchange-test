@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { Flex } from 'antd-mobile';
-import a  from '../';
 
 class RestingOrderItem extends Component {
 
