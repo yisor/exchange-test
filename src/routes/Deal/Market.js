@@ -4,9 +4,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { ListView } from 'components';
 import { Flex } from 'antd-mobile';
-import { routerRedux } from 'dva/router';
 import Stepper from './components/stepper'
 import DealPage from './DealPage.css'
 import {intlShape} from "react-intl";
@@ -86,14 +84,12 @@ class MarketPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPrice:19999,
-      val:1
+      currentPrice: 19999,
+      val: 1
     };
   }
 
-  componentDidMount() {
-    // this.props.getTicker();
-  }
+  componentDidMount() { }
 
   render() {
     const formatMessage = this.context.intl.formatMessage;
@@ -111,23 +107,22 @@ class MarketPage extends Component {
         <Flex>
           <div style={{flex:1}}>
             <Flex>
-              <div style={{flex:1,textAlign:"center", color:'#A0A4A8'}}>买</div>
-              <div style={{flex:3,textAlign:"right", color:'#A0A4A8'}}>数量</div>
-              <div style={{flex:4,textAlign:"right", color:'#A0A4A8'}}>价格</div>
+              <div style={{ flex: 1, textAlign: "center", color: '#A0A4A8' }}>买</div>
+              <div style={{ flex: 3, textAlign: "right", color: '#A0A4A8' }}>数量</div>
+              <div style={{ flex: 4, textAlign: "right", color: '#A0A4A8' }}>价格</div>
             </Flex>
             {PriceItem(1,false,this.onClick)}
           </div>
 
           <div style={{flex:1}}>
             <Flex>
-              <div style={{flex:4,textAlign:"left", color:'#A0A4A8'}}>价格</div>
-              <div style={{flex:3,textAlign:"left", color:'#A0A4A8'}}>数量</div>
-              <div style={{flex:1,textAlign:"center", color:'#A0A4A8'}}>卖</div>
+              <div style={{ flex: 4, textAlign: "left", color: '#A0A4A8' }}>价格</div>
+              <div style={{ flex: 3, textAlign: "left", color: '#A0A4A8' }}>数量</div>
+              <div style={{ flex: 1, textAlign: "center", color: '#A0A4A8' }}>卖</div>
             </Flex>
             {PriceItem(1,true,this.onClick)}
           </div>
         </Flex>
-
       </div>
     );
   }
@@ -171,9 +166,9 @@ const styles = {
     alignItems: 'center',
   },
   font11: {
-    color:'#A0A4A8',
+    color: '#A0A4A8',
     fontSize: 11,
-    textAlign:'center'
+    textAlign: 'center'
   },
   font16: {
     fontSize: 16

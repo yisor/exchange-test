@@ -5,9 +5,9 @@ import { Tabs } from 'antd-mobile';
 import { intlShape } from 'react-intl';
 import { ListView, SearchBar, DocumentTitle } from 'components';
 
-const tabs = (formatMessage) => (
+const tabs = (formatMsg) => (
   [
-    { title: formatMessage({ id: 'price.favorites' }) },
+    { title: formatMsg({ id: 'price.favorites' }) },
     { title: 'USDT' },
     { title: 'BTC' },
     { title: 'ETH' },
@@ -20,7 +20,8 @@ const PriceItem = (props) => {
     <div style={styles.container} onClick={() => onItemClick(itemInfo)}>
       <div style={{
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
           BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
@@ -77,7 +78,9 @@ class PricePage extends Component {
   }
 
   onItemClick = (item) => {
-    alert('点击：' + item.vol);
+    // alert('点击：' + item.vol);
+    const { changeUrl } = this.props;
+    changeUrl('/price/detail');
   }
 
   render() {
