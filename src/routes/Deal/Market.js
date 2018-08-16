@@ -15,11 +15,9 @@ const PriceItem = (data, type = false,onClick) => {
   for (let i = 0; i < 5; i++) {
     let width = (i+1)*15+'%';
     let left = type?'0':`${100-(i+1)*15}%`;
-    console.log(left)
     arr.push(
       <div style={{display:'flex',flexDirection:'row',position:'relative'}} key={type + i}>
-      <div className={DealPage.loading}
-           style={{position:'absolute',left:left,backgroundColor: type?'#E26A6A':'#35BAA0',
+      <div style={{position:'absolute',left:left,backgroundColor: type?'#E26A6A':'#35BAA0',
                     zIndex:1,width:width,height:'100%',opacity:0.15}}
       />
 
@@ -29,7 +27,8 @@ const PriceItem = (data, type = false,onClick) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'left',
-            flex: 4
+            flex: 4,
+            marginLeft:4
           }}>
             <div style={{color: type ? '#E26A6A' : '#35BAA0', fontSize: 11}}> {6336.09 + i}</div>
           </div> :
@@ -41,7 +40,6 @@ const PriceItem = (data, type = false,onClick) => {
           }}>
             <div style={styles.font11}>{i + 1}</div>
           </div>
-
         }
 
         <div style={{
@@ -64,7 +62,8 @@ const PriceItem = (data, type = false,onClick) => {
             display: 'flex',
             flexDirection: 'column',
             textAlign: 'right',
-            flex: 4
+            flex: 4,
+            marginRight:4
           }}>
             <div style={{color: type ? '#E26A6A' : '#35BAA0', fontSize: 11}}> {6956.09 + i}</div>
           </div>
@@ -109,14 +108,14 @@ class MarketPage extends Component {
             <Flex>
               <div style={{ flex: 1, textAlign: "center", color: '#A0A4A8' }}>买</div>
               <div style={{ flex: 3, textAlign: "right", color: '#A0A4A8' }}>数量</div>
-              <div style={{ flex: 4, textAlign: "right", color: '#A0A4A8' }}>价格</div>
+              <div style={{ flex: 4, textAlign: "right", color: '#A0A4A8',marginRight:4 }}>价格</div>
             </Flex>
             {PriceItem(1,false,this.onClick)}
           </div>
 
           <div style={{flex:1}}>
             <Flex>
-              <div style={{ flex: 4, textAlign: "left", color: '#A0A4A8' }}>价格</div>
+              <div style={{ flex: 4, textAlign: "left", color: '#A0A4A8',marginLeft:4 }}>价格</div>
               <div style={{ flex: 3, textAlign: "left", color: '#A0A4A8' }}>数量</div>
               <div style={{ flex: 1, textAlign: "center", color: '#A0A4A8' }}>卖</div>
             </Flex>
@@ -131,7 +130,7 @@ class MarketPage extends Component {
     this.setState({ val });
   }
   onClick = (data)=>{
-    this.props.onClick(data)
+    this.props.onClick&&this.props.onClick(data)
   }
 }
 

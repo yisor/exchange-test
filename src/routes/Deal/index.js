@@ -33,6 +33,7 @@ class DealPage extends Component {
     refreshing: false,
     down: true,
     height: document.documentElement.clientHeight,
+    selectPrice:0,
   };
 
   componentDidMount() {
@@ -56,6 +57,12 @@ class DealPage extends Component {
     console.log('选择币种：' + JSON.stringify(item));
   }
 
+  onSelectPrice = (data)=>{
+    this.setState({
+      selectPrice: data,
+    });
+  }
+
   render() {
     const { loading, tickers } = this.props;
     const formatMessage = this.context.intl.formatMessage;
@@ -63,7 +70,7 @@ class DealPage extends Component {
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
           <Header onSwitch={this.showModal('switchVisible')} />
-          <MarketPage />
+          <MarketPage onClick={this.onSelectPrice}/>
 
           <PullToRefresh
             damping={100}

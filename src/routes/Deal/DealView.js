@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'dva';
-import {Flex, Button, Modal, List, InputItem} from 'antd-mobile';
+import {Flex, Button, Modal, List, } from 'antd-mobile';
 import {ListView,} from 'components';
 import DealCss from './DealPage.css'
 import { intlShape } from 'react-intl';
@@ -26,19 +26,30 @@ const DealItem = (props) => {
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>BTC/USDT</div>
-        <div style={styles.font11}>24h量 160007</div>
+        <div style={styles.font16}>进度{item*13}%</div>
       </div>
+
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'left'
+      }}>
+        <div style={styles.font16}>BTC/USFT</div>
+        <div style={{color:item%2===0?'#E26A6A':'#35BAA0'}}>({item%2===0?'买':'卖'})</div>
+      </div>
+
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left'
       }}>
         <div style={styles.font16}> 6956.09</div>
-        <div style={styles.font11}>￥1600.38</div>
       </div>
+      <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+      <div style={styles.font16}> 1936</div>
       <div style={styles.button}>
-        -0.25%
+        取消
+      </div>
       </div>
     </div>
   )
@@ -210,15 +221,14 @@ class DealView extends Component {
   }
 
   renderInputBtn = () => {
-    const {selectPrice} = this.props;
     const {coinNum,coinPrice,available} = this.state;
     let price = coinPrice>0&&coinNum>0? coinNum*coinPrice:0;
     return (
       <div style={{marginBottom: 4}}>
-        {this.state.val=='限价'?
+        {this.state.val==='限价'?
         <Flex style={styles.moneyInput}>
           <div style={{display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center',}}>
-            <input type="text" value={coinPrice}
+            <input type="text" value={coinPrice>0?coinPrice:''}
                    style={{ border: 'none',marginLeft:10}}
                    onChange={this.handleInputChange}
             />
@@ -334,16 +344,16 @@ const styles = {
     justifyContent: 'space-between',
     paddingTop: 5,
     paddingBottom: 5,
-    margin: 10
+    margin: 10,
+    alignItems:'center'
   },
   button: {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#E26A6A',
-    height: 30,
-    width: 65,
     justifyContent: 'center',
     alignItems: 'center',
+    width:44
   },
   font11: {
     color: '#797F85', fontSize: 11, marginTop: 8
