@@ -6,14 +6,16 @@ import { routerRedux } from 'dva/router';
 import MarketPage from './Market'
 import DealView from './DealView'
 import {intlShape} from "react-intl";
+import dayjs from 'dayjs'
 
-
-const header = ({data,onClick=()=>{}}) => {
+const header = (data,onClick) => {
   return (
-    <Flex style={{height:44}}>
+    <Flex style={{height:64, margin:10}}>
+      <div onClick={()=>{onClick()}}>
       <img
         src={require('../../assets/Deal/change.png')}
-        style={{ width: 24, height: 24,marginRight:12,marginLeft:10 }} alt="" />
+        style={{ width: 24, height: 24,marginRight:12, }} alt="" />
+      </div>
       <div style={{fontSize:16,fontWeight:"bold"}}>BTC/USDT</div>
     </Flex>
   )
@@ -31,11 +33,27 @@ class DealPage extends Component {
       refreshing: false,
       down: true,
       height: document.documentElement.clientHeight,
+      date:dayjs().format('MM-DD HH:mm:ss'),
+      selectPrice:''
     };
   }
 
   componentDidMount() {
     this.props.getTicker();
+  }
+
+  deepClick=(data)=>{
+    alert(data)
+  }
+
+  updateMarket = (data)=>{
+    this.setState({
+      selectPrice:data
+    })
+  }
+
+  onSubmit = (data)=>{
+    alert(data)
   }
 
   render() {
@@ -45,29 +63,37 @@ class DealPage extends Component {
     return (
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
       <div style={{height: '100vh', display: 'flex', flexDirection: 'column'}}>
-        {header(1, 1)}
-        <MarketPage/>
+        {header(1, this.deepClick)}
+        <MarketPage onClick={this.updateMarket}/>
 
         {/*<div style={{display: 'flex', flex: 1, width: '100%', overflowY: "auto"}}>*/}
           <PullToRefresh
-            damping={60}
+            damping={100}
             ref={el => this.ptr = el}
             style={{
-              height: this.state.height,
+              // height: this.state.height,
               overflow: 'auto',
             }}
-            indicator={{deactivate: '上拉可以刷新'}}
+            indicator={{activate:`下拉刷新,更新时间:${this.state.date}`,finish: `更新完成，最后时间:${this.state.date}`}}
             direction={'down'}
             refreshing={this.state.refreshing}
             onRefresh={() => {
-              this.setState({refreshing: true});
+              this.setState({
+                refreshing: true,
+                selectPrice:2222222,
+              });
               setTimeout(() => {
-                this.setState({refreshing: false});
+                this.setState({
+                  refreshing: false,
+                  date:dayjs().format('MM-DD HH:mm:ss')
+                });
               }, 1000);
             }}
           >
             <div>
-              <DealView/>
+              <DealView selectPrice={this.state.selectPrice}
+                        onSubmit={this.onSubmit}
+              />
             </div>
           </PullToRefresh>
         {/*</div>*/}

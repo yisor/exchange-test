@@ -56,11 +56,31 @@ class DealView extends Component {
       modal: false,
       val: '限价',
       buyOrSell: 0,//0 是买入 1是卖出
-      inputValue:'',
-      textareaValue:''
+      coinPrice:0,
+      coinNum:0,
+      available:0,
+      sub:false,
+      add:false
     };
   }
 
+  componentDidMount() {
+    const {selectPrice} = this.props;
+    this.setState({
+      coinPrice:selectPrice,
+      coinNum:0,
+      available:133.4444222,
+      sub:this.state.coinPrice>0?true:false
+
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      coinPrice:nextProps.selectPrice,
+      available:133.4444,
+    })
+  }
   showModal = key => (e) => {
     e.preventDefault(); // 修复 Android 上点击穿透
     this.setState({
@@ -136,6 +156,7 @@ class DealView extends Component {
             backgroundColor: this.state.buyOrSell === 0 ? '#4DCC7B' : '#CC4D4D'
           }}
                onClick={() => {
+                 this.props.onSubmit&&this.props.onSubmit({1:222,2:3333})
                }}>
             <div style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
               {this.state.buyOrSell === 0 ? '买入' : '卖出'}BTC
@@ -189,46 +210,62 @@ class DealView extends Component {
   }
 
   renderInputBtn = () => {
-    const {inputValue,textareaValue} = this.state;
+    const {selectPrice} = this.props;
+    const {coinNum,coinPrice,available} = this.state;
+    let price = coinPrice>0&&coinNum>0? coinNum*coinPrice:0;
     return (
       <div style={{marginBottom: 4}}>
-
+        {this.state.val=='限价'?
         <Flex style={styles.moneyInput}>
           <div style={{display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center',}}>
-            <input type="text" value={inputValue}
-                   style={{ border: 'none',}}
+            <input type="text" value={coinPrice}
+                   style={{ border: 'none',marginLeft:10}}
                    onChange={this.handleInputChange}
             />
             <div style={{marginRight: 10, fontSize: 16, color: '#A0A4A8'}}>USDT</div>
           </div>
           <div style={styles.btnsStyle}>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {}}>-</button>
+            <button className={DealCss.btn} type="button"
+                    disabled={this.state.sub}
+                    style={styles.btnStyle}
+                    onClick={() => {this.addOrSub('-')}}>-</button>
             <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {}}>+</button>
+            <button className={DealCss.btn} type="button"
+                    disabled={this.state.add}
+                    style={styles.btnStyle}
+                    onClick={() => {this.addOrSub('+')}}>+</button>
           </div>
-        </Flex>
+        </Flex>:
+          <Flex style={styles.moneyInput2}>
+            <div style={{display: 'flex',
+              flex: 1, flexDirection: 'row',marginLeft:10, color:'#A0A4A8',
+              alignItems:'center',}}>
+              以当前最优价格交易
+            </div>
+          </Flex>
+        }
 
         <Flex style={styles.numberInput}>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <input type="text" value={textareaValue}
-                   style={{flex: 1, border: 'none',}}
+            <input type="text" value={coinNum>0?coinNum:''}
+                   style={{flex: 1, border: 'none',marginLeft:10}}
                    onChange={this.handleTextareaChange}
                    placeholder={'数量'}
             />
             <div style={{marginRight: 10, fontSize: 14, color: '#A0A4A8',}}>BTC</div>
           </div>
           <div style={styles.btnsStyle}>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={()=>{}}>1/4</button>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={()=>{this.coinNumClick('1/4')}}>1/4</button>
             <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() =>{}}>1/2</button>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() =>{this.coinNumClick('1/2')}}>1/2</button>
             <div style={{height: 16, width: 1, backgroundColor: '#A0A4A8'}}/>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {}}>全部</button>
+            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {this.coinNumClick('1')}}>全部</button>
           </div>
         </Flex>
-          <div style={{marginLeft: 10, color: '#A0A4A8',}}>可用{'1000'}USDT</div>
+          <div style={{marginLeft: 10, color: '#A0A4A8',}}>可用{available}USDT</div>
         <Flex style={{marginTop:15, marginBottom:15}}>
           <div style={{flex:1,marginLeft: 10, color: '#A0A4A8',fontSize:18,fontWeight:'bold'}}>交易额</div>
-          <div style={{marginRight: 10, color: '#A0A4A8'}}>- -</div>
+          <div style={{marginRight: 10, color: '#A0A4A8'}}>{price}</div>
         </Flex>
 
       </div>
@@ -239,17 +276,47 @@ class DealView extends Component {
   handleInputChange=(e)=>{
     console.log('e')
     this.setState({
-      inputValue:e.target.value
+      coinPrice:e.target.value
     });
   }
   //设置textareaValue
   handleTextareaChange=(e)=>{
-    console.log('e')
+    console.log(e.target.value)
     this.setState({
-      textareaValue:e.target.value
+      coinNum:e.target.value
     })
   }
 
+  addOrSub=(type)=>{
+    if(type==='-'){
+      this.setState({
+        sub:this.state.coinPrice>0?false:true,
+        coinPrice:this.state.coinPrice>0?Number(this.state.coinPrice)-1:0,
+        add:false
+      })
+    }else if(type==='+'){
+      this.setState({
+        sub:false,
+        coinPrice:Number(this.state.coinPrice)+1
+      })
+    }
+  }
+
+  coinNumClick=(type)=>{
+    if(type==='1/4'){
+      this.setState({
+        coinNum:this.state.available/4
+      })
+    }else if(type==='1/2'){
+      this.setState({
+        coinNum:this.state.available/2
+      })
+    }else if(type==='1'){
+      this.setState({
+        coinNum:this.state.available/1
+      })
+    }
+  }
 
 }
 
@@ -311,7 +378,15 @@ const styles = {
     borderWidth:0.5,
     borderStyle:'solid',
     height:44,
-    margin:10
+    margin:10,
+  },
+  moneyInput2:{
+    borderColor:'#D9D9D9',
+    borderWidth:0.5,
+    borderStyle:'solid',
+    height:44,
+    margin:10,
+    backgroundColor:'#F0F0F0'
   },
   btnsStyle:{
     display:'flex',
