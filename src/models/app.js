@@ -1,21 +1,21 @@
-import { getSymbols, queryRate } from '../services/app';
+import { getSymbol, queryRate } from '../services/app';
 
 export default {
   namespace: 'app',
   state: {
     tab: 'home',
     rates: [],
-    symbols: [],
+    symbol: {},
     optionals: [],
   },
   effects: {
     * getBasicSysData({ payload = {} }, { call, put }) {
-      const [symbols, rates] = yield [call(getSymbols), call(queryRate)];
-      yield put({ type: 'initParams', payload: { symbols, rates } });
+      const [symbol, rates] = yield [call(getSymbol), call(queryRate)];
+      yield put({ type: 'initParams', payload: { symbol, rates } });
     },
-    * getSymbols({ payload = {} }, { call, put }) {
-      const response = yield call(getSymbols);
-      yield put({ type: 'saveSymbols', payload: { symbols: response } });
+    * getSymbol({ payload = {} }, { call, put }) {
+      const response = yield call(getSymbol);
+      yield put({ type: 'saveSymbol', payload: { symbol: response } });
     },
     * queryRate({ payload = {} }, { call, put }) {
       const response = yield call(queryRate);
@@ -30,10 +30,10 @@ export default {
       return { ...state, ...action.payload };
     },
     saveRates(state, action) {
-      return { ...state, symbols: action.payload };
+      return { ...state, symbol: action.payload };
     },
-    saveSymbols(state, action) {
-      return { ...state, symbols: action.payload };
+    saveSymbol(state, action) {
+      return { ...state, symbol: action.payload };
     },
   },
   subscriptions: {

@@ -38,6 +38,14 @@ const routes = [
         cb(null, require('./Price/PriceDetailPage').default);
       });
     },
+  },
+  {
+    path: '/optional',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Optional/OptionalAddPage').default);
+      });
+    },
   }
 ];
 

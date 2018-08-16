@@ -1,3 +1,9 @@
+/*
+ * @Author: lsl 
+ * @Date: 2018-08-16 09:30:43 
+ * @Last Modified by:   lsl 
+ * @Last Modified time: 2018-08-16 09:30:43 
+ */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex } from 'antd-mobile';
 import { intlShape } from 'react-intl';

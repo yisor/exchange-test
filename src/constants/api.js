@@ -2,6 +2,6 @@ export default {
   login: "/api/login",
   logout: '/api/logout',
   getTicker: '/api/get_ticker',
-  commonSymbols: '/api/common/symbols',
+  commonSymbol: '/api/common/symbol',
   publicRate: '/api/public/rate',
 }
