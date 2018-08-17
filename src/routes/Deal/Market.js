@@ -14,8 +14,7 @@ class MarketPage extends Component {
   static contextTypes = {
     intl: intlShape
   }
-  state={
-  }
+
   constructor(props) {
     super(props);
     this.state = {

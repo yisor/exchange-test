@@ -30,7 +30,7 @@ class RestingOrderItem extends Component {
               <div style={{ flex: 3, textAlign: "right", color: titleColor }}>{formatMessage({id:'deal.number'})}</div>
               <div style={{ flex: 4, textAlign: "right", color: titleColor,marginRight:4 }}>{formatMessage({id:'deal.price'})}</div>
             </Flex>
-            {this.PriceItem(data['1'],false)}
+            {this.renderItem(data['1'],false)}
           </div>
 
           <div style={{flex:1}}>
@@ -39,14 +39,14 @@ class RestingOrderItem extends Component {
               <div style={{ flex: 3, textAlign: "left", color: titleColor }}>{formatMessage({id:'deal.number'})}</div>
               <div style={{ flex: 1, textAlign: "center", color: titleColor }}>{formatMessage({id:'deal.sell'})}</div>
             </Flex>
-            {this.PriceItem(data['2'],true)}
+            {this.renderItem(data['2'],true)}
           </div>
         </Flex>
       </div>
     );
   }
 
-  PriceItem = (data, type = false) => {
+  renderItem = (data, type = false) => {
     const {buyTextColor,sellTextColor,buyBgColor,sellBgColor} = this.props;
     const item = data;
     let arr = []

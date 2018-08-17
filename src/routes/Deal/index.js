@@ -113,7 +113,7 @@ class DealPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-
+  tickers: state.price.tickers,
 })
 
 const mapDispatchToProps = (dispatch) => ({

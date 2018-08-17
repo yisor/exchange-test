@@ -22,15 +22,14 @@ const textStyleArr = [
 
 ]
 
-const DealItem = (props) => {
-  const item = props.itemInfo
+const DealItem = (item,index) => {
   return (
-    <div style={styles.container}>
+    <div style={styles.container} key={index}>
       <div style={{
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>进度{item * 13}%</div>
+        <div style={styles.font16}>进度{index * 13}%</div>
       </div>
 
       <div style={{
@@ -39,7 +38,7 @@ const DealItem = (props) => {
         alignItems: 'left'
       }}>
         <div style={styles.font16}>BTC/USFT</div>
-        <div style={{ color: item % 2 === 0 ? '#E26A6A' : '#35BAA0' }}>({item % 2 === 0 ? '买' : '卖'})</div>
+        <div style={{ color: index % 2 === 0 ? '#E26A6A' : '#35BAA0' }}>({item % 2 === 0 ? '买' : '卖'})</div>
       </div>
 
       <div style={{
@@ -135,8 +134,7 @@ class DealView extends Component {
   render() {
     const formatMessage = this.context.intl.formatMessage;
     return (
-      <div style={{display: 'flex', width: '100%', flexDirection: 'column'}}>
-
+      <div style={{display: 'flex', width: '100%', flexDirection: 'column'}} >
         <div>
           <Flex style={{marginLeft: 10, height: 60}}>
 
@@ -228,12 +226,10 @@ class DealView extends Component {
             </div>
           </Flex>
         </div>
-        <ListView
-          data={[1, 2, 3, 4,5,6]}
-          ListItem={DealItem}
-          offsetHeight={200}
-
-        />
+        {[1,2,3,4,5].map((item,index)=>(
+          DealItem(item,index)
+          ))
+        }
       </div>
     );
   }
