@@ -8,6 +8,7 @@ module.exports = {
     "react/jsx-indent-props": ["error", 2],
     "no-empty-function": "off",
     "no-trailing-spaces": "off",
-    'react/jsx-wrap-multilines': "error"
+    'react/jsx-wrap-multilines': "error",
+    'react/no-find-dom-node':'off'
   }
 }

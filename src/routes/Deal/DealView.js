@@ -82,9 +82,12 @@ class DealView extends Component {
 
   componentDidMount() {
     const formatMessage = this.context.intl.formatMessage;
-    const { selectPrice } = this.props;
+    const { selectPrice, data } = this.props;
+    console.log(data);
     this.setState({
+      priceName: '',
       coinPrice: selectPrice,
+      coinNumName: '',
       coinNum: 0,
       val: formatMessage({ id: 'deal.limit' }),
       available: 133.4444222,
@@ -93,9 +96,15 @@ class DealView extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const formatMessage = this.context.intl.formatMessage;
+    let arr = nextProps.data && nextProps.data.coinInfo && nextProps.data.coinInfo['name'].split('/');
     this.setState({
       coinPrice: nextProps.selectPrice,
-      available: 133.4444,
+      priceName: arr[1],
+      coinNumName: arr[0],
+      coinNum: 0,
+      val: formatMessage({ id: 'deal.limit' }),
+      available: 133.4444222,
     });
   }
 
@@ -131,6 +140,8 @@ class DealView extends Component {
     }
   }
 
+
+
   renderList = () => {
     const formatMessage = this.context.intl.formatMessage;
     return (
@@ -142,7 +153,7 @@ class DealView extends Component {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}
-              onClick={() => this.props.changeUrl('/price/detail')}
+              onClick={() => this.props.changeUrl('/order')}
             >
               <img
                 src={require('../../assets/deal/change.svg')}
@@ -164,18 +175,18 @@ class DealView extends Component {
 
   renderInputBtn = () => {
     const formatMessage = this.context.intl.formatMessage;
-    const { coinNum, coinPrice, available } = this.state;
+    const { coinNum, coinPrice, available, priceName, coinNumName } = this.state;
     let price = coinPrice > 0 && coinNum > 0 ? coinNum * coinPrice : 0;
     return (
       <div style={{ marginBottom: 4 }}>
         {this.state.val === '限价' || this.state.val === 'Limit' ?
           <Flex style={styles.moneyInput}>
-            <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center', }}>
+            <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center' }}>
               <input type="text" value={coinPrice >= 0 ? coinPrice : ''}
-                style={{ border: 'none', marginLeft: 10 }}
+                style={{ flex: 1, border: 'none', marginLeft: 10 }}
                 onChange={this.handleInputChange}
               />
-              <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>USDT</div>
+              <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>{priceName}</div>
             </div>
             <div style={styles.btnsStyle}>
               <button className={DealCss.btn} type="button"
@@ -207,33 +218,33 @@ class DealView extends Component {
         }
 
         <Flex style={styles.numberInput}>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
             <input type="text" value={coinNum > 0 ? coinNum : ''}
               style={{ flex: 1, border: 'none', marginLeft: 10 }}
               onChange={this.handleTextareaChange}
               placeholder={formatMessage({ id: 'deal.number' })}
             />
-            <div style={{ marginRight: 10, fontSize: 14, color: '#A0A4A8', }}>BTC</div>
+            <div style={{ marginRight: 10, fontSize: 14, color: '#A0A4A8', }}>{coinNumName}</div>
           </div>
           <div style={styles.btnsStyle}>
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {
+            <button className={DealCss.btn} type="button" style={styles.btnStyle1} onClick={() => {
               this.coinNumClick('1/4');
             }}>1/4
             </button>
             <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {
+            <button className={DealCss.btn} type="button" style={styles.btnStyle1} onClick={() => {
               this.coinNumClick('1/2');
             }}>1/2
             </button>
             <div style={{ height: 16, width: 1, backgroundColor: '#A0A4A8' }} />
-            <button className={DealCss.btn} type="button" style={styles.btnStyle} onClick={() => {
+            <button className={DealCss.btn} type="button" style={styles.btnStyle1} onClick={() => {
               this.coinNumClick('1');
             }}>
               {formatMessage({ id: 'deal.all' })}
             </button>
           </div>
         </Flex>
-        <div style={{ marginLeft: 10, color: '#A0A4A8', }}>{formatMessage({ id: 'deal.avail' })} {available} USDT</div>
+        <div style={{ marginLeft: 10, color: '#A0A4A8', }}>{formatMessage({ id: 'deal.avail' })} {available} {priceName}</div>
         <Flex style={{ marginTop: 15, marginBottom: 15 }}>
           <div style={{ flex: 1, marginLeft: 10, color: '#797F85', fontSize: 18, fontWeight: 'bold' }}>
             {formatMessage({ id: 'deal.volumeoftrade' })}
@@ -293,6 +304,7 @@ class DealView extends Component {
 
   render() {
     const formatMessage = this.context.intl.formatMessage;
+    const { coinNumName } = this.state;
     return (
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }} >
         <div>
@@ -341,7 +353,7 @@ class DealView extends Component {
               this.props.onSubmit && this.props.onSubmit({ 1: 222, 2: 3333 });
             }}>
             <div style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
-              {this.state.buyOrSell === 0 ? formatMessage({ id: 'deal.buy' }) : formatMessage({ id: 'deal.sell' })}BTC
+              {this.state.buyOrSell === 0 ? formatMessage({ id: 'deal.buy' }) : formatMessage({ id: 'deal.sell' })}{coinNumName}
             </div>
           </div>
         </div>
@@ -425,21 +437,21 @@ const styles = {
   numberInput: {
     flex: 3,
     borderColor: '#D9D9D9',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderStyle: 'solid',
     height: 44,
     margin: 10
   },
   moneyInput: {
     borderColor: '#D9D9D9',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderStyle: 'solid',
     height: 44,
     margin: 10,
   },
   moneyInput2: {
     borderColor: '#D9D9D9',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderStyle: 'solid',
     height: 44,
     margin: 10,
@@ -448,15 +460,24 @@ const styles = {
   btnsStyle: {
     display: 'flex',
     flexDirection: 'row',
-    flex: 2,
+    flex: 1,
     height: 44,
     borderLeftColor: '#D9D9D9',
-    borderLeftWidth: 0.5,
+    borderLeftWidth: 1,
     borderLeftStyle: 'solid',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+  },
+  btnStyle1: {
+    flex: 1,
+    height: 40,
+    color: '#A0A4A8',
+    fontSize: 14
   },
   btnStyle: {
-    flex: 1, height: 44,
+    flex: 1,
+    height: 44,
     color: '#A0A4A8',
     fontSize: 14
   }

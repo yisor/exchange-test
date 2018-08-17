@@ -3,6 +3,8 @@ export default {
   'title.price': '行情',
   'title.deal': '交易',
   'title.user': '我的',
+  'title.order': '订单管理',
+
   // tab
   'tab.price': '行情',
   'tab.deal': '交易',

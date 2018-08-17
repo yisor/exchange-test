@@ -32,7 +32,9 @@ class RestingOrderItem extends Component {
           }}
           />
 
-          <Flex style={styles.container} onClick={() => { this.onClick(6336.09 + i) }} >
+          <div style={styles.container} onClick={() => {
+            this.onClick(6336.09 + i);
+          }}>
             {type ?
               <div style={{
                 display: 'flex',
@@ -46,7 +48,6 @@ class RestingOrderItem extends Component {
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'right',
                 flex: 1
               }}>
                 <div style={styles.font11}>{i + 1}</div>
@@ -80,7 +81,7 @@ class RestingOrderItem extends Component {
                 <div style={{ color: buyTextColor, fontSize: 11 }}> {6956.09 + i}</div>
               </div>
             }
-          </Flex>
+          </div>
         </div>
       );
     }
@@ -146,10 +147,9 @@ const styles = {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
-    height: 30,
+    height: 25,
     justifyContent: 'space-between',
-    paddingTop: 5,
-    paddingBottom: 5,
+    cursor: 'pointer',
   },
   button: {
     display: 'flex',
