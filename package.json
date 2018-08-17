@@ -12,6 +12,8 @@
     "dayjs": "^1.7.5",
     "dva-loading": "^2.0.5",
     "dva-react-router-3": "^1.2.0",
+    "fastclick": "^1.0.6",
+    "intl": "^1.2.5",
     "md5": "^2.2.1",
     "prop-types": "^15.6.2",
     "react": "^16.2.0",
@@ -31,6 +33,6 @@
     "husky": "^0.12.0",
     "less-vars-to-js": "^1.2.1",
     "redbox-react": "^1.4.3",
-    "roadhog": "^2.0.0"
+    "roadhog": "^2.4.2"
   }
 }
