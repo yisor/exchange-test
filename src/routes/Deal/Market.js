@@ -32,6 +32,10 @@ class MarketPage extends Component {
     }, 1000)
   }
 
+  componentWillUnmount() {
+    this.timer && clearTimeout(this.timer);
+  }
+
   render() {
     // const formatMessage = this.context.intl.formatMessage;
     return (
@@ -46,7 +50,6 @@ class MarketPage extends Component {
             defaultVal={this.state.val}
           />
         </Flex>
-
         <RestingOrder onItemClick={(data) => this.onClick(data)}
           data={{ '1': [1, 2, 3, 4, 5], '2': [1, 2, 3, 4, 5] }}
         />

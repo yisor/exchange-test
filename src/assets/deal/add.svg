@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>加号#1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="交易" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="兑入" transform="translate(-347.000000, -346.000000)" fill="#D9D9D9" fill-rule="nonzero">
+            <g id="1" transform="translate(0.000000, 128.000000)">
+                <g id="左侧" transform="translate(20.000000, 20.000000)">
+                    <g id="Group" transform="translate(246.000000, 194.000000)">
+                        <g id="加号#1" transform="translate(81.000000, 4.000000)">
+                            <path d="M16,12 L28,12 L28,16 L16,16 L16,28 L12,28 L12,16 L0,16 L0,12 L12,12 L12,0 L16,0 L16,12 Z" id="Combined-Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
