@@ -1,8 +1,8 @@
 /*
- * @Author: lsl 
- * @Date: 2018-08-16 09:32:13 
- * @Last Modified by:   lsl 
- * @Last Modified time: 2018-08-16 09:32:13 
+ * @Author: lsl
+ * @Date: 2018-08-16 09:32:13
+ * @Last Modified by:   lsl
+ * @Last Modified time: 2018-08-16 09:32:13
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -32,51 +32,57 @@ class AppLayout extends Component {
           >
             <TabBar.Item
               key="price"
-              selected={tab === "price"}
+              selected={tab === 'price'}
               title={intl.formatMessage({ id: 'tab.price' })}
               icon={
                 <img
                   src={tabbarPriceUnselect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{ width: 22, height: 22 }} alt=""
+                />
               }
               selectedIcon={
                 <img
                   src={tabbarPriceSelect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{ width: 22, height: 22 }} alt=""
+                />
               }
               onPress={() => { changeUrl('/') }}
             />
 
             <TabBar.Item
               key="deal"
-              selected={tab === "deal"}
+              selected={tab === 'deal'}
               title={intl.formatMessage({ id: 'tab.deal' })}
               icon={
                 <img
                   src={tabbarDealUnselect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{ width: 22, height: 22 }} alt=""
+                />
               }
               selectedIcon={
                 <img
                   src={tabbarDealSelect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{ width: 22, height: 22 }} alt=""
+                />
               }
               onPress={() => { changeUrl('/deal') }}
             />
 
             <TabBar.Item
               key="mine"
-              selected={tab === "mine"}
+              selected={tab === 'mine'}
               title={intl.formatMessage({ id: 'tab.mine' })}
               icon={
                 <img
                   src={tabbarUserUnselect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{ width: 22, height: 22 }} alt=""
+                />
               }
               selectedIcon={
                 <img
                   src={tabbarUserSelect}
-                  style={{ width: 22, height: 22 }} alt="" />
+                  style={{ width: 22, height: 22 }} alt=""
+                />
               }
               onPress={() => { changeUrl('/mine') }}
             />
@@ -90,12 +96,12 @@ class AppLayout extends Component {
 
 const mapStateToProps = (state) => ({
   tab: state.app.tab
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(AppLayout));

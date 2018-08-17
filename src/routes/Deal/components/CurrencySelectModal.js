@@ -1,8 +1,8 @@
 /*
- * @Author: lsl 
- * @Date: 2018-08-15 16:50:14 
+ * @Author: lsl
+ * @Date: 2018-08-15 16:50:14
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-15 19:41:37
+ * @Last Modified time: 2018-08-17 16:18:48
  * @Desc 币种选择
  */
 import React from 'react';
@@ -25,12 +25,13 @@ const CurrencySelectModal = (props) => {
         icon={<Icon type="left" />}
         onLeftClick={onClose}
       >选择币种
-     </NavBar>
+      </NavBar>
       <PriceList
         tickers={tickers}
         loading={loading}
-        onItemClick={(item) => { onClose(); onItemClick(item); }} />
+        onItemClick={(item) => { onClose(); onItemClick(item) }}
+      />
     </Modal>
   );
-}
+};
 export default CurrencySelectModal;

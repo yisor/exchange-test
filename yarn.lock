@@ -1409,7 +1409,7 @@ babel-core@^6.0.0, babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.7"
 
-babel-eslint@^8.0.1:
+babel-eslint@^8.0.1, babel-eslint@^8.2.6:
   version "8.2.6"
   resolved "http://registry.npm.taobao.org/babel-eslint/download/babel-eslint-8.2.6.tgz#6270d0c73205628067c0f7ae1693a9e797acefd9"
   dependencies:
@@ -3271,11 +3271,15 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
+eslint-config-alloy@^1.4.2:
+  version "1.4.2"
+  resolved "http://registry.npm.taobao.org/eslint-config-alloy/download/eslint-config-alloy-1.4.2.tgz#7dcb015992a6598055679483103badf55534a0a6"
+
 eslint-config-react-app@^2.0.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/eslint-config-react-app/download/eslint-config-react-app-2.1.0.tgz#23c909f71cbaff76b945b831d2d814b8bde169eb"
 
-eslint-config-umi@^0.1.1, eslint-config-umi@^0.1.4:
+eslint-config-umi@^0.1.4:
   version "0.1.5"
   resolved "http://registry.npm.taobao.org/eslint-config-umi/download/eslint-config-umi-0.1.5.tgz#2c20a031c1f8e391609d172e88f9c60cceb88616"
   dependencies:
@@ -3342,6 +3346,16 @@ eslint-plugin-react@^7.1.0:
   version "7.10.0"
   resolved "http://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.10.0.tgz#af5c1fef31c4704db02098f9be18202993828b50"
   dependencies:
+    doctrine "^2.1.0"
+    has "^1.0.3"
+    jsx-ast-utils "^2.0.1"
+    prop-types "^15.6.2"
+
+eslint-plugin-react@^7.11.1:
+  version "7.11.1"
+  resolved "http://registry.npm.taobao.org/eslint-plugin-react/download/eslint-plugin-react-7.11.1.tgz#c01a7af6f17519457d6116aa94fc6d2ccad5443c"
+  dependencies:
+    array-includes "^3.0.3"
     doctrine "^2.1.0"
     has "^1.0.3"
     jsx-ast-utils "^2.0.1"

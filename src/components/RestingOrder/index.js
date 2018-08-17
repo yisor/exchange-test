@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 
 
-
 class RestingOrderItem extends Component {
 
   static contextTypes = {
@@ -14,42 +13,14 @@ class RestingOrderItem extends Component {
 
   onClick = (item) => {
     const { onItemClick } = this.props;
-    console.log(item)
+    console.log(item);
     onItemClick && onItemClick(item);
   }
 
-  render() {
-    const { data, titleColor, style } = this.props;
-    const formatMessage = this.context.intl.formatMessage;
-    return (
-      <div style={{ ...style }}>
-        <Flex>
-          <div style={{ flex: 1 }}>
-            <Flex>
-              <div style={{ flex: 1, textAlign: "center", color: titleColor }}>{formatMessage({ id: 'deal.buy' })}</div>
-              <div style={{ flex: 3, textAlign: "right", color: titleColor }}>{formatMessage({ id: 'deal.number' })}</div>
-              <div style={{ flex: 4, textAlign: "right", color: titleColor, marginRight: 4 }}>{formatMessage({ id: 'deal.price' })}</div>
-            </Flex>
-            {this.renderItem(data['1'],false)}
-          </div>
-
-          <div style={{ flex: 1 }}>
-            <Flex>
-              <div style={{ flex: 4, textAlign: "left", color: titleColor, marginLeft: 4 }}>{formatMessage({ id: 'deal.price' })}</div>
-              <div style={{ flex: 3, textAlign: "left", color: titleColor }}>{formatMessage({ id: 'deal.number' })}</div>
-              <div style={{ flex: 1, textAlign: "center", color: titleColor }}>{formatMessage({ id: 'deal.sell' })}</div>
-            </Flex>
-            {this.renderItem(data['2'],true)}
-          </div>
-        </Flex>
-      </div>
-    );
-  }
-
   renderItem = (data, type = false) => {
-    const {buyTextColor,sellTextColor,buyBgColor,sellBgColor} = this.props;
+    const { buyTextColor, sellTextColor, buyBgColor, sellBgColor } = this.props;
     const item = data;
-    let arr = []
+    let arr = [];
     for (let i = 0; i < item.length; i++) {
       let width = Math.ceil(Math.random() * 100);
       let left = type ? '0' : `${100 - width}%`;
@@ -111,9 +82,37 @@ class RestingOrderItem extends Component {
             }
           </Flex>
         </div>
-      )
+      );
     }
     return arr;
+  }
+
+  render() {
+    const { data, titleColor, style } = this.props;
+    const formatMessage = this.context.intl.formatMessage;
+    return (
+      <div style={{ ...style }}>
+        <Flex>
+          <div style={{ flex: 1 }}>
+            <Flex>
+              <div style={{ flex: 1, textAlign: 'center', color: titleColor }}>{formatMessage({ id: 'deal.buy' })}</div>
+              <div style={{ flex: 3, textAlign: 'right', color: titleColor }}>{formatMessage({ id: 'deal.number' })}</div>
+              <div style={{ flex: 4, textAlign: 'right', color: titleColor, marginRight: 4 }}>{formatMessage({ id: 'deal.price' })}</div>
+            </Flex>
+            {this.renderItem(data['1'], false)}
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <Flex>
+              <div style={{ flex: 4, textAlign: 'left', color: titleColor, marginLeft: 4 }}>{formatMessage({ id: 'deal.price' })}</div>
+              <div style={{ flex: 3, textAlign: 'left', color: titleColor }}>{formatMessage({ id: 'deal.number' })}</div>
+              <div style={{ flex: 1, textAlign: 'center', color: titleColor }}>{formatMessage({ id: 'deal.sell' })}</div>
+            </Flex>
+            {this.renderItem(data['2'], true)}
+          </div>
+        </Flex>
+      </div>
+    );
   }
 }
 
@@ -128,7 +127,7 @@ RestingOrderItem.propTypes = {
   sellTextColor: PropTypes.string,
   sellBgColor: PropTypes.string
 
-}
+};
 
 RestingOrderItem.defaultProps = {
   data: {},
@@ -137,7 +136,7 @@ RestingOrderItem.defaultProps = {
   buyBgColor: '#35BAA0',
   sellTextColor: '#E26A6A',
   sellBgColor: '#E26A6A'
-}
+};
 
 export default RestingOrderItem;
 
@@ -169,4 +168,4 @@ const styles = {
   font16: {
     fontSize: 16
   }
-}
+};

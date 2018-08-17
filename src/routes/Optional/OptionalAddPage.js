@@ -1,8 +1,8 @@
 /*
- * @Author: lsl 
- * @Date: 2018-08-16 09:30:43 
+ * @Author: lsl
+ * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-16 14:52:56
+ * @Last Modified time: 2018-08-17 16:25:13
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -28,10 +28,11 @@ const SymbolItem = (props) => {
       <Icon
         type="check-circle-o"
         style={{ margin: 10 }}
-        onClick={() => addFavorites(itemInfo)} />
+        onClick={() => addFavorites(itemInfo)}
+      />
     </Flex>
-  )
-}
+  );
+};
 
 class OptionalAddPage extends Component {
   static contextTypes = { intl: intlShape }
@@ -43,7 +44,7 @@ class OptionalAddPage extends Component {
     const searchSymbols = symbols.filter((item) => {
       const { name, key } = item;
       return name.indexOf(txt) !== -1 || key.indexOf(txt) !== -1;
-    })
+    });
     this.setState({ searchSymbols });
   }
 
@@ -70,7 +71,7 @@ class OptionalAddPage extends Component {
           onCancel={() => { goBack() }}
         />
         <ListView
-          ref={listview => this.lv = listview}
+          ref={listview => { this.lv = listview }}
           data={this.state.searchSymbols}
           ListItem={SymbolItem}
           onItemClick={this.onItemClick}
@@ -89,11 +90,11 @@ const select = (symbol) => {
   } else {
     return [];
   }
-}
+};
 
 const mapStateToProps = (state) => ({
   symbols: select(state.app.symbol)
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
@@ -102,6 +103,6 @@ const mapDispatchToProps = (dispatch) => ({
   goBack: () => {
     dispatch(routerRedux.goBack());
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(OptionalAddPage);

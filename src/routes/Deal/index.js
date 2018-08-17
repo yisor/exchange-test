@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import dayjs from 'dayjs';
-import { intlShape } from "react-intl";
+import { intlShape } from 'react-intl';
 import { routerRedux } from 'dva/router';
 import { Flex, PullToRefresh } from 'antd-mobile';
 import MarketPage from './Market';
@@ -16,11 +16,12 @@ const Header = ({ data, onSwitch = () => { } }) => {
       <img
         onClick={onSwitch}
         src={require('../../assets/deal/change.svg')}
-        style={{ width: 24, height: 24, marginRight: 12, marginLeft: 10 }} alt="" />
-      <div style={{ fontSize: 16, fontWeight: "bold" }}>BTC/USDT</div>
+        style={{ width: 24, height: 24, marginRight: 12, marginLeft: 10 }} alt=""
+      />
+      <div style={{ fontSize: 16, fontWeight: 'bold' }}>BTC/USDT</div>
     </Flex>
-  )
-}
+  );
+};
 
 class DealPage extends Component {
 
@@ -34,7 +35,7 @@ class DealPage extends Component {
     down: true,
     height: document.documentElement.clientHeight,
     selectPrice: 0,
-    date:dayjs().format('MM-DD HH:mm:ss'),
+    date: dayjs().format('MM-DD HH:mm:ss'),
   };
 
   componentDidMount() {
@@ -68,23 +69,23 @@ class DealPage extends Component {
     const { loading, tickers } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
-      <DocumentTitle title={formatMessage({id: 'title.deal'})}>
+      <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
         <div>
 
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <Header onSwitch={this.showModal('switchVisible')}/>
-            <MarketPage onClick={this.onSelectPrice}/>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Header onSwitch={this.showModal('switchVisible')} />
+            <MarketPage onClick={this.onSelectPrice} />
           </div>
 
-          <div style={{display: 'flex', flexDirection: 'column'}}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             <PullToRefresh
               damping={100}
-              ref={el => this.ptr = el}
+              ref={el => { this.ptr = el }}
               style={{
                 height: this.state.height,
                 overflowY: 'auto',
               }}
-              indicator={{activate: `下拉刷新,更新时间:${this.state.date}`, finish: `更新完成，最后时间:${this.state.date}`}}
+              indicator={{ activate: `下拉刷新,更新时间:${this.state.date}`, finish: `更新完成，最后时间:${this.state.date}` }}
               direction={'down'}
               refreshing={this.state.refreshing}
               onRefresh={() => {
@@ -102,7 +103,7 @@ class DealPage extends Component {
             >
               <div>
                 <DealView selectPrice={this.state.selectPrice}
-                          onSubmit={this.onSubmit}
+                  onSubmit={this.onSubmit}
                 />
               </div>
             </PullToRefresh>
@@ -123,12 +124,12 @@ class DealPage extends Component {
 
 const mapStateToProps = (state) => ({
   tickers: state.price.tickers,
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DealPage);

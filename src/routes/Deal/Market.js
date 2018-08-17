@@ -5,9 +5,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Flex } from 'antd-mobile';
-import Stepper from './components/Stepper'
-import { RestingOrder } from 'components'
-import { intlShape } from "react-intl";
+import Stepper from './components/Stepper';
+import { RestingOrder } from 'components';
+import { intlShape } from 'react-intl';
 
 
 class MarketPage extends Component {
@@ -29,58 +29,59 @@ class MarketPage extends Component {
       this.setState({
         data: 1,
       });
-    }, 1000)
+    }, 1000);
   }
 
   componentWillUnmount() {
     this.timer && clearTimeout(this.timer);
   }
 
+  onChange = (val) => {
+    this.setState({ val });
+  }
+
+  onClick = (data) => {
+    this.props.onClick && this.props.onClick(data);
+  }
+
   render() {
     // const formatMessage = this.context.intl.formatMessage;
     return (
       <div>
-        <Flex style={{display: 'flex', marginBottom: 15.}}>
+        <Flex style={{ display: 'flex', marginBottom: 15.0 }}>
           <div style={styles.price}>{this.state.currentPrice}0000000000</div>
 
-          <div style={{color: '#A0A4A8', fontSize: 11, marginTop: 7}}>
+          <div style={{ color: '#A0A4A8', fontSize: 11, marginTop: 7 }}>
             {'≈' + this.state.currentPrice}CNY
           </div>
           <Stepper maxNum={6}
-                   onClick={this.onChange}
-                   defaultVal={this.state.val}
+            onClick={this.onChange}
+            defaultVal={this.state.val}
           />
         </Flex>
         <RestingOrder onItemClick={(data) => this.onClick(data)}
-                      data={{'1': [1, 2, 3, 4, 5], '2': [1, 2, 3, 4, 5]}}
+          data={{ '1': [1, 2, 3, 4, 5], '2': [1, 2, 3, 4, 5] }}
         />
       </div>
     );
-  }
-
-  onChange = (val) => {
-    this.setState({ val });
-  }
-  onClick = (data) => {
-    this.props.onClick && this.props.onClick(data)
   }
 }
 
 const mapStateToProps = (state) => ({
 
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
 
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarketPage);
 
 const styles = {
   price: {
-    flex:1,
+    flex: 1,
     color: '#35BAA0',
     fontSize: 20,
     marginLeft: 10
   },
-}
+};

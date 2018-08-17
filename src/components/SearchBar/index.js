@@ -1,8 +1,8 @@
 /*
- * @Author: lsl 
- * @Date: 2018-08-16 09:31:17 
+ * @Author: lsl
+ * @Date: 2018-08-16 09:31:17
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-16 15:26:09
+ * @Last Modified time: 2018-08-17 16:09:33
  */
 import React from 'react';
 import { Icon } from 'antd-mobile';
@@ -32,7 +32,7 @@ const SearchBar = (props) => {
       }
     </div>
   );
-}
+};
 
 
 SearchBar.propTypes = {
@@ -43,13 +43,13 @@ SearchBar.propTypes = {
   showCancelButton: PropTypes.bool,
   cancelText: PropTypes.string,
   onCancel: PropTypes.func,
-}
+};
 
 SearchBar.defaultProps = {
   disabled: false,
   showCancelButton: false,
   cancelText: '取消',
-}
+};
 
 export default SearchBar;
 
@@ -68,7 +68,7 @@ const styles = {
     justifyContent: 'start',
     alignItems: 'center',
     backgroundColor: '#F0F2F5',
-    padding: "8px 6px",
+    padding: '8px 6px',
   },
   input: {
     display: 'flex',
@@ -77,7 +77,7 @@ const styles = {
     marginLeft: 8,
     border: 'none',
     outline: 'medium',
-    autoComplete: "off",
+    autoComplete: 'off',
     backgroundColor: '#F0F2F5',
   }
-}
+};

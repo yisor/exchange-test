@@ -9,7 +9,7 @@ const routes = [
     },
     indexRoute: {
       getComponent(location, callback) {
-        callback(null, require('./Price/PricePage').default)
+        callback(null, require('./Price/PricePage').default);
       }
     },
     childRoutes: [

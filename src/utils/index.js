@@ -6,4 +6,4 @@ export {
   request,
   EncryptUtils,
   TranslatUtil,
-}
+};

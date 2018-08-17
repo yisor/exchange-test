@@ -9,9 +9,7 @@ const Footer = () => (
 );
 
 const FooterNo = () => (
-  <div style={{ padding: 20, marginBottom: 30, textAlign: 'center' }}>
-    没有更多了
-  </div>
+  <div style={{ padding: 30, textAlign: 'center' }} />
 );
 
 const NoDataShow = (props) => (
@@ -29,7 +27,7 @@ class List extends React.Component {
     super(props);
     this.state = {
       dataSource: DataSource.cloneWithRows(props.data)
-    }
+    };
   }
 
   componentDidMount() {
@@ -55,7 +53,7 @@ class List extends React.Component {
   loadMore = () => {
     const { loading, refresh, getData, disableLoadMore } = this.props;
     if (disableLoadMore || loading || refresh) return;
-    getData && getData()
+    getData && getData();
   }
 
   refresh = () => {
@@ -71,7 +69,7 @@ class List extends React.Component {
         {
           this.props.data.length > 0 ?
             <ListView
-              ref={listview => this.ref = listview}
+              ref={listview => { this.ref = listview }}
               dataSource={this.state.dataSource}
               initialListSize={10}
               pageSize={10}
@@ -81,12 +79,13 @@ class List extends React.Component {
               renderBodyComponent={() => <Content />}
               onEndReached={disableLoadMore ? null : this.loadMore}
               renderRow={(rowData) => <ListItem itemInfo={rowData} {...this.props} />}
-              renderFooter={() => reachEnd ? <Footer /> : <FooterNo />}
+              renderFooter={() => (reachEnd ? <Footer /> : <FooterNo />)}
               pullToRefresh={
                 !disableRefresh ?
                   <PullToRefresh
                     refreshing={refresh}
-                    onRefresh={this.refresh} /> : null
+                    onRefresh={this.refresh}
+                  /> : null
               }
               style={{
                 height: `${document.documentElement.clientHeight - offsetHeight}px`,
@@ -97,7 +96,7 @@ class List extends React.Component {
         }
       </div>
     );
-  };
+  }
 }
 
 List.propTypes = {
@@ -112,7 +111,7 @@ List.propTypes = {
   ListItem: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
   offsetHeight: PropTypes.number
-}
+};
 
 List.defaultProps = {
   disableRefresh: true,
@@ -121,15 +120,11 @@ List.defaultProps = {
   loading: false,
   refresh: false,
   data: [],
-  onRefresh() { },
-  getData() { },
-  scrollToTop() { },
-  ListItem() { },
+  onRefresh() {},
+  getData() {},
+  scrollToTop() {},
+  ListItem() {},
   offsetHeight: 0
-}
+};
 
 export default List;
-
-
-
-

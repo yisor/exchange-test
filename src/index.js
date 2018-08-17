@@ -46,4 +46,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-FastClick.attach(document.body,{});
+FastClick.attach(document.body, {});
