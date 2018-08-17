@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Flex, Button, Modal, List, } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
 import { ListView,} from 'components';
 import DealCss from './DealPage.css'
 import { intlShape } from 'react-intl';
@@ -75,7 +76,7 @@ class DealView extends Component {
       coinNum: 0,
       available: 0,
       sub: false,
-      add: false
+      add: false,
     };
   }
 
@@ -87,8 +88,7 @@ class DealView extends Component {
       coinNum: 0,
       val:formatMessage({id:'deal.limit'}),
       available: 133.4444222,
-      sub: this.state.coinPrice > 0 ? true : false
-
+      sub: this.state.coinPrice > 0 ? true : false,
     })
   }
 
@@ -159,7 +159,7 @@ class DealView extends Component {
               <div style={{marginRight: 10, alignItems: "center"}} onClick={this.showModal('modal')}>
                 {this.state.val}
                 <img
-                  src={require('../../assets/Deal/change.png')}
+                  src={require('../../assets/deal/change.svg')}
                   style={{width: 12, height: 12, marginRight: 12, marginLeft: 10}} alt=""/>
               </div>
             </div>
@@ -218,9 +218,11 @@ class DealView extends Component {
               {formatMessage({id:'deal.currentorder'})}
               </div>
 
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
+            <div style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}
+                  onClick={()=>this.props.changeUrl('/price/detail')}
+            >
               <img
-                src={require('../../assets/Deal/change.png')}
+                src={require('../../assets/deal/change.svg')}
                 style={{ width: 12, height: 12, marginRight: 12, marginLeft: 10 }} alt="" />
               <div>{formatMessage({id:'deal.all'})}</div>
             </div>
@@ -369,7 +371,11 @@ class DealView extends Component {
 
 const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  changeUrl: (url) => {
+    dispatch(routerRedux.push(url));
+  }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(DealView);
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>change</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="100%" x2="0%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#12A0D2" offset="0%"></stop>
+            <stop stop-color="#4DCC7B" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="交易" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="兑入" transform="translate(-23.000000, -63.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <g id="change" transform="translate(20.000000, 60.000000)">
+                <path d="M6.5,26 L4,26 L8,21 L12,26 L9.5,26 C9.5,29.7759685 10.3715365,31.6337172 12.1708204,32.5333592 C13.7727559,33.3343269 15.6503838,33.5 21,33.5 C21.8284271,33.5 22.5,34.1715729 22.5,35 C22.5,35.8284271 21.8284271,36.5 21,36.5 C15.0996162,36.5 13.0308156,36.3174588 10.8291796,35.2166408 C7.87443129,33.7392666 6.5,30.8095578 6.5,26 Z M36.5,19 L39,19 L35,24 L31,19 L33.5,19 C33.5,15.2240315 32.6284635,13.3662828 30.8291796,12.4666408 C29.2272441,11.6656731 27.3496162,11.5 22,11.5 C21.1715729,11.5 20.5,10.8284271 20.5,10 C20.5,9.17157288 21.1715729,8.5 22,8.5 C27.9003838,8.5 29.9691844,8.68254123 32.1708204,9.78335921 C35.1255687,11.2607334 36.5,14.1904422 36.5,19 Z M3,3 L18,3 L18,18 L3,18 L3,3 Z M6,6 L6,15 L15,15 L15,6 L6,6 Z M25,25 L45,25 L45,45 L25,45 L25,25 Z M28,28 L28,42 L42,42 L42,28 L28,28 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
