@@ -2,9 +2,10 @@ import 'core-js/es6/promise';
 import 'core-js/es6/set';
 import 'core-js/es6/map';
 import 'raf/polyfill';
-
+import 'intl';
 import dva from 'dva';
 import ReactDOM from 'react-dom';
+import FastClick from 'fastclick';
 import createLoading from 'dva-loading';
 import { browserHistory } from 'dva/router';
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -43,3 +44,5 @@ ReactDOM.render(
   </IntlProvider>,
   document.getElementById('root')
 );
+
+FastClick.attach(document.body,{});
