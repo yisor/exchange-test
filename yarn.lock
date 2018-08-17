@@ -7952,7 +7952,7 @@ rmc-trigger@1.x:
     rc-util "^4.5.1"
     rmc-align "^1.0.0"
 
-roadhog@^2.0.0:
+roadhog@^2.4.2:
   version "2.4.2"
   resolved "http://registry.npm.taobao.org/roadhog/download/roadhog-2.4.2.tgz#0107b2600fb9f7f24f50e5a6bde7d30922b66343"
   dependencies:

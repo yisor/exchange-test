@@ -1,4 +1,8 @@
-import "@babel/polyfill";
+import 'core-js/es6/promise';
+import 'core-js/es6/set';
+import 'core-js/es6/map';
+import 'raf/polyfill';
+
 import dva from 'dva';
 import ReactDOM from 'react-dom';
 import createLoading from 'dva-loading';

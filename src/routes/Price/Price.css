@@ -10,9 +10,19 @@
 
 .tabbar{
   display: flex;
-  width: 100vw;
   flex-direction: row;
   flex: 0 0 auto;
   height: 50px;
   color: white;
+  border-top-color:#d4d4d4;
+  border-top-width: 1px;
+  border-style: solid;
+}
+.optionalTxt{
+  display: flex;
+  align-items: center;
+  justify-content:  center;
+  color: #323B43;
+  font-size: 14px;
+  margin: 10px;
 }

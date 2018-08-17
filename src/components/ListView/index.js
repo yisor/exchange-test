@@ -2,61 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh, Flex } from 'antd-mobile';
 
-const Content = (props) => (<div>{props.children}</div>)
+const Content = (props) => (<div>{props.children}</div>);
 
 const Footer = () => (
   <div style={{ padding: 30, textAlign: 'center' }}>加载中</div>
-)
+);
 
 const FooterNo = () => (
-  <div style={{ padding: 20, paddingBottom: 40, textAlign: 'center' }}>
+  <div style={{ padding: 20, marginBottom: 30, textAlign: 'center' }}>
     没有更多了
-   </div>
-)
-
+  </div>
+);
 
 const NoDataShow = (props) => (
-  <Flex justify="center" align="center" direction="column">
-    <div>{props.text}</div>
+  <Flex justify="center" align="center">
+    <div style={{ marginTop: 15 }}>{props.text}</div>
   </Flex>
-)
+);
+
+const DataSource = new ListView.DataSource({
+  rowHasChanged: (r1, r2) => r1 !== r2
+});
 
 class List extends React.Component {
-  static propTypes = {
-    disableRefresh: PropTypes.bool,
-    disableLoadMore: PropTypes.bool,
-    reachEnd: PropTypes.bool,
-    loading: PropTypes.bool,
-    refresh: PropTypes.bool,
-    onRefresh: PropTypes.func,
-    getData: PropTypes.func,
-    saveScrollTop: PropTypes.func,
-    ListItem: PropTypes.func.isRequired,
-    data: PropTypes.array.isRequired,
-    offsetHeight: PropTypes.number
-  }
-
-  static defaultProps = {
-    disableRefresh: true,
-    disableLoadMore: false,
-    reachEnd: false,
-    loading: false,
-    refresh: false,
-    data: [],
-    onRefresh() { },
-    getData() { },
-    scrollToTop() { },
-    ListItem() { },
-    offsetHeight: 0
-  }
-
   constructor(props) {
     super(props);
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
     this.state = {
-      dataSource: dataSource.cloneWithRows(this.props.data)
+      dataSource: DataSource.cloneWithRows(props.data)
     }
   }
 
@@ -71,12 +43,7 @@ class List extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    this.setState({
-      dataSource: dataSource.cloneWithRows(nextProps.data)
-    });
+    this.setState({ dataSource: DataSource.cloneWithRows(nextProps.data) });
   }
 
   componentWillUnmount() {
@@ -99,14 +66,13 @@ class List extends React.Component {
 
   render() {
     const { refresh, disableRefresh, disableLoadMore, ListItem, offsetHeight, reachEnd } = this.props;
-    const { dataSource } = this.state;
     return (
       <div>
         {
           this.props.data.length > 0 ?
             <ListView
               ref={listview => this.ref = listview}
-              dataSource={dataSource}
+              dataSource={this.state.dataSource}
               initialListSize={10}
               pageSize={10}
               stickySectionHeadersEnabled={false}
@@ -117,7 +83,10 @@ class List extends React.Component {
               renderRow={(rowData) => <ListItem itemInfo={rowData} {...this.props} />}
               renderFooter={() => reachEnd ? <Footer /> : <FooterNo />}
               pullToRefresh={
-                !disableRefresh ? <PullToRefresh refreshing={refresh} onRefresh={this.refresh} /> : null
+                !disableRefresh ?
+                  <PullToRefresh
+                    refreshing={refresh}
+                    onRefresh={this.refresh} /> : null
               }
               style={{
                 height: `${document.documentElement.clientHeight - offsetHeight}px`,
@@ -131,5 +100,36 @@ class List extends React.Component {
   };
 }
 
-export default List
+List.propTypes = {
+  disableRefresh: PropTypes.bool,
+  disableLoadMore: PropTypes.bool,
+  reachEnd: PropTypes.bool,
+  loading: PropTypes.bool,
+  refresh: PropTypes.bool,
+  onRefresh: PropTypes.func,
+  getData: PropTypes.func,
+  saveScrollTop: PropTypes.func,
+  ListItem: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
+  offsetHeight: PropTypes.number
+}
+
+List.defaultProps = {
+  disableRefresh: true,
+  disableLoadMore: false,
+  reachEnd: false,
+  loading: false,
+  refresh: false,
+  data: [],
+  onRefresh() { },
+  getData() { },
+  scrollToTop() { },
+  ListItem() { },
+  offsetHeight: 0
+}
+
+export default List;
+
+
+
 
