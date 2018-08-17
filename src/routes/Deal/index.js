@@ -15,7 +15,7 @@ const Header = ({ data, onSwitch = () => { } }) => {
     <Flex style={{ height: 64, margin: 10, }}>
       <img
         onClick={onSwitch}
-        src={require('../../assets/Deal/change.png')}
+        src={require('../../assets/deal/change.svg')}
         style={{ width: 24, height: 24, marginRight: 12, marginLeft: 10 }} alt="" />
       <div style={{ fontSize: 16, fontWeight: "bold" }}>BTC/USDT</div>
     </Flex>
@@ -113,8 +113,7 @@ class DealPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  tickers: state.price.tickers,
-  loading: state.loading.effects['price/getTicker']
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

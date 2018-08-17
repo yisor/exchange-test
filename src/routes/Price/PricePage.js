@@ -2,7 +2,7 @@
  * @Author: lsl 
  * @Date: 2018-08-16 09:30:36 
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-16 11:38:28
+ * @Last Modified time: 2018-08-16 14:56:33
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -88,8 +88,10 @@ class PricePage extends Component {
   componentDidMount() {
     const { symbol } = this.props;
     const values = Object.values(symbol);
-    const symbols = values.reduce((prev, cur) => (cur.concat(prev)));
-    this.fetchTicker(symbols);
+    if (values && values.length > 0) {
+      const symbols = values.reduce((prev, cur) => (cur.concat(prev)));
+      this.fetchTicker(symbols);
+    }
   }
 
   fetchTicker = (symbols) => {
@@ -159,6 +161,7 @@ class PricePage extends Component {
                   ListItem={PriceItem}
                   loading={loading}
                   onItemClick={this.onItemClick}
+                  offsetHeight={100}
                 />
             }
 

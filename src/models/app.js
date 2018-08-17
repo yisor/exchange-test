@@ -22,6 +22,7 @@ export default {
       yield put({ type: 'saveRates', payload: { rates: response } });
     },
   },
+
   reducers: {
     changeTab(state, action) {
       return { ...state, tab: action.payload };

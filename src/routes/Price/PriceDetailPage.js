@@ -1,8 +1,8 @@
 /*
  * @Author: lsl 
  * @Date: 2018-08-16 09:30:43 
- * @Last Modified by:   lsl 
- * @Last Modified time: 2018-08-16 09:30:43 
+ * @Last Modified by: lsl
+ * @Last Modified time: 2018-08-16 16:02:49
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex } from 'antd-mobile';
@@ -19,7 +19,8 @@ const ActionButton = ({ text, onClick, color }) => (
       flex: 1,
       backgroundColor: color,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      margin: '5px 0px 5px 10px'
     }}>
     {text}
   </div>
@@ -48,14 +49,20 @@ class PriceDetailPage extends Component {
         />
         <div className={styles.mainContent} />
         <div className={styles.tabbar}>
-          <ActionButton
-            text="买入"
-            color="green"
-            onClick={() => changeUrl('/deal')} />
-          <ActionButton
-            text="卖出"
-            color="red"
-            onClick={() => changeUrl('/deal')} />
+          <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+            <ActionButton
+              text="买入"
+              color="#35BAA0"
+              onClick={() => changeUrl('/deal')} />
+            <ActionButton
+              text="卖出"
+              color="#EE5C42"
+              onClick={() => changeUrl('/deal')} />
+          </div>
+
+          <div className={styles.optionalTxt}>
+            添加自选
+          </div>
         </div>
       </div>
     );
