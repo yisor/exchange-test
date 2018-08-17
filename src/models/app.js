@@ -9,8 +9,8 @@ export default {
     optionals: [],
   },
   effects: {
-    * getBasicSysData({ payload = {}}, { call, put }) {
-      const [symbol, rates] = yield [call(getSymbol), call(queryRate)];
+    * getBasicSysData({ payload = {}}, { call, put, all }) {
+      const [symbol, rates] = yield all([call(getSymbol), call(queryRate)]);
       yield put({ type: 'initParams', payload: { symbol, rates }});
     },
     * getSymbol({ payload = {}}, { call, put }) {

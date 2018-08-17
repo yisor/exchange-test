@@ -63,7 +63,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { refresh, disableRefresh, disableLoadMore, ListItem, offsetHeight, reachEnd } = this.props;
+    const { refresh, disableRefresh, disableLoadMore, ListItem, offsetHeight, reachEnd, emptyText } = this.props;
     return (
       <div>
         {
@@ -92,7 +92,7 @@ class List extends React.Component {
                 overflow: 'auto'
               }}
             /> :
-            <NoDataShow text="很抱歉，没有相关数据" />
+            <NoDataShow text={emptyText} />
         }
       </div>
     );
@@ -110,7 +110,8 @@ List.propTypes = {
   saveScrollTop: PropTypes.func,
   ListItem: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
-  offsetHeight: PropTypes.number
+  offsetHeight: PropTypes.number,
+  emptyText: PropTypes.string
 };
 
 List.defaultProps = {
@@ -120,11 +121,12 @@ List.defaultProps = {
   loading: false,
   refresh: false,
   data: [],
-  onRefresh() {},
-  getData() {},
-  scrollToTop() {},
-  ListItem() {},
-  offsetHeight: 0
+  onRefresh() { },
+  getData() { },
+  scrollToTop() { },
+  ListItem() { },
+  offsetHeight: 0,
+  emptyText: '很抱歉，没有相关数据'
 };
 
 export default List;
