@@ -1,8 +1,8 @@
 /*
- * @Author: lsl 
- * @Date: 2018-08-16 09:30:36 
+ * @Author: lsl
+ * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-16 14:56:33
+ * @Last Modified time: 2018-08-17 15:46:22
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -48,8 +48,8 @@ const PriceItem = (props) => {
         -0.25%
       </div>
     </div>
-  )
-}
+  );
+};
 
 
 const AddOptionalView = ({ addOptional }) => (
@@ -72,7 +72,7 @@ const AddOptionalView = ({ addOptional }) => (
       添加自选
     </Button>
   </div>
-)
+);
 
 class PricePage extends Component {
 
@@ -106,7 +106,7 @@ class PricePage extends Component {
     const curTickers = tickers.filter((item) => {
       const { name, key } = item.coinInfo;
       return name.indexOf(currency) !== -1 || key.indexOf(currency) !== -1;
-    })
+    });
     this.setState({ curTickers });
   }
 
@@ -114,15 +114,15 @@ class PricePage extends Component {
     const { optionals, symbol } = this.props;
     const symbols = symbol.hasOwnProperty(tab.key) ? symbol[tab.key] : [];
     switch (tab.key) {
-      case 'favorites':
-        // 自选
-        this.fetchTicker(optionals);
-        this.setState({ selectOptionalEmpty: optionals.length < 1 });
-        break;
-      default:
-        this.fetchTicker(symbols);
-        this.setState({ selectOptionalEmpty: false });
-        break;
+    case 'favorites':
+      // 自选
+      this.fetchTicker(optionals);
+      this.setState({ selectOptionalEmpty: optionals.length < 1 });
+      break;
+    default:
+      this.fetchTicker(symbols);
+      this.setState({ selectOptionalEmpty: false });
+      break;
     }
   }
 
@@ -142,7 +142,7 @@ class PricePage extends Component {
             placeholder={formatMessage({ id: 'price.search' })}
             maxLength={20}
             onChange={(text) => {
-              console.log('输入框：', text)
+              console.log('输入框：', text);
               this.filterTickers(text);
             }}
           />
@@ -177,7 +177,7 @@ const mapStateToProps = (state) => ({
   tickers: state.price.tickers,
   optionals: state.app.optionals,
   loading: state.loading.effects['price/getTicker']
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getTicker: (symbol) => {
@@ -186,7 +186,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PricePage);
 
@@ -214,4 +214,4 @@ const styles = {
     color: '#323B43',
     fontSize: 16,
   }
-}
+};

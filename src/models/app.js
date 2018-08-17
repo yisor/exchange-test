@@ -9,17 +9,17 @@ export default {
     optionals: [],
   },
   effects: {
-    * getBasicSysData({ payload = {} }, { call, put }) {
+    * getBasicSysData({ payload = {}}, { call, put }) {
       const [symbol, rates] = yield [call(getSymbol), call(queryRate)];
-      yield put({ type: 'initParams', payload: { symbol, rates } });
+      yield put({ type: 'initParams', payload: { symbol, rates }});
     },
-    * getSymbol({ payload = {} }, { call, put }) {
+    * getSymbol({ payload = {}}, { call, put }) {
       const response = yield call(getSymbol);
-      yield put({ type: 'saveSymbol', payload: { symbol: response } });
+      yield put({ type: 'saveSymbol', payload: { symbol: response }});
     },
-    * queryRate({ payload = {} }, { call, put }) {
+    * queryRate({ payload = {}}, { call, put }) {
       const response = yield call(queryRate);
-      yield put({ type: 'saveRates', payload: { rates: response } });
+      yield put({ type: 'saveRates', payload: { rates: response }});
     },
   },
 
@@ -41,17 +41,17 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         switch (pathname) {
-          case '/':
-            dispatch({ type: 'changeTab', payload: "price" });
-            dispatch({ type: 'getBasicSysData' });
-            break;
-          case '/deal':
-            dispatch({ type: 'changeTab', payload: "deal" });
-            break;
-          case '/mine':
-            dispatch({ type: 'changeTab', payload: "mine" });
-            break;
-          default: break;
+        case '/':
+          dispatch({ type: 'changeTab', payload: 'price' });
+          dispatch({ type: 'getBasicSysData' });
+          break;
+        case '/deal':
+          dispatch({ type: 'changeTab', payload: 'deal' });
+          break;
+        case '/mine':
+          dispatch({ type: 'changeTab', payload: 'mine' });
+          break;
+        default: break;
         }
       });
     },

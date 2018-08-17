@@ -19,7 +19,7 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-
+      // subscriptions
     }
   }
 };

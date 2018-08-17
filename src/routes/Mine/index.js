@@ -15,7 +15,7 @@ class MinePage extends Component {
           <header className={styles.appHeader} />
           <div className={styles.mainContent}>
             我的
-        </div>
+          </div>
         </div>
       </DocumentTitle>
     );

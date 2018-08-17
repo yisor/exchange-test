@@ -6,6 +6,6 @@ const RouterConfig = ({ history, app }) => {
   return (
     <Router history={history} routes={routes} />
   );
-}
+};
 
 export default RouterConfig;

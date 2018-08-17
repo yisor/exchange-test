@@ -13,11 +13,33 @@ class Stepper extends Component {
       sub: false,
     };
   }
+
   componentDidMount() {
     this.setState({
       val: this.props.defaultVal ? this.props.defaultVal : 1,
       sub: this.state.val === 1 ? true : false
-    })
+    });
+  }
+
+  onClick = (type) => {
+    const { maxNum } = this.props;
+    if (type === '-') {
+      this.setState({
+        sub: this.state.val > 2 ? false : true,
+        val: this.state.val > 1 ? this.state.val - 1 : 1,
+        add: false
+      }, () => {
+        this.props.onClick && this.props.onClick(this.state.val);
+      });
+    } else if (type === '+') {
+      this.setState({
+        add: this.state.val < maxNum - 1 ? false : true,
+        val: this.state.val < maxNum ? this.state.val + 1 : maxNum,
+        sub: false
+      }, () => {
+        this.props.onClick && this.props.onClick(this.state.val);
+      });
+    }
   }
 
   render() {
@@ -32,34 +54,12 @@ class Stepper extends Component {
       </div>
     );
   }
-
-  onClick = (type) => {
-    const { maxNum } = this.props;
-    if (type === '-') {
-      this.setState({
-        sub: this.state.val > 2 ? false : true,
-        val: this.state.val > 1 ? this.state.val - 1 : 1,
-        add: false
-      }, () => {
-        this.props.onClick && this.props.onClick(this.state.val);
-      })
-    } else if (type === '+') {
-      this.setState({
-        add: this.state.val < maxNum - 1 ? false : true,
-        val: this.state.val < maxNum ? this.state.val + 1 : maxNum,
-        sub: false
-      }, () => {
-        this.props.onClick && this.props.onClick(this.state.val);
-      })
-    }
-  }
-
 }
 
 const mapStateToProps = (state) => ({
   ticker: state.price.ticker,
   loading: state.loading.effects['price/fetch']
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getTicker: () => {
@@ -68,14 +68,14 @@ const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stepper);
 
 const styles = {
   container: {
     display: 'flex',
-    margin:5
+    margin: 5
 
   },
   button: {
@@ -86,4 +86,4 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   }
-}
+};

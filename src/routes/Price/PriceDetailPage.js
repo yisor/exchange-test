@@ -1,8 +1,8 @@
 /*
- * @Author: lsl 
- * @Date: 2018-08-16 09:30:43 
+ * @Author: lsl
+ * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-16 16:02:49
+ * @Last Modified time: 2018-08-17 16:26:05
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex } from 'antd-mobile';
@@ -24,7 +24,7 @@ const ActionButton = ({ text, onClick, color }) => (
     }}>
     {text}
   </div>
-)
+);
 
 class PriceDetailPage extends Component {
   static contextTypes = {
@@ -38,7 +38,7 @@ class PriceDetailPage extends Component {
         <NavBar
           mode="dark"
           icon={
-            <Flex direction='row' align="center">
+            <Flex direction="row" align="center">
               <Icon type="left" />
               <span style={{ marginLeft: 8, fontSize: 14 }}>
                 BTC/USDT
@@ -53,11 +53,13 @@ class PriceDetailPage extends Component {
             <ActionButton
               text="买入"
               color="#35BAA0"
-              onClick={() => changeUrl('/deal')} />
+              onClick={() => changeUrl('/deal')}
+            />
             <ActionButton
               text="卖出"
               color="#EE5C42"
-              onClick={() => changeUrl('/deal')} />
+              onClick={() => changeUrl('/deal')}
+            />
           </div>
 
           <div className={styles.optionalTxt}>
@@ -71,7 +73,7 @@ class PriceDetailPage extends Component {
 
 const mapStateToProps = (state) => ({
   loading: state.loading.effects['price/getTicker']
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
@@ -80,6 +82,6 @@ const mapDispatchToProps = (dispatch) => ({
   goBack: () => {
     dispatch(routerRedux.goBack());
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PriceDetailPage);
