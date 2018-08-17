@@ -46,6 +46,14 @@ const routes = [
         cb(null, require('./Optional/OptionalAddPage').default);
       });
     },
+  },
+  {
+    path: '/order',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Order/OrderPage').default);
+      });
+    },
   }
 ];
 

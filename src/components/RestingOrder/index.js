@@ -54,14 +54,16 @@ class RestingOrderItem extends Component {
       let width = Math.ceil(Math.random() * 100);
       let left = type ? '0' : `${100 - width}%`;
       arr.push(
-        <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }} key={type + i}>
+        <div style={{display: 'flex', flexDirection: 'row', position: 'relative'}} key={type + i}>
           <div style={{
             position: 'absolute', left: left, backgroundColor: type ? sellBgColor : buyBgColor,
             zIndex: 1, width: `${width}%`, height: '100%', opacity: 0.15
           }}
           />
 
-          <Flex style={styles.container} onClick={() => { this.onClick(6336.09 + i) }} >
+          <div style={styles.container} onClick={() => {
+            this.onClick(6336.09 + i)
+          }}>
             {type ?
               <div style={{
                 display: 'flex',
@@ -70,12 +72,11 @@ class RestingOrderItem extends Component {
                 flex: 4,
                 marginLeft: 4
               }}>
-                <div style={{ color: sellTextColor, fontSize: 11 }}> {6336.09 + i}</div>
+                <div style={{color: sellTextColor, fontSize: 11}}> {6336.09 + i}</div>
               </div> :
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'right',
                 flex: 1
               }}>
                 <div style={styles.font11}>{i + 1}</div>
@@ -88,7 +89,7 @@ class RestingOrderItem extends Component {
               flexDirection: 'column',
               flex: 3,
             }}>
-              <div style={{ textAlign: type ? 'left' : 'right', color: '#A0A4A8' }}>99</div>
+              <div style={{textAlign: type ? 'left' : 'right', color: '#A0A4A8'}}>99</div>
             </div>
 
             {type ?
@@ -106,10 +107,10 @@ class RestingOrderItem extends Component {
                 flex: 4,
                 marginRight: 4
               }}>
-                <div style={{ color: buyTextColor, fontSize: 11 }}> {6956.09 + i}</div>
+                <div style={{color: buyTextColor, fontSize: 11}}> {6956.09 + i}</div>
               </div>
             }
-          </Flex>
+          </div>
         </div>
       )
     }
@@ -147,10 +148,9 @@ const styles = {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
-    height: 30,
+    height: 25,
     justifyContent: 'space-between',
-    paddingTop: 5,
-    paddingBottom: 5,
+    cursor:'pointer',
   },
   button: {
     display: 'flex',

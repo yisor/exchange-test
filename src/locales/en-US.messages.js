@@ -3,6 +3,7 @@ export default {
   'title.price': "Price",
   'title.deal': "Deal",
   'title.user': "User",
+  'title.order':'Order Management',
   // tab
   'tab.price': "Price",
   'tab.deal': "Deal",
