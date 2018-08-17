@@ -32,7 +32,7 @@ class MarketPage extends Component {
     }, 1000)
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.timer && clearTimeout(this.timer);
   }
 

@@ -1,55 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Flex,Button } from 'antd-mobile';
+import { Flex, Button } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 
 
-class stepper extends Component {
+class Stepper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      val:1,
-      add:false,
-      sub:false,
+      val: 1,
+      add: false,
+      sub: false,
     };
   }
   componentDidMount() {
     this.setState({
-      val:this.props.defaultVal?this.props.defaultVal:1,
-      sub:this.state.val===1?true:false
+      val: this.props.defaultVal ? this.props.defaultVal : 1,
+      sub: this.state.val === 1 ? true : false
     })
   }
 
   render() {
-    const {  hideVal } = this.props;
+    const { hideVal } = this.props;
     return (
       <div style={styles.container}>
         <Flex>
-          <Button onClick={()=>this.onClick('-')} style={styles.button} disabled={this.state.sub}>-</Button>
-          {!hideVal?<div>{this.state.val}</div>:null}
-          <Button onClick={()=>this.onClick('+')} style={styles.button} disabled={this.state.add}>+</Button>
+          <Button onClick={() => this.onClick('-')} style={styles.button} disabled={this.state.sub}>-</Button>
+          {!hideVal ? <div>{this.state.val}</div> : null}
+          <Button onClick={() => this.onClick('+')} style={styles.button} disabled={this.state.add}>+</Button>
         </Flex>
       </div>
     );
   }
 
-  onClick=(type)=>{
-    const {maxNum} = this.props;
-    if(type==='-'){
+  onClick = (type) => {
+    const { maxNum } = this.props;
+    if (type === '-') {
       this.setState({
-        sub:this.state.val>2?false:true,
-        val:this.state.val>1?this.state.val-1:1,
-        add:false
-      },()=>{
-        this.props.onClick&&this.props.onClick(this.state.val);
+        sub: this.state.val > 2 ? false : true,
+        val: this.state.val > 1 ? this.state.val - 1 : 1,
+        add: false
+      }, () => {
+        this.props.onClick && this.props.onClick(this.state.val);
       })
-    }else if(type==='+') {
+    } else if (type === '+') {
       this.setState({
-        add:this.state.val<maxNum-1?false:true,
-        val:this.state.val<maxNum?this.state.val+1:maxNum,
-        sub:false
-      },()=>{
-        this.props.onClick&&this.props.onClick(this.state.val);
+        add: this.state.val < maxNum - 1 ? false : true,
+        val: this.state.val < maxNum ? this.state.val + 1 : maxNum,
+        sub: false
+      }, () => {
+        this.props.onClick && this.props.onClick(this.state.val);
       })
     }
   }
@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(stepper);
+export default connect(mapStateToProps, mapDispatchToProps)(Stepper);
 
 const styles = {
   container: {
