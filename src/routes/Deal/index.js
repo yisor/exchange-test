@@ -12,7 +12,7 @@ import CurrencySelectModal from './components/CurrencySelectModal';
 
 const Header = ({ data, onSwitch = () => { } }) => {
   return (
-    <Flex style={{ height: 64, margin: 10, }}>
+    <Flex style={{ height: 44, margin: 10, }}>
       <img
         onClick={onSwitch}
         src={require('../../assets/deal/change.svg')}
@@ -34,9 +34,12 @@ class DealPage extends Component {
     down: true,
     height: document.documentElement.clientHeight,
     selectPrice: 0,
+    date:dayjs().format('MM-DD HH:mm:ss'),
   };
 
-  componentDidMount() { }
+  componentDidMount() {
+
+  }
 
   showModal = key => (e) => {
     e.preventDefault(); // 修复 Android 上点击穿透
@@ -65,40 +68,46 @@ class DealPage extends Component {
     const { loading, tickers } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
-      <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <Header onSwitch={this.showModal('switchVisible')} />
-          <MarketPage onClick={this.onSelectPrice} />
+      <DocumentTitle title={formatMessage({id: 'title.deal'})}>
+        <div>
 
-          <PullToRefresh
-            damping={100}
-            ref={el => this.ptr = el}
-            style={{
-              // height: this.state.height,
-              overflow: 'auto',
-            }}
-            indicator={{ activate: `下拉刷新,更新时间:${this.state.date}`, finish: `更新完成，最后时间:${this.state.date}` }}
-            direction={'down'}
-            refreshing={this.state.refreshing}
-            onRefresh={() => {
-              this.setState({
-                refreshing: true,
-                selectPrice: 2222222,
-              });
-              setTimeout(() => {
+          <div style={{display: 'flex', flexDirection: 'column'}}>
+            <Header onSwitch={this.showModal('switchVisible')}/>
+            <MarketPage onClick={this.onSelectPrice}/>
+          </div>
+
+          <div style={{display: 'flex', flexDirection: 'column'}}>
+            <PullToRefresh
+              damping={100}
+              ref={el => this.ptr = el}
+              style={{
+                height: this.state.height,
+                overflowY: 'auto',
+              }}
+              indicator={{activate: `下拉刷新,更新时间:${this.state.date}`, finish: `更新完成，最后时间:${this.state.date}`}}
+              direction={'down'}
+              refreshing={this.state.refreshing}
+              onRefresh={() => {
                 this.setState({
-                  refreshing: false,
-                  date: dayjs().format('MM-DD HH:mm:ss')
+                  refreshing: true,
+                  selectPrice: 2222222,
                 });
-              }, 1000);
-            }}
-          >
-            <div>
-              <DealView selectPrice={this.state.selectPrice}
-                onSubmit={this.onSubmit}
-              />
-            </div>
-          </PullToRefresh>
+                setTimeout(() => {
+                  this.setState({
+                    refreshing: false,
+                    date: dayjs().format('MM-DD HH:mm:ss')
+                  });
+                }, 1000);
+              }}
+            >
+              <div>
+                <DealView selectPrice={this.state.selectPrice}
+                          onSubmit={this.onSubmit}
+                />
+              </div>
+            </PullToRefresh>
+          </div>
+
           <CurrencySelectModal
             tickers={tickers}
             loading={loading}

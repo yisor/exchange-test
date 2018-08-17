@@ -39,19 +39,20 @@ class MarketPage extends Component {
   render() {
     // const formatMessage = this.context.intl.formatMessage;
     return (
-      <div >
-        <Flex style={{ marginBottom: 15 }} >
-
+      <div>
+        <Flex style={{display: 'flex', marginBottom: 15.}}>
           <div style={styles.price}>{this.state.currentPrice}0000000000</div>
 
-          <div style={{ color: '#A0A4A8', fontSize: 11, marginTop: 7 }}>{'≈' + this.state.currentPrice}CNY</div>
+          <div style={{color: '#A0A4A8', fontSize: 11, marginTop: 7}}>
+            {'≈' + this.state.currentPrice}CNY
+          </div>
           <Stepper maxNum={6}
-            onClick={this.onChange}
-            defaultVal={this.state.val}
+                   onClick={this.onChange}
+                   defaultVal={this.state.val}
           />
         </Flex>
         <RestingOrder onItemClick={(data) => this.onClick(data)}
-          data={{ '1': [1, 2, 3, 4, 5], '2': [1, 2, 3, 4, 5] }}
+                      data={{'1': [1, 2, 3, 4, 5], '2': [1, 2, 3, 4, 5]}}
         />
       </div>
     );
@@ -77,6 +78,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(MarketPage);
 
 const styles = {
   price: {
+    flex:1,
     color: '#35BAA0',
     fontSize: 20,
     marginLeft: 10

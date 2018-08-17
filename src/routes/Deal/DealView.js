@@ -38,7 +38,7 @@ const DealItem = (item,index) => {
         alignItems: 'left'
       }}>
         <div style={styles.font16}>BTC/USFT</div>
-        <div style={{ color: index % 2 === 0 ? '#E26A6A' : '#35BAA0' }}>({item % 2 === 0 ? '买' : '卖'})</div>
+        <div style={{color: index % 2 === 0 ? '#E26A6A' : '#35BAA0'}}>({item % 2 === 0 ? '买' : '卖'})</div>
       </div>
 
       <div style={{
@@ -48,12 +48,14 @@ const DealItem = (item,index) => {
       }}>
         <div style={styles.font16}> 6956.09</div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <div style={styles.font16}> 193676</div>
-        <button className={DealCss.btn} type="button" style={styles.button}
-                onClick={()=>{console.log('1111')}}>
+        <div className={DealCss.btn} style={styles.button}
+             onClick={() => {
+               console.log('1111')
+             }}>
           取消
-      </button>
+        </div>
       </div>
     </div>
   )
@@ -226,10 +228,12 @@ class DealView extends Component {
             </div>
           </Flex>
         </div>
+        <div style={{marginBottom:64}}>
         {[1,2,3,4,5].map((item,index)=>(
           DealItem(item,index)
           ))
         }
+        </div>
       </div>
     );
   }

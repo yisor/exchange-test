@@ -23,7 +23,7 @@ class stepper extends Component {
   render() {
     const {  hideVal } = this.props;
     return (
-      <div >
+      <div style={styles.container}>
         <Flex>
           <Button onClick={()=>this.onClick('-')} style={styles.button} disabled={this.state.sub}>-</Button>
           {!hideVal?<div>{this.state.val}</div>:null}
@@ -75,15 +75,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(stepper);
 const styles = {
   container: {
     display: 'flex',
+    margin:5
 
   },
   button: {
     display: 'flex',
-    flexDirection: 'column',
     // backgroundColor: '#E26A6A',
-    height: 28,
+    height: 20,
     width: 40,
-    margin:5,
     justifyContent: 'center',
     alignItems: 'center',
   }
