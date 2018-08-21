@@ -2,10 +2,21 @@ import { resolve } from 'path';
 export default {
   "publicPath": "/",
   "theme": "./theme-config.js",
-  "extraBabelPlugins": [
-    ["module-resolver", { "alias": { "dva": "dva-react-router-3" } }],
-    ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib", "style": true }]
-  ],
+  env: {
+    development: {
+      extraBabelPlugins: [
+        'dva-hmr',
+        ["module-resolver", { "alias": { "dva": "dva-react-router-3" } }],
+        ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib", "style": true }]
+      ]
+    },
+    production: {
+      extraBabelPlugins: [
+        ["module-resolver", { "alias": { "dva": "dva-react-router-3" } }],
+        ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib", "style": true }]
+      ]
+    }
+  },
   "proxy": {
     // "/api": {
     //   "target": " http://staging.365os.com/exchange-api/",

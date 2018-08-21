@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-17 15:46:22
+ * @Last Modified time: 2018-08-21 18:12:50
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -30,10 +30,10 @@ const PriceItem = (props) => {
         alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
-          BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
+          {itemInfo.coinInfo.name}<font style={{ ...styles.font11, marginLeft: 7 }} />
         </div>
         <div style={{ ...styles.font11, marginTop: 8 }}>
-          {`24h量 ${itemInfo.vol}`}
+          {`24h量 ${Math.round(itemInfo.vol)}`}
         </div>
       </div>
       <div style={{
@@ -45,7 +45,7 @@ const PriceItem = (props) => {
         <div style={{ ...styles.font11, marginTop: 8 }}>￥1600.38</div>
       </div>
       <div style={styles.button}>
-        -0.25%
+        {`${(itemInfo.rose).toFixed(2)}%`}
       </div>
     </div>
   );
@@ -83,6 +83,7 @@ class PricePage extends Component {
   state = {
     curTickers: null,
     selectOptionalEmpty: false,
+    // quoteCoin: 'usdt'
   }
 
   componentDidMount() {
@@ -111,29 +112,34 @@ class PricePage extends Component {
   }
 
   onTabChange = (tab, index) => {
+    console.log('onTabChange:', JSON.stringify(tab));
     const { optionals, symbol } = this.props;
     const symbols = symbol.hasOwnProperty(tab.key) ? symbol[tab.key] : [];
     switch (tab.key) {
-    case 'favorites':
-      // 自选
-      this.fetchTicker(optionals);
-      this.setState({ selectOptionalEmpty: optionals.length < 1 });
-      break;
-    default:
-      this.fetchTicker(symbols);
-      this.setState({ selectOptionalEmpty: false });
-      break;
+      case 'favorites':
+        // 自选
+        this.fetchTicker(optionals);
+        this.setState({ selectOptionalEmpty: optionals.length < 1 });
+        break;
+      default:
+        this.fetchTicker(symbols);
+        this.setState({ selectOptionalEmpty: false });
+        break;
     }
   }
 
   onItemClick = (item) => {
-    const { changeUrl } = this.props;
-    changeUrl('/price/detail');
+    const path = {
+      pathname: '/price/detail',
+      state: item
+    };
+    this.props.changeUrl(path);
   }
 
   render() {
     const { selectOptionalEmpty, curTickers } = this.state;
-    const { tickers, loading, changeUrl } = this.props;
+    const { tickers, loading, changeUrl, rates: { zh }} = this.props;
+    console.log('汇率:', JSON.stringify(zh));
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.price' })}>
@@ -173,6 +179,7 @@ class PricePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  rates: state.app.rates,
   symbol: state.app.symbol,
   tickers: state.price.tickers,
   optionals: state.app.optionals,

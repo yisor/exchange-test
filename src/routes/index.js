@@ -3,29 +3,31 @@ const routes = [
     path: '/',
     name: 'IndexPage',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./../layouts/AppLayout').default);
+      import('./../layouts/AppLayout').then(module => {
+        cb(null, module.default);
       });
     },
     indexRoute: {
       getComponent(location, callback) {
-        callback(null, require('./Price/PricePage').default);
+        import('./Price/PricePage').then(module => {
+          callback(null, module.default);
+        });
       }
     },
     childRoutes: [
       {
         path: '/deal',
         getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Deal').default);
+          import('./Deal').then(module => {
+            cb(null, module.default);
           });
         },
       },
       {
         path: '/mine',
         getComponent(nextState, cb) {
-          require.ensure([], (require) => {
-            cb(null, require('./Mine').default);
+          import('./Mine').then(module => {
+            cb(null, module.default);
           });
         },
       },
@@ -34,24 +36,32 @@ const routes = [
   {
     path: '/price/detail',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./Price/PriceDetailPage').default);
+      import('./Price/PriceDetailPage').then(module => {
+        cb(null, module.default);
+      });
+    },
+  },
+  {
+    path: '/detail',
+    getComponent(nextState, cb) {
+      import('./Price/PriceDetailPage').then(module => {
+        cb(null, module.default);
       });
     },
   },
   {
     path: '/optional',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./Optional/OptionalAddPage').default);
+      import('./Optional/OptionalAddPage').then(module => {
+        cb(null, module.default);
       });
     },
   },
   {
     path: '/order',
     getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('./Order/OrderPage').default);
+      import('./Order/OrderPage').then(module => {
+        cb(null, module.default);
       });
     },
   }

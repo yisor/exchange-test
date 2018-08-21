@@ -1,16 +1,18 @@
 import axios from 'axios';
 
-function checkStatus(response) {
+const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
-    return response;
+    return response.data;
   }
+  return {
+    code: response.status,
+    message: response.statusText,
+    data: response.statusText,
+    successful: true
+  };
+};
 
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
-}
-
-export default function request(url, params, method = 'get') {
+const request = (url, params, method = 'get') => {
   return new Promise((resolve, reject) => {
     axios({
       method: method,
@@ -19,8 +21,8 @@ export default function request(url, params, method = 'get') {
       params: method === 'get' ? params : {}
     })
       .then(checkStatus)
-      .then(res => res.data)
       .then(data => resolve(data))
       .catch(error => reject(error.data));
   });
-}
+};
+export default request;

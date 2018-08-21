@@ -21,6 +21,9 @@ export default {
       const response = yield call(queryRate);
       yield put({ type: 'saveRates', payload: { rates: response }});
     },
+    * addOptional({ payload = {}}, { call, put }) {
+      // TODO 添加自选
+    }
   },
 
   reducers: {
@@ -41,17 +44,17 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         switch (pathname) {
-        case '/':
-          dispatch({ type: 'changeTab', payload: 'price' });
-          dispatch({ type: 'getBasicSysData' });
-          break;
-        case '/deal':
-          dispatch({ type: 'changeTab', payload: 'deal' });
-          break;
-        case '/mine':
-          dispatch({ type: 'changeTab', payload: 'mine' });
-          break;
-        default: break;
+          case '/':
+            dispatch({ type: 'changeTab', payload: 'price' });
+            dispatch({ type: 'getBasicSysData' });
+            break;
+          case '/deal':
+            dispatch({ type: 'changeTab', payload: 'deal' });
+            break;
+          case '/mine':
+            dispatch({ type: 'changeTab', payload: 'mine' });
+            break;
+          default: break;
         }
       });
     },
