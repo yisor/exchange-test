@@ -21,7 +21,7 @@ const textStyleArr = [
 
 ];
 
-const DealItem = (item, index) => {
+const DealItem = (item, index, name) => {
   return (
     <div style={styles.container} key={index}>
       <div style={{
@@ -36,8 +36,8 @@ const DealItem = (item, index) => {
         flexDirection: 'row',
         alignItems: 'left'
       }}>
-        <div style={styles.font16}>BTC/USFT</div>
-        <div style={{ color: index % 2 === 0 ? '#E26A6A' : '#35BAA0' }}>({item % 2 === 0 ? '买' : '卖'})</div>
+        <div style={styles.font16}>{name}</div>
+        <div style={{ color: item.side === 'sell' ? '#E26A6A' : '#35BAA0' }}>({item.side === 'buy' ? '买' : '卖'})</div>
       </div>
 
       <div style={{
@@ -45,16 +45,20 @@ const DealItem = (item, index) => {
         flexDirection: 'column',
         alignItems: 'left'
       }}>
-        <div style={styles.font16}> 6956.09</div>
+        <div style={styles.font16}> {item.price['amount']}</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={styles.font16}> 193676</div>
-        <div className={DealCss.btn} style={styles.button}
-          onClick={() => {
-            console.log('1111');
-          }}>
-          取消
-        </div>
+        <div style={styles.font16}> {item.volume['amount']}</div>
+        {item.label['click'] === 1 ?
+          <div style={styles.button}>
+            <div className={DealCss.btn} style={{ color: 'black' }}
+              onClick={() => {
+                console.log('1111');
+              }}>
+              取消
+            </div>
+          </div> : null
+        }
       </div>
     </div>
   );
@@ -82,8 +86,7 @@ class DealView extends Component {
 
   componentDidMount() {
     const formatMessage = this.context.intl.formatMessage;
-    const { selectPrice, data } = this.props;
-    console.log(data);
+    const { selectPrice, } = this.props;
     this.setState({
       priceName: '',
       coinPrice: selectPrice,
@@ -97,7 +100,9 @@ class DealView extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const formatMessage = this.context.intl.formatMessage;
-    let arr = nextProps.data && nextProps.data.coinInfo && nextProps.data.coinInfo['name'].split('/');
+    let balanceData = nextProps.balanceInfo;
+    balanceData['coinInfoName'] = nextProps.data && nextProps.data.name;
+    let arr = nextProps.data && nextProps.data.name.split('/');
     this.setState({
       coinPrice: nextProps.selectPrice,
       priceName: arr[1],
@@ -105,6 +110,8 @@ class DealView extends Component {
       coinNum: 0,
       val: formatMessage({ id: 'deal.limit' }),
       available: 133.4444222,
+      balanceInfo: balanceData,
+      balanceName: nextProps.data.name ? nextProps.data.name : ''
     });
   }
 
@@ -144,6 +151,7 @@ class DealView extends Component {
 
   renderList = () => {
     const formatMessage = this.context.intl.formatMessage;
+    const { orderList } = this.props;
     return (
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div>
@@ -164,8 +172,8 @@ class DealView extends Component {
           </Flex>
         </div>
         <div style={{ marginBottom: 64 }}>
-          {[1, 2, 3, 4, 5].map((item, index) => (
-            DealItem(item, index)
+          {orderList && orderList.map((item, index) => (
+            DealItem(item, index, this.state.balanceName)
           ))
           }
         </div>
@@ -184,8 +192,9 @@ class DealView extends Component {
             <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center' }}>
               <input type="text" value={coinPrice >= 0 ? coinPrice : ''}
                 style={{ flex: 1, border: 'none', marginLeft: 10 }}
-                onChange={this.handleInputChange}
+                onChange={this.coinPriceChange}
               />
+              <div style={{ marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>≈10000CNY</div>
               <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>{priceName}</div>
             </div>
             <div style={styles.btnsStyle}>
@@ -221,7 +230,7 @@ class DealView extends Component {
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
             <input type="text" value={coinNum > 0 ? coinNum : ''}
               style={{ flex: 1, border: 'none', marginLeft: 10 }}
-              onChange={this.handleTextareaChange}
+              onChange={this.coinNumChange}
               placeholder={formatMessage({ id: 'deal.number' })}
             />
             <div style={{ marginRight: 10, fontSize: 14, color: '#A0A4A8', }}>{coinNumName}</div>
@@ -257,14 +266,13 @@ class DealView extends Component {
   }
 
   // 设置inputValue
-  handleInputChange = (e) => {
-    console.log('e');
+  coinPriceChange = (e) => {
     this.setState({
       coinPrice: e.target.value
     });
   }
   // 设置textareaValue
-  handleTextareaChange = (e) => {
+  coinNumChange = (e) => {
     console.log(e.target.value);
     this.setState({
       coinNum: e.target.value
@@ -350,7 +358,7 @@ class DealView extends Component {
               backgroundColor: this.state.buyOrSell === 0 ? '#4DCC7B' : '#CC4D4D'
             }}
             onClick={() => {
-              this.props.onSubmit && this.props.onSubmit({ 1: 222, 2: 3333 });
+              this.props.onSubmit && this.props.onSubmit({ 1: 2, 2: 3 }, this.state.buyOrSell);
             }}>
             <div style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {this.state.buyOrSell === 0 ? formatMessage({ id: 'deal.buy' }) : formatMessage({ id: 'deal.sell' })}{coinNumName}
@@ -404,15 +412,13 @@ const styles = {
   },
   button: {
     display: 'flex',
-    flexDirection: 'column',
-    // backgroundColor: '#E26A6A',
     justifyContent: 'center',
     alignItems: 'center',
     width: 44,
-    color: '#797F85',
-    borderWidth: 1,
-    borderStyle: 'slid',
-    borderColor: '#D9D9D9'
+    backgroundColor: '#E26A6A',
+    borderColor: '#817c77',
+    borderStyle: 'solid',
+    borderWidth: 1
   },
   font11: {
     color: '#797F85', fontSize: 11, marginTop: 8
