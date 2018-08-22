@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-17 16:25:13
+ * @Last Modified time: 2018-08-22 18:40:49
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -50,7 +50,11 @@ class OptionalAddPage extends Component {
 
   // 点击子项
   onItemClick = (item) => {
-    this.props.changeUrl('/deal');
+    const path = {
+      pathname: '/deal',
+      state: { name: item.name, key: item.key, type: 1 }
+    };
+    this.props.changeUrl(path);
   }
 
   // 添加到自选

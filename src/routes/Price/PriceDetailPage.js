@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 17:56:20
+ * @Last Modified time: 2018-08-22 18:35:30
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex, Tabs } from 'antd-mobile';
@@ -178,18 +178,25 @@ class PriceDetailPage extends Component {
    */
   renderBottomView() {
     const { changeUrl } = this.props;
+    const { state: { coinInfo } } = this.props.location;
     return (
       <div className={styles.tabbar}>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
           <ActionButton
             text="买入"
             color="#35BAA0"
-            onClick={() => changeUrl('/deal')}
+            onClick={() => changeUrl({
+              pathname: '/deal',
+              state: { name: coinInfo.name, key: coinInfo.key, type: 0 }
+            })}
           />
           <ActionButton
             text="卖出"
             color="#EE5C42"
-            onClick={() => changeUrl('/deal')}
+            onClick={() => changeUrl({
+              pathname: '/deal',
+              state: { name: coinInfo.name, key: coinInfo.key, type: 1 }
+            })}
           />
         </div>
         <div className={styles.optionalTxt}>
@@ -201,14 +208,16 @@ class PriceDetailPage extends Component {
 
   renderNavBar() {
     const { goBack } = this.props;
+    const { state: { coinInfo } } = this.props.location;
     return (
       <NavBar
         mode="light"
+        style={{ backgroundColor: '#fff' }}
         icon={
           <Flex direction="row" align="center">
             <Icon type="left" color="#000" />
             <span style={{ fontSize: 14, color: 'black', fontWeight: 'bold' }}>
-              BTC/USDT
+              {coinInfo.name}
             </span>
           </Flex>
         }
