@@ -9,9 +9,9 @@ const asyncComponent = loadComponent => (
     UNSAFE_componentWillMount () {
       if (this.hasLoadedComponent()) {
         return;
-      }
+    }
 
-      loadComponent()
+    loadComponent()
       .then(module => module.default)
       .then(Component => {
         this.setState({Component});
