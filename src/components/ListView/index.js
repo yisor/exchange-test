@@ -14,7 +14,6 @@ const FooterNo = () => (
    </div>
 )
 
-
 const NoDataShow = (props) => (
   <Flex justify="center" align="center" direction="column">
     <div>{props.text}</div>

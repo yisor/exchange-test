@@ -5,5 +5,5 @@ import DocumentTitle from './DocumentTitle';
 export {
   ListView,
   SearchBar,
-  DocumentTitle
+  DocumentTitle,
 }
