@@ -173,7 +173,7 @@ class DealView extends Component {
         </div>
         <div style={{ marginBottom: 64 }}>
           {orderList && orderList.map((item, index) => (
-            DealItem(item, index ,this.state.balanceName)
+            DealItem(item, index, this.state.balanceName)
           ))
           }
         </div>

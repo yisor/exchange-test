@@ -64,7 +64,7 @@ class MarketPage extends Component {
       <div>
         <Flex style={{ display: 'flex', marginBottom: 15.0 }}>
           <div style={{ fontSize: 20, marginLeft: 10, color: currentPrice.color }}>{currentPrice.price}</div>
-          <div style={{ flex: 1, color: '#A0A4A8', fontSize: 11, marginTop: 7 }}>
+          <div style={styles.price}>
             {'≈' + 11111}CNY
           </div>
           <Stepper maxNum={6}
@@ -93,5 +93,10 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(MarketPage);
 
 const styles = {
-
+  price: {
+    flex: 1,
+    color: '#A0A4A8',
+    fontSize: 11,
+    marginTop: 7
+  }
 };
