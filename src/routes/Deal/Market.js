@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Flex } from 'antd-mobile';
 import Stepper from './components/Stepper';
-import { RestingOrder } from 'components';
+import { EntryOrder } from 'components';
 import { intlShape } from 'react-intl';
 
 
@@ -73,7 +73,7 @@ class MarketPage extends Component {
             defaultVal={this.state.val}
           />
         </Flex>
-        <RestingOrder
+        <EntryOrder
           onItemClick={(data) => this.onClick(data)}
           buyData={entryOrderInfo['bids']}
           sellData={entryOrderInfo['asks']}

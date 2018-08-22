@@ -66,7 +66,6 @@ class DealPage extends Component {
 
   onItemClick = (item) => {
     console.log('选择币种：' + JSON.stringify(item));
-    // let data = this.props.balanceInfo.map((item,index)=>{})
     this.setState({
       data: { 'name': item.coinInfo['name'], 'key': item.coinInfo['key'] },
     });
