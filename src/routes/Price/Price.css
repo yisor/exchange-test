@@ -5,7 +5,10 @@
 }
 
 .mainContent{
-  flex: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  flex:auto;
 }
 
 .tabbar{
