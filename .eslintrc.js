@@ -9,6 +9,7 @@ module.exports = {
     "no-empty-function": "off",
     "no-trailing-spaces": "off",
     'react/jsx-wrap-multilines': "error",
-    'react/no-find-dom-node': 'off'
+    'react/no-find-dom-node': 'off',
+    'object-curly-spacing': 'off'
   }
 }

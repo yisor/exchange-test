@@ -1,13 +1,13 @@
 import ListView from './ListView';
 import SearchBar from './SearchBar';
 import DocumentTitle from './DocumentTitle';
-import PriceList from './PriceList';
 import RestingOrder from './RestingOrder';
+import PriceList from './PriceList';
 
 export {
   ListView,
   SearchBar,
   DocumentTitle,
-  PriceList,
-  RestingOrder
+  RestingOrder,
+  PriceList
 };
