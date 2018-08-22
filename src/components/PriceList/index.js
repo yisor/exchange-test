@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:31:49
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-17 16:08:17
+ * @Last Modified time: 2018-08-22 13:47:33
  */
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
@@ -28,10 +28,10 @@ const PriceItem = (props) => {
         alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
-          BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
+          {itemInfo.coinInfo.name}<font style={{ ...styles.font11, marginLeft: 7 }} />
         </div>
         <div style={{ ...styles.font11, marginTop: 8 }}>
-          {`24h量 ${itemInfo.vol}`}
+          {`24h量 ${Math.round(itemInfo.vol)}`}
         </div>
       </div>
       <div style={{
@@ -43,7 +43,7 @@ const PriceItem = (props) => {
         <div style={{ ...styles.font11, marginTop: 8 }}>￥1600.38</div>
       </div>
       <div style={styles.button}>
-        -0.25%
+        {`${(itemInfo.rose).toFixed(2)}%`}
       </div>
     </div>
   );
@@ -85,7 +85,6 @@ class PriceList extends Component {
     );
   }
 }
-
 
 export default PriceList;
 

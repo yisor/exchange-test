@@ -158,21 +158,9 @@ const styles = {
     cursor: 'pointer',
     alignItems: 'center'
   },
-  button: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#E26A6A',
-    height: 30,
-    width: 65,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   font11: {
     color: '#A0A4A8',
     fontSize: 11,
     textAlign: 'center'
-  },
-  font16: {
-    fontSize: 16
   }
 };

@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-21 18:12:50
+ * @Last Modified time: 2018-08-22 14:13:57
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -82,8 +82,7 @@ class PricePage extends Component {
 
   state = {
     curTickers: null,
-    selectOptionalEmpty: false,
-    // quoteCoin: 'usdt'
+    selectOptionalEmpty: false
   }
 
   componentDidMount() {
@@ -148,7 +147,6 @@ class PricePage extends Component {
             placeholder={formatMessage({ id: 'price.search' })}
             maxLength={20}
             onChange={(text) => {
-              console.log('输入框：', text);
               this.filterTickers(text);
             }}
           />
