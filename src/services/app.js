@@ -42,8 +42,8 @@ export function getTicker(symbol) {
  * 获取当前挂单
  * @param {*} symbol 市场标记
  */
-export function getRestingData(payload) {
-  return request(api.getRestingData, payload);
+export function getEntryOrderData(payload) {
+  return request(api.getEntryOrderData, payload);
 }
 
 

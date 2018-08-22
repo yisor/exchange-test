@@ -2,7 +2,7 @@ import ListView from './ListView';
 import SearchBar from './SearchBar';
 import DocumentTitle from './DocumentTitle';
 import PriceList from './PriceList';
-import RestingOrder from './RestingOrder';
+import RestingOrder from './EntryOrder';
 
 export {
   ListView,

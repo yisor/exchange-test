@@ -24,7 +24,7 @@ export default {
     "symbol": "usdtbtc",
     "type": "TICKER"
   }],
-  '/api/getRestingData': {
+  '/api/getEntryOrderData': {
     "data": {
       "asks": [//卖
         {
@@ -178,7 +178,23 @@ export default {
     "pricePrecision": "8",
   },
   '/api/getOrderData': {
-
+    "list":[
+      {
+        "id":343,
+        "side":"buy",
+        "side_msg":"买入",
+        "created_at":"09-22 12:22", "price":{"title":"委托价","amount":222.33,"icon":"https://xxxx.jpg"}, "volume":{"title":"委托量","amount":222.33,"icon":"https://xxxx.jpg"}, "remain_volume":{"title":"剩余量","amount":222.33,"icon":"https://xxxx.jpg"},
+        "deal_volume":{"title":"成交量","amount":"-","icon":"https://xxxx.jpg"}, "age_price":{"title":"成交均价","amount":"-","icon":"https://xxxx.jpg"},
+        "label":{"title":"撤销","click":1}//按钮控制，click=1可点，字段冗余，方便SRV控制
+      }, {
+        "id":344,
+        "side":"sell",
+        "side_msg":"卖出",
+        "created_at":"09-22 12:22", "price":{"title":"委托价","amount":222.33,"icon":"https://xxxx.jpg"}, "volume":{"title":"委托量","amount":222.33,"icon":"https://xxxx.jpg"}, "remain_volume":{"title":"剩余量","amount":222.33,"icon":"https://xxxx.jpg"},
+        "deal_volume":{"title":"成交量","amount":"-","icon":"https://xxxx.jpg"}, "age_price":{"title":"成交均价","amount":"-","icon":"https://xxxx.jpg"},
+        "label":{"title":"撤销","click":1}//按钮控制，click=1可点，字段冗余，方便SRV控制
+      },
+    ]
   },
   '/api/common/symbols': [
     { "symbol": "ethbtc", "count_coin": "btc", "amount_precision": 3, "base_coin": "eth", "price_precision": 8 },

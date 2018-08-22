@@ -15,11 +15,11 @@ export default {
     },
     * getSymbol({ payload = {}}, { call, put }) {
       const response = yield call(getSymbol);
-      yield put({ type: 'saveSymbol', payload: { symbol: response }});
+      yield put({ type: 'saveSymbol', payload: { symbol: response.rates }});
     },
     * queryRate({ payload = {}}, { call, put }) {
       const response = yield call(queryRate);
-      yield put({ type: 'saveRates', payload: { rates: response }});
+      yield put({ type: 'saveRates', payload: response });
     },
     * addOptional({ payload = {}}, { call, put }) {
       // TODO 添加自选
@@ -34,7 +34,7 @@ export default {
       return { ...state, ...action.payload };
     },
     saveRates(state, action) {
-      return { ...state, symbol: action.payload };
+      return { ...state, rates: action.payload };
     },
     saveSymbol(state, action) {
       return { ...state, symbol: action.payload };
