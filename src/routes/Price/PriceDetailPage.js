@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 17:06:41
+ * @Last Modified time: 2018-08-22 17:56:20
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex, Tabs } from 'antd-mobile';
@@ -88,7 +88,7 @@ class PriceDetailPage extends Component {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10,
+        padding: '10px 22px',
       }}>
         <div style={{
           display: 'flex',
@@ -203,11 +203,11 @@ class PriceDetailPage extends Component {
     const { goBack } = this.props;
     return (
       <NavBar
-        mode="dark"
+        mode="light"
         icon={
           <Flex direction="row" align="center">
-            <Icon type="left" />
-            <span style={{ marginLeft: 8, fontSize: 14 }}>
+            <Icon type="left" color="#000" />
+            <span style={{ fontSize: 14, color: 'black', fontWeight: 'bold' }}>
               BTC/USDT
             </span>
           </Flex>

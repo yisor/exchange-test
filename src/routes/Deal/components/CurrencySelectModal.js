@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-15 16:50:14
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-17 16:18:48
+ * @Last Modified time: 2018-08-22 18:01:25
  * @Desc 币种选择
  */
 import React from 'react';
@@ -24,6 +24,7 @@ const CurrencySelectModal = (props) => {
         mode="dark"
         icon={<Icon type="left" />}
         onLeftClick={onClose}
+        style={{ backgroundColor: '#35BAA0' }}
       >选择币种
       </NavBar>
       <PriceList
