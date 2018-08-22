@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 
-class RestingOrder extends Component {
+class EntryOrderItem extends Component {
 
   static contextTypes = {
     intl: intlShape
@@ -122,7 +122,7 @@ class RestingOrder extends Component {
   }
 }
 
-RestingOrder.propTypes = {
+EntryOrderItem.propTypes = {
   buyData: PropTypes.array,
   sellData: PropTypes.array,
   onClick: PropTypes.func,
@@ -135,8 +135,7 @@ RestingOrder.propTypes = {
   sellBgColor: PropTypes.string,
 
 };
-
-RestingOrder.defaultProps = {
+EntryOrderItem.defaultProps = {
   buyData: [],
   sellData: [],
   titleColor: '#A0A4A8',
@@ -146,7 +145,7 @@ RestingOrder.defaultProps = {
   sellBgColor: '#E26A6A'
 };
 
-export default RestingOrder;
+export default EntryOrderItem;
 
 const styles = {
   container: {

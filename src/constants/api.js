@@ -4,7 +4,7 @@ export default {
   getTicker: '/api/get_ticker',
   commonSymbol: '/api/common/symbol',
   publicRate: '/api/public/rate',
-  getRestingData: '/api/getRestingData',
+  getEntryOrderData: '/api/getEntryOrderData',
   getBalanceData: '/api/getBalanceData',
   getOrderData: '/api/getOrderData'
 };

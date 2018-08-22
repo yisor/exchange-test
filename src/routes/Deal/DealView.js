@@ -20,7 +20,9 @@ const textStyleArr = [
   { margin: 5, color: '#CC4D4D', textAlign: 'center' }
 ];
 
-const DealItem = (item, index, name) => {
+const DealItem = (item, index, data) => {
+  console.log(data);
+  let name = data ? data.name : '';
   return (
     <div style={styles.container} key={index}>
       <div style={{
@@ -50,7 +52,7 @@ const DealItem = (item, index, name) => {
         <div style={styles.font16}> {item.volume['amount']}</div>
         {item.label['click'] === 1 ?
           <div style={styles.button}>
-            <div className={DealCss.btn} style={{ color: 'black' }}
+            <div className={DealCss.btn} style={{ color: '#353237' }}
               onClick={() => {
                 console.log('1111');
               }}>
@@ -98,20 +100,24 @@ class DealView extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const formatMessage = this.context.intl.formatMessage;
-    let balanceData = nextProps.balanceInfo;
-    balanceData['coinInfoName'] = nextProps.data && nextProps.data.name;
-    let arr = nextProps.data && nextProps.data.name.split('/');
-    this.setState({
-      coinPrice: nextProps.selectPrice,
-      priceName: arr[1],
-      coinNumName: arr[0],
-      coinNum: 0,
-      val: formatMessage({ id: 'deal.limit' }),
-      available: 133.4444222,
-      balanceInfo: balanceData,
-      balanceName: nextProps.data.name ? nextProps.data.name : ''
-    });
+    if (nextProps.selectPrice !== 0 && nextProps.selectPrice !== this.state.coinPrice) {
+      let balanceData = nextProps.balanceInfo;
+      balanceData['coinInfoName'] = nextProps.data && nextProps.data.name;
+      let arr = nextProps.data && nextProps.data.name.split('/');
+      this.setState({
+        coinPrice: nextProps.selectPrice,
+        priceName: arr[1],
+        coinNumName: arr[0],
+        available: 133.4444222,
+        balanceInfo: balanceData,
+      });
+    } else {
+      let arr = nextProps.data && nextProps.data.name.split('/');
+      this.setState({
+        priceName: arr[1],
+        coinNumName: arr[0],
+      });
+    }
   }
 
   showModal = key => (e) => {
@@ -150,7 +156,7 @@ class DealView extends Component {
 
   renderList = () => {
     const formatMessage = this.context.intl.formatMessage;
-    const { orderList } = this.props;
+    const { orderList, data } = this.props;
     return (
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
         <div>
@@ -172,7 +178,7 @@ class DealView extends Component {
         </div>
         <div style={{ marginBottom: 64 }}>
           {orderList && orderList.map((item, index) => (
-            DealItem(item, index, this.state.balanceName)
+            DealItem(item, index, data)
           ))
           }
         </div>
@@ -182,8 +188,10 @@ class DealView extends Component {
 
   renderInputBtn = () => {
     const formatMessage = this.context.intl.formatMessage;
+    const { rates } = this.props;
     const { coinNum, coinPrice, available, priceName, coinNumName } = this.state;
     let price = coinPrice > 0 && coinNum > 0 ? coinNum * coinPrice : 0;
+    console.log(priceName && rates && rates['zh'] ? rates['zh'][priceName.toLowerCase()] : '');
     return (
       <div style={{ marginBottom: 4 }}>
         {this.state.val === '限价' || this.state.val === 'Limit' ?
@@ -193,7 +201,9 @@ class DealView extends Component {
                 style={{ flex: 1, border: 'none', marginLeft: 10 }}
                 onChange={this.coinPriceChange}
               />
-              <div style={{ marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>≈10000CNY</div>
+              <div style={{ marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>
+                {`≈${priceName && rates && rates['zh'] ? rates['zh'][priceName.toLowerCase()] * coinPrice : 0} CNY`}
+              </div>
               <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>{priceName}</div>
             </div>
             <div style={styles.btnsStyle}>
@@ -252,13 +262,17 @@ class DealView extends Component {
             </button>
           </div>
         </Flex>
+
         <div style={{ marginLeft: 10, color: '#A0A4A8', }}>{formatMessage({ id: 'deal.avail' })} {available} {priceName}</div>
-        <Flex style={{ marginTop: 15, marginBottom: 15 }}>
-          <div style={{ flex: 1, marginLeft: 10, color: '#797F85', fontSize: 18, fontWeight: 'bold' }}>
-            {formatMessage({ id: 'deal.volumeoftrade' })}
-          </div>
-          <div style={{ marginRight: 10, color: '#A0A4A8' }}>{price}</div>
-        </Flex>
+        {this.state.val === '限价' || this.state.val === 'Limit' ?
+          <Flex style={{ marginTop: 15, marginBottom: 15 }}>
+            <div style={{ flex: 1, marginLeft: 10, color: '#797F85', fontSize: 18, fontWeight: 'bold' }}>
+              {formatMessage({ id: 'deal.volumeoftrade' })}
+            </div>
+            <div style={{ marginRight: 10, color: '#A0A4A8' }}>{price}</div>
+          </Flex> :
+          <div style={{ height: 20, marginTop: 15 }} />
+        }
 
       </div>
     );
@@ -272,10 +286,12 @@ class DealView extends Component {
   }
   // 设置textareaValue
   coinNumChange = (e) => {
-    console.log(e.target.value);
-    this.setState({
-      coinNum: e.target.value
-    });
+    console.log(e.target.value + '*****' + this.state.available);
+    if (e.target.value <= this.state.available) {
+      this.setState({
+        coinNum: e.target.value
+      });
+    }
   }
 
   addOrSub = (type) => {
@@ -307,6 +323,19 @@ class DealView extends Component {
         coinNum: this.state.available / 1
       });
     }
+  }
+
+  onSubmit = () => {
+    let type = this.state.val === '限价' || this.state.val === 'Limit' ? 'limitPriceEntrust' : 'marketPriceEntrust';
+
+    let params = {
+      coinPrice: this.state.coinPrice,
+      coinNum: this.state.coinNum,
+      val: this.state.val,
+      available: 133.12,
+      type: type,
+    };
+    this.props.onSubmit && this.props.onSubmit(params, this.state.buyOrSell);
   }
 
   render() {
@@ -347,7 +376,7 @@ class DealView extends Component {
         {this.renderInputBtn()}
 
         <div>
-          <div
+          <div className={DealCss.btn}
             style={{
               display: 'flex',
               height: 40,
@@ -357,7 +386,7 @@ class DealView extends Component {
               backgroundColor: this.state.buyOrSell === 0 ? '#4DCC7B' : '#CC4D4D'
             }}
             onClick={() => {
-              this.props.onSubmit && this.props.onSubmit({ 1: 2, 2: 3 }, this.state.buyOrSell);
+              this.onSubmit();
             }}>
             <div style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {this.state.buyOrSell === 0 ? formatMessage({ id: 'deal.buy' }) : formatMessage({ id: 'deal.sell' })}{coinNumName}
@@ -389,7 +418,10 @@ class DealView extends Component {
 
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  rates: state.app.rates
+
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {

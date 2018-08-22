@@ -45,9 +45,10 @@ class DealPage extends Component {
     this.setState({
       height: height,
     });
-    this.props.getRestingData();
+    this.props.getEntryOrderData();
     this.props.getBalanceData();
     this.props.getOrderList();
+    this.props.queryRate();
   }
 
   showModal = key => (e) => {
@@ -66,7 +67,7 @@ class DealPage extends Component {
   onItemClick = (item) => {
     console.log('选择币种：' + JSON.stringify(item));
     this.setState({
-      data: item,
+      data: { 'name': item.coinInfo['name'], 'key': item.coinInfo['key'] },
     });
   }
 
@@ -76,19 +77,28 @@ class DealPage extends Component {
     });
   }
 
-  onSubmit = (params, type) => {
-    alert(`提交${params + '----' + type}`);
+  onSubmit = (item, type) => {
+    if ((item.type === 'marketPriceEntrust' || item.coinPrice > 0) && item.coinNum > 0) {
+      this.setState({
+        selectPrice: 0,
+      });
+      const params = this.state.data;
+      params['side'] = type === 0 ? 'buy' : 'sell';
+      params['side_msg'] = type === 0 ? '买入' : '卖出';
+      params['type'] = item.type;
+      this.props.submitOrder(params);
+    }
   }
 
   render() {
-    const { loading, tickers, restingInfo, balanceInfo, orderList } = this.props;
+    const { loading, tickers, entryOrderInfo, balanceInfo, orderList } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
         <div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Header onSwitch={this.showModal('switchVisible')} data={this.state.data} />
-            <MarketPage onClick={this.onSelectPrice} restingInfo={restingInfo} />
+            <MarketPage onClick={this.onSelectPrice} entryOrderInfo={entryOrderInfo} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -143,20 +153,26 @@ class DealPage extends Component {
 
 const mapStateToProps = (state) => ({
   tickers: state.price.tickers,
-  restingInfo: state.deal.restingInfo,
+  entryOrderInfo: state.deal.entryOrderInfo,
   balanceInfo: state.deal.balanceInfo,
   orderList: state.deal.orderList
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getRestingData: (payload) => {
-    dispatch({ type: 'deal/getRestingData', payload: payload });
+  getEntryOrderData: (payload) => {
+    dispatch({ type: 'deal/getEntryOrderData', payload: payload });
   },
   getBalanceData: (payload) => {
     dispatch({ type: 'deal/getBalanceData', payload: payload });
   },
   getOrderList: (payload) => {
     dispatch({ type: 'deal/getOrderList', payload: payload });
+  },
+  queryRate: (payload) => {
+    dispatch({ type: 'app/queryRate', payload: payload });
+  },
+  submitOrder: (payload) => {
+    dispatch({ type: 'deal/submitOrder', payload: payload });
   },
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));

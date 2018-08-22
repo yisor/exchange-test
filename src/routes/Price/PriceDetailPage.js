@@ -11,7 +11,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import styles from './Price.css';
 import { asyncComponent } from 'utils';
-import { RestingOrder } from 'components';
+import { EntryOrder } from 'components';
 import { candlestickOption, depthmapOption } from 'components/Charts/options';
 
 const Candlestick = asyncComponent(() => import('components/Charts/Candlestick'));
@@ -144,7 +144,7 @@ class PriceDetailPage extends Component {
   }
 
   renderTabLayout() {
-    const { restingInfo } = this.props;
+    const { entryOrderInfo } = this.props;
     return (
       <Tabs
         tabs={[{ title: '深度' }, { title: '成交' }]}
@@ -154,9 +154,9 @@ class PriceDetailPage extends Component {
       >
         <div className={styles.mainContent}>
           <Depthmap option={depthmapOption} />
-          <RestingOrder
-            buyData={restingInfo['bids']}
-            sellData={restingInfo['asks']}
+          <EntryOrder
+            buyData={entryOrderInfo['bids']}
+            sellData={entryOrderInfo['asks']}
             style={{ marginTop: 20, marginBottom: 20 }}
           />
         </div>
@@ -234,7 +234,7 @@ class PriceDetailPage extends Component {
 
 const mapStateToProps = (state) => ({
   loading: state.loading.effects['price/getTicker'],
-  restingInfo: state.deal.restingInfo,
+  entryOrderInfo: state.deal.entryOrderInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
