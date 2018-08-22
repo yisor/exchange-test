@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 11:33:33
+ * @Last Modified time: 2018-08-22 11:44:42
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex } from 'antd-mobile';
@@ -124,19 +124,6 @@ class PriceDetailPage extends Component {
     );
   }
 
-  render() {
-    return (
-      <div className={styles.container}>
-        {this.renderNavBar()}
-        {this.renderTopView()}
-        <div className={styles.mainContent} />
-        {this.renderChartLayout()}
-        {this.renderTabLayout()}
-        {this.renderBottomView()}
-      </div>
-    );
-  }
-
   renderNavBar() {
     const { goBack } = this.props;
     return (
@@ -152,6 +139,19 @@ class PriceDetailPage extends Component {
         }
         onLeftClick={goBack}
       />
+    );
+  }
+
+  render() {
+    return (
+      <div className={styles.container}>
+        {this.renderNavBar()}
+        {this.renderTopView()}
+        <div className={styles.mainContent} />
+        {this.renderChartLayout()}
+        {this.renderTabLayout()}
+        {this.renderBottomView()}
+      </div>
     );
   }
 }
