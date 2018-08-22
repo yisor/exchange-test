@@ -17,8 +17,7 @@ const styleArr = [
 const textStyleArr = [
   { margin: 5, color: '#35BAA0', textAlign: 'center' },
   { margin: 5, color: '#D9D9D9', textAlign: 'center' },
-  { margin: 5, color: '#CC4D4D', textAlign: 'center' },
-
+  { margin: 5, color: '#CC4D4D', textAlign: 'center' }
 ];
 
 const DealItem = (item, index, name) => {
