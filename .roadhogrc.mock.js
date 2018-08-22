@@ -6,7 +6,7 @@ export default {
     "buy": "0.01000000", "sell": "1.12345680", "time": 1514448473626, "rose": -0.2922,
   },
   '/api/get_tickers': [{
-    "baseCoin": "string",
+    "baseCoin": "btc",
     "data": {
       "amount": 30232.26315,
       "close": 0,
@@ -180,14 +180,6 @@ export default {
   '/api/getOrderData': {
 
   },
-  '/api/common/symbols': [
-    { "symbol": "ethbtc", "count_coin": "btc", "amount_precision": 3, "base_coin": "eth", "price_precision": 8 },
-    { "symbol": "ltcbtc", "count_coin": "btc", "amount_precision": 2, "base_coin": "ltc", "price_precision": 8 },
-    { "symbol": "bchbtc", "count_coin": "btc", "amount_precision": 3, "base_coin": "bch", "price_precision": 8 },
-    { "symbol": "etcbtc", "count_coin": "btc", "amount_precision": 2, "base_coin": "etc", "price_precision": 8 },
-    { "symbol": "ltceth", "count_coin": "eth", "amount_precision": 2, "base_coin": "ltc", "price_precision": 8 },
-    { "symbol": "etceth", "count_coin": "eth", "amount_precision": 2, "base_coin": "etc", "price_precision": 8 }
-  ],
   '/api/common/symbol': {
     "btc": [{
       "pricePrecision": 6, "minVolume": "0.01", "minPrice": "0.00000001", "name": "LTC/BTC",

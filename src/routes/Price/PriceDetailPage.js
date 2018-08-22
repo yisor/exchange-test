@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 17:03:27
+ * @Last Modified time: 2018-08-22 17:06:41
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex, Tabs } from 'antd-mobile';
@@ -83,7 +83,6 @@ class PriceDetailPage extends Component {
   // 顶部基础数据
   renderTopView() {
     const { state } = this.props.location;
-    console.log('传参：', JSON.stringify(state));
     return (
       <div style={{
         display: 'flex',
