@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-21 15:09:10
+ * @Last Modified time: 2018-08-22 11:33:33
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex } from 'antd-mobile';
@@ -125,27 +125,33 @@ class PriceDetailPage extends Component {
   }
 
   render() {
-    const { goBack } = this.props;
     return (
       <div className={styles.container}>
-        <NavBar
-          mode="dark"
-          icon={
-            <Flex direction="row" align="center">
-              <Icon type="left" />
-              <span style={{ marginLeft: 8, fontSize: 14 }}>
-                BTC/USDT
-              </span>
-            </Flex>
-          }
-          onLeftClick={goBack}
-        />
+        {this.renderNavBar()}
         {this.renderTopView()}
         <div className={styles.mainContent} />
         {this.renderChartLayout()}
         {this.renderTabLayout()}
         {this.renderBottomView()}
       </div>
+    );
+  }
+
+  renderNavBar() {
+    const { goBack } = this.props;
+    return (
+      <NavBar
+        mode="dark"
+        icon={
+          <Flex direction="row" align="center">
+            <Icon type="left" />
+            <span style={{ marginLeft: 8, fontSize: 14 }}>
+              BTC/USDT
+            </span>
+          </Flex>
+        }
+        onLeftClick={goBack}
+      />
     );
   }
 }
