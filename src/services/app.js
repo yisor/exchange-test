@@ -19,8 +19,8 @@ export function logout() {
 /**
  * 查询系统支持的所有交易对及精度
  */
-export function getSymbols() {
-  return request(api.commonSymbols);
+export function getSymbol() {
+  return request(api.commonSymbol);
 }
 
 /**

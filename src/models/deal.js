@@ -1,25 +1,25 @@
 import { getTicker } from '../services/app';
 
 export default {
-  namespace: 'price',
+  namespace: 'deal',
   state: {
-    tickers: []
+    restingData: [],
   },
   reducers: {
-    save(state, { payload }) {
-      return { ...state, tickers: state.tickers.concat(payload) };
+    getRestingData(state, { payload }) {
+      return { ...state, restingData: payload };
     },
   },
   effects: {
     * getTicker({ payload }, { call, put }) {
       const response = yield call(getTicker, payload.key);
       response['coinInfo'] = payload;
-      yield put({ type: 'save', payload: response });
+      yield put({ type: 'getRestingData', payload: response });
     },
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      // subscriptions
+
     }
   }
 };

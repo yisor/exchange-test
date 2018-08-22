@@ -21,9 +21,9 @@ class MinePage extends Component {
         <div className={styles.app}>
           <header className={styles.appHeader} />
           <div className={styles.mainContent}>
-          <Candlestick option={candlestickOption} />
-          <Depthmap option={depthmapOption} />
-        </div>
+            <Candlestick option={candlestickOption} />
+            <Depthmap option={depthmapOption} />
+          </div>
         </div>
       </DocumentTitle>
     );

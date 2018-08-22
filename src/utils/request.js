@@ -21,6 +21,6 @@ export default function request(url, params, method = 'get') {
       .then(checkStatus)
       .then(res => res.data)
       .then(data => resolve(data))
-      .catch(error => reject(error.data))
-  })
+      .catch(error => reject(error.data));
+  });
 }

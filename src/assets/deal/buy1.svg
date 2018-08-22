@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="190px" height="70px" viewBox="0 0 190 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>兑入#1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="交易" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="兑入" transform="translate(-20.000000, -148.000000)">
+            <g id="1" transform="translate(0.000000, 128.000000)">
+                <g id="左侧" transform="translate(20.000000, 20.000000)">
+                    <g id="兑入#1">
+                        <path d="M0.5,0.5 L0.5,69.5 L169.622849,69.5 L189.337135,0.5 L0.5,0.5 Z" id="Rectangle" stroke="#35BAA0" fill="#FFFFFF" fill-rule="nonzero"></path>
+                        <text id="兑入" font-family="PingFangSC-Semibold, PingFang SC" font-size="32" font-weight="500" line-spacing="32" fill="#35BAA0">
+                            <tspan x="56" y="53">兑入</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

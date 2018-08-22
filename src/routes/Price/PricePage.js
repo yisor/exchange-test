@@ -1,17 +1,23 @@
+/*
+ * @Author: lsl
+ * @Date: 2018-08-16 09:30:36
+ * @Last Modified by: lsl
+ * @Last Modified time: 2018-08-17 15:46:22
+ */
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Tabs } from 'antd-mobile';
+import { Tabs, Button } from 'antd-mobile';
 import { intlShape } from 'react-intl';
 import { ListView, SearchBar, DocumentTitle } from 'components';
 
-const tabs = (formatMessage) => (
+const tabs = (formatMsg) => (
   [
-    { title: formatMessage({ id: 'price.favorites' }) },
-    { title: 'USDT' },
-    { title: 'BTC' },
-    { title: 'ETH' },
-    { title: 'HT' }
+    { title: formatMsg({ id: 'price.favorites' }), key: 'favorites' },
+    { title: 'USDT', key: 'usdt' },
+    { title: 'BTC', key: 'btc' },
+    { title: 'ETH', key: 'eth' },
+    { title: 'HT', key: 'ht' }
   ]);
 
 const PriceItem = (props) => {
@@ -20,7 +26,8 @@ const PriceItem = (props) => {
     <div style={styles.container} onClick={() => onItemClick(itemInfo)}>
       <div style={{
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
           BTC<font style={{ ...styles.font11, marginLeft: 7 }}>/USDT</font>
@@ -41,8 +48,31 @@ const PriceItem = (props) => {
         -0.25%
       </div>
     </div>
-  )
-}
+  );
+};
+
+
+const AddOptionalView = ({ addOptional }) => (
+  <div style={{
+    display: 'flex',
+    height: '70vh',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}>
+    <Button
+      onClick={addOptional}
+      style={{
+        fontSize: 14,
+        color: '#35BAA0',
+        height: 44,
+        width: 115
+      }}
+    >
+      添加自选
+    </Button>
+  </div>
+);
 
 class PricePage extends Component {
 
@@ -50,38 +80,60 @@ class PricePage extends Component {
     intl: intlShape
   }
 
+  state = {
+    curTickers: null,
+    selectOptionalEmpty: false,
+  }
+
   componentDidMount() {
-    const { symbols } = this.props;
-    this.fetchTicker(symbols);
+    const { symbol } = this.props;
+    const values = Object.values(symbol);
+    if (values && values.length > 0) {
+      const symbols = values.reduce((prev, cur) => (cur.concat(prev)));
+      this.fetchTicker(symbols);
+    }
   }
 
   fetchTicker = (symbols) => {
     const { getTicker } = this.props;
     symbols.forEach(ele => {
-      getTicker(ele.symbol);
+      getTicker(ele);
     });
   }
 
+  filterTickers = (currency) => {
+    const { tickers } = this.props;
+    const curTickers = tickers.filter((item) => {
+      const { name, key } = item.coinInfo;
+      return name.indexOf(currency) !== -1 || key.indexOf(currency) !== -1;
+    });
+    this.setState({ curTickers });
+  }
+
   onTabChange = (tab, index) => {
-    const { optionals, symbols } = this.props;
-    switch (index) {
-      case 0:
-        // 自选
-        this.fetchTicker(optionals);
-        break;
-      case 2:
-        this.fetchTicker(symbols);
-        break;
-      default: break;
+    const { optionals, symbol } = this.props;
+    const symbols = symbol.hasOwnProperty(tab.key) ? symbol[tab.key] : [];
+    switch (tab.key) {
+    case 'favorites':
+      // 自选
+      this.fetchTicker(optionals);
+      this.setState({ selectOptionalEmpty: optionals.length < 1 });
+      break;
+    default:
+      this.fetchTicker(symbols);
+      this.setState({ selectOptionalEmpty: false });
+      break;
     }
   }
 
   onItemClick = (item) => {
-    alert('点击：' + item.vol);
+    const { changeUrl } = this.props;
+    changeUrl('/price/detail');
   }
 
   render() {
-    const { tickers, loading } = this.props;
+    const { selectOptionalEmpty, curTickers } = this.state;
+    const { tickers, loading, changeUrl } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.price' })}>
@@ -89,7 +141,10 @@ class PricePage extends Component {
           <SearchBar
             placeholder={formatMessage({ id: 'price.search' })}
             maxLength={20}
-            onChange={(text) => { console.log('输入框：', text) }}
+            onChange={(text) => {
+              console.log('输入框：', text);
+              this.filterTickers(text);
+            }}
           />
           <Tabs
             tabs={tabs(formatMessage)}
@@ -98,12 +153,18 @@ class PricePage extends Component {
             tabBarInactiveTextColor="#797F85"
             onChange={this.onTabChange}
           >
-            <ListView
-              data={tickers}
-              ListItem={PriceItem}
-              loading={loading}
-              onItemClick={this.onItemClick}
-            />
+            {
+              selectOptionalEmpty ?
+                <AddOptionalView addOptional={() => changeUrl('/optional')} /> :
+                <ListView
+                  data={curTickers ? curTickers : tickers}
+                  ListItem={PriceItem}
+                  loading={loading}
+                  onItemClick={this.onItemClick}
+                  offsetHeight={100}
+                />
+            }
+
           </Tabs>
         </div>
       </DocumentTitle>
@@ -112,11 +173,11 @@ class PricePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  symbols: state.app.symbols,
+  symbol: state.app.symbol,
   tickers: state.price.tickers,
   optionals: state.app.optionals,
   loading: state.loading.effects['price/getTicker']
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getTicker: (symbol) => {
@@ -125,7 +186,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PricePage);
 
@@ -153,4 +214,4 @@ const styles = {
     color: '#323B43',
     fontSize: 16,
   }
-}
+};

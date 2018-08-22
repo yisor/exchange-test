@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 export default {
+  "publicPath": "/",
   "theme": "./theme-config.js",
   "extraBabelPlugins": [
     ["module-resolver", { "alias": { "dva": "dva-react-router-3" } }],

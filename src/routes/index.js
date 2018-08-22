@@ -9,10 +9,18 @@ const routes = [
     },
     indexRoute: {
       getComponent(location, callback) {
-        callback(null, require('./Price').default)
+        callback(null, require('./Price/PricePage').default);
       }
     },
     childRoutes: [
+      {
+        path: '/deal',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./Deal').default);
+          });
+        },
+      },
       {
         path: '/mine',
         getComponent(nextState, cb) {
@@ -23,6 +31,31 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/price/detail',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Price/PriceDetailPage').default);
+      });
+    },
+  },
+  {
+    path: '/optional',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Optional/OptionalAddPage').default);
+      });
+    },
+  },
+  {
+    path: '/order',
+    getComponent(nextState, cb) {
+      require.ensure([], (require) => {
+        cb(null, require('./Order/OrderPage').default);
+      });
+    },
+  }
 ];
+
 
 export default routes;
