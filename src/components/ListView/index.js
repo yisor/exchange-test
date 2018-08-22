@@ -104,7 +104,7 @@ class List extends React.Component {
         {
           this.props.data.length > 0 ?
             <ListView
-              ref={listview => this.ref = listview}
+              ref={listview => { this.ref = listview }}
               dataSource={dataSource}
               initialListSize={10}
               pageSize={10}
