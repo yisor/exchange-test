@@ -3,7 +3,7 @@ import api from 'constants/api';
 
 /**
  * 登录
- * @param {*} params 
+ * @param {*} params
  */
 export function login(params) {
   return request(api.login, params, 'post');
@@ -32,8 +32,33 @@ export function queryRate() {
 
 /**
  * 获取当前行情
- * @param {*} symbol 市场标记 
+ * @param {*} symbol 市场标记
  */
 export function getTicker(symbol) {
   return request(api.getTicker, symbol);
+}
+
+/**
+ * 获取当前挂单
+ * @param {*} symbol 市场标记
+ */
+export function getRestingData(payload) {
+  return request(api.getRestingData, payload);
+}
+
+
+/**
+ * 获取当前用户余额
+ * @param {*} symbol 市场标记
+ */
+export function getBalanceData(payload) {
+  return request(api.getBalanceData, payload);
+}
+
+/**
+ * 获取最新订单
+ * @param {*} symbol 市场标记
+ */
+export function getOrderData(payload) {
+  return request(api.getOrderData, payload);
 }

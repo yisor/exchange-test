@@ -37,32 +37,17 @@ class DealPage extends Component {
     height: document.documentElement.clientHeight / 2,
     selectPrice: 0,
     day: dayjs().format('MM-DD HH:mm:ss'),
-    data: {}
+    data: { 'name': 'LTC/BTC', 'key': 'ltcbtc' }
   };
 
   componentDidMount() {
     const height = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.ptr).parentNode.offsetTop;
     this.setState({
       height: height,
-      data: {
-        'high': 1,
-        'vol': 10232.26315789,
-        'last': 173.60263169,
-        'low': 0.01,
-        'buy': '0.01000000',
-        'sell': '1.12345680',
-        'time': 1514448473626,
-        'coinInfo': {
-          'pricePrecision': 8,
-          'minVolume': '0.01',
-          'minPrice': '0.00000001',
-          'name': 'BTH/USDT',
-          'dept': ['0.00000001', '0.000001', '0.0001'],
-          'volumePrecision': 2,
-          'key': 'ltcbtc'
-        }
-      }
     });
+    this.props.getRestingData();
+    this.props.getBalanceData();
+    this.props.getOrderList();
   }
 
   showModal = key => (e) => {
@@ -80,6 +65,7 @@ class DealPage extends Component {
 
   onItemClick = (item) => {
     console.log('选择币种：' + JSON.stringify(item));
+    // let data = this.props.balanceInfo.map((item,index)=>{})
     this.setState({
       data: item,
     });
@@ -91,15 +77,19 @@ class DealPage extends Component {
     });
   }
 
+  onSubmit = (params, type) => {
+    alert(`提交${params + '----' + type}`);
+  }
+
   render() {
-    const { loading, tickers } = this.props;
+    const { loading, tickers, restingInfo, balanceInfo, orderList } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
         <div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Header onSwitch={this.showModal('switchVisible')} data={this.state.data['coinInfo']} />
-            <MarketPage onClick={this.onSelectPrice} />
+            <Header onSwitch={this.showModal('switchVisible')} data={this.state.data} />
+            <MarketPage onClick={this.onSelectPrice} restingInfo={restingInfo} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -110,7 +100,11 @@ class DealPage extends Component {
                 height: this.state.height,
                 overflow: 'auto',
               }}
-              indicator={{ activate: `下拉刷新,更新时间:${this.state.day}`, finish: `更新完成，最后时间:${this.state.day}` }}
+              indicator={{
+                activate: `下拉刷新,上次刷新时间:${this.state.day}`,
+                // release: `刷新中，刷新时间:${this.state.day}...`,
+                finish: `更新完成，最后时间:${this.state.day}`
+              }}
               direction={'down'}
               refreshing={this.state.refreshing}
               onRefresh={() => {
@@ -123,12 +117,14 @@ class DealPage extends Component {
                     refreshing: false,
                     day: dayjs().format('MM-DD HH:mm:ss')
                   });
-                }, 1000);
+                }, 1500);
               }}
             >
               <DealView selectPrice={this.state.selectPrice}
                 onSubmit={this.onSubmit}
                 data={this.state.data}
+                orderList={orderList}
+                balanceInfo={balanceInfo}
               />
             </PullToRefresh>
           </div>
@@ -148,9 +144,21 @@ class DealPage extends Component {
 
 const mapStateToProps = (state) => ({
   tickers: state.price.tickers,
+  restingInfo: state.deal.restingInfo,
+  balanceInfo: state.deal.balanceInfo,
+  orderList: state.deal.orderList
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  getRestingData: (payload) => {
+    dispatch({ type: 'deal/getRestingData', payload: payload });
+  },
+  getBalanceData: (payload) => {
+    dispatch({ type: 'deal/getBalanceData', payload: payload });
+  },
+  getOrderList: (payload) => {
+    dispatch({ type: 'deal/getOrderList', payload: payload });
+  },
   changeUrl: (url) => {
     dispatch(routerRedux.push(url));
   }

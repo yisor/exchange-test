@@ -18,7 +18,6 @@ class MarketPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPrice: 19999,
       val: 1,
       data: ''
     };
@@ -44,23 +43,39 @@ class MarketPage extends Component {
     this.props.onClick && this.props.onClick(data);
   }
 
+  currentPrice = (bids, asks) => {
+    let buy = bids && bids[0];
+    let sell = asks && asks[0];
+    if (buy && sell) {
+      if (buy.price >= sell.price) {
+        return { price: buy.price, color: '#35BAA0' };
+      } else {
+        return { price: sell.price, color: '#E26A6A' };
+      }
+    }
+    return { price: 0, color: '#35BAA0' };
+  }
+
   render() {
     // const formatMessage = this.context.intl.formatMessage;
+    const { restingInfo } = this.props;
+    let currentPrice = this.currentPrice(restingInfo['bids'], restingInfo['asks']);
     return (
       <div>
         <Flex style={{ display: 'flex', marginBottom: 15.0 }}>
-          <div style={styles.price}>{this.state.currentPrice}0000000000</div>
-
-          <div style={{ color: '#A0A4A8', fontSize: 11, marginTop: 7 }}>
-            {'≈' + this.state.currentPrice}CNY
+          <div style={{ fontSize: 20, marginLeft: 10, color: currentPrice.color }}>{currentPrice.price}</div>
+          <div style={{ flex: 1, color: '#A0A4A8', fontSize: 11, marginTop: 7 }}>
+            {'≈' + 11111}CNY
           </div>
           <Stepper maxNum={6}
             onClick={this.onChange}
             defaultVal={this.state.val}
           />
         </Flex>
-        <RestingOrder onItemClick={(data) => this.onClick(data)}
-          data={{ '1': [1, 2, 3, 4, 5], '2': [1, 2, 3, 4, 5] }}
+        <RestingOrder
+          onItemClick={(data) => this.onClick(data)}
+          buyData={restingInfo['bids']}
+          sellData={restingInfo['asks']}
         />
       </div>
     );
@@ -78,10 +93,5 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(MarketPage);
 
 const styles = {
-  price: {
-    flex: 1,
-    color: '#35BAA0',
-    fontSize: 20,
-    marginLeft: 10
-  },
+
 };

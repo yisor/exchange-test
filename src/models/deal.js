@@ -1,21 +1,41 @@
-import { getTicker } from '../services/app';
+import { getBalanceData, getOrderData, getRestingData } from '../services/app';
 
 export default {
   namespace: 'deal',
   state: {
-    restingData: [],
+    restingInfo: [],
+    balanceInfo: {},
+    orderList: []
+
   },
   reducers: {
-    getRestingData(state, { payload }) {
-      return { ...state, restingData: payload };
+    saveRestingData(state, { payload }) {
+      return { ...state, restingInfo: payload };
     },
+    saveBalance(state, { payload }) {
+      return { ...state, balanceInfo: payload };
+    },
+    saveOrder(state, { payload }) {
+      return { ...state, orderList: payload };
+    }
+
   },
   effects: {
-    * getTicker({ payload }, { call, put }) {
-      const response = yield call(getTicker, payload.key);
-      response['coinInfo'] = payload;
-      yield put({ type: 'getRestingData', payload: response });
+    * getRestingData({ payload }, { call, put }) {
+      const response = yield call(getRestingData, payload);
+      // response['coinInfo'] = payload;
+      yield put({ type: 'saveRestingData', payload: response.data });
     },
+    * getBalanceData({ payload }, { call, put }) {
+      const response = yield call(getBalanceData, payload);
+      // response['coinInfo'] = payload;
+      yield put({ type: 'saveBalance', payload: response });
+    },
+    * getOrderList({ payload }, { call, put }) {
+      const response = yield call(getOrderData, payload);
+      // response['coinInfo'] = payload;
+      yield put({ type: 'saveOrder', payload: response.list });
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

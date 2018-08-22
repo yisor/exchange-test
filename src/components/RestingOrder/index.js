@@ -13,7 +13,6 @@ class RestingOrderItem extends Component {
 
   onClick = (item) => {
     const { onItemClick } = this.props;
-    console.log(item);
     onItemClick && onItemClick(item);
   }
 
@@ -33,7 +32,7 @@ class RestingOrderItem extends Component {
           />
 
           <div style={styles.container} onClick={() => {
-            this.onClick(6336.09 + i);
+            this.onClick(item[i].price);
           }}>
             {type ?
               <div style={{
@@ -43,7 +42,9 @@ class RestingOrderItem extends Component {
                 flex: 4,
                 marginLeft: 4
               }}>
-                <div style={{ color: sellTextColor, fontSize: 11 }}> {6336.09 + i}</div>
+                <div style={{ color: sellTextColor, fontSize: 11 }}>
+                  {item[i].price}
+                </div>
               </div> :
               <div style={{
                 display: 'flex',
@@ -60,7 +61,9 @@ class RestingOrderItem extends Component {
               flexDirection: 'column',
               flex: 3,
             }}>
-              <div style={{ textAlign: type ? 'left' : 'right', color: '#A0A4A8' }}>99</div>
+              <div style={{ textAlign: type ? 'left' : 'right', color: '#A0A4A8' }}>
+                {item[i].dealVolume}
+              </div>
             </div>
 
             {type ?
@@ -69,7 +72,7 @@ class RestingOrderItem extends Component {
                 flexDirection: 'column',
                 flex: 1,
               }}>
-                <div style={styles.font11}>{item.length - i}</div>
+                <div style={styles.font11}>{i + 1}</div>
               </div> :
               <div style={{
                 display: 'flex',
@@ -78,7 +81,9 @@ class RestingOrderItem extends Component {
                 flex: 4,
                 marginRight: 4
               }}>
-                <div style={{ color: buyTextColor, fontSize: 11 }}> {6956.09 + i}</div>
+                <div style={{ color: buyTextColor, fontSize: 11 }}>
+                  {item[i].price}
+                </div>
               </div>
             }
           </div>
@@ -89,18 +94,18 @@ class RestingOrderItem extends Component {
   }
 
   render() {
-    const { data, titleColor, style } = this.props;
+    const { titleColor, style, buyData, sellData } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
       <div style={{ ...style }}>
-        <Flex>
+        <Flex style={{ alignItems: 'flex-start' }}>
           <div style={{ flex: 1 }}>
             <Flex>
               <div style={{ flex: 1, textAlign: 'center', color: titleColor }}>{formatMessage({ id: 'deal.buy' })}</div>
               <div style={{ flex: 3, textAlign: 'right', color: titleColor }}>{formatMessage({ id: 'deal.number' })}</div>
               <div style={{ flex: 4, textAlign: 'right', color: titleColor, marginRight: 4 }}>{formatMessage({ id: 'deal.price' })}</div>
             </Flex>
-            {this.renderItem(data['1'], false)}
+            {this.renderItem(buyData, false)}
           </div>
 
           <div style={{ flex: 1 }}>
@@ -109,7 +114,7 @@ class RestingOrderItem extends Component {
               <div style={{ flex: 3, textAlign: 'left', color: titleColor }}>{formatMessage({ id: 'deal.number' })}</div>
               <div style={{ flex: 1, textAlign: 'center', color: titleColor }}>{formatMessage({ id: 'deal.sell' })}</div>
             </Flex>
-            {this.renderItem(data['2'], true)}
+            {this.renderItem(sellData, true)}
           </div>
         </Flex>
       </div>
@@ -118,7 +123,8 @@ class RestingOrderItem extends Component {
 }
 
 RestingOrderItem.propTypes = {
-  data: PropTypes.object,
+  buyData: PropTypes.array,
+  sellData: PropTypes.array,
   onClick: PropTypes.func,
   style: PropTypes.object,
   titleColor: PropTypes.string,
@@ -126,12 +132,13 @@ RestingOrderItem.propTypes = {
   buyTextColor: PropTypes.string,
   buyBgColor: PropTypes.string,
   sellTextColor: PropTypes.string,
-  sellBgColor: PropTypes.string
+  sellBgColor: PropTypes.string,
 
 };
 
 RestingOrderItem.defaultProps = {
-  data: {},
+  buyData: [],
+  sellData: [],
   titleColor: '#A0A4A8',
   buyTextColor: '#35BAA0',
   buyBgColor: '#35BAA0',
@@ -150,6 +157,7 @@ const styles = {
     height: 25,
     justifyContent: 'space-between',
     cursor: 'pointer',
+    alignItems: 'center'
   },
   button: {
     display: 'flex',
