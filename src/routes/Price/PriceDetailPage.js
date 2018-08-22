@@ -73,7 +73,7 @@ class PriceDetailPage extends Component {
   }
 
   componentDidMount() {
-    this.props.getRestingData();
+    this.props.getEntryOrderData();
   }
 
   onTabChange = (tab, index) => {
@@ -244,8 +244,8 @@ const mapDispatchToProps = (dispatch) => ({
   goBack: () => {
     dispatch(routerRedux.goBack());
   },
-  getRestingData: () => {
-    dispatch({ type: 'deal/getRestingData' });
+  getEntryOrderData: () => {
+    dispatch({ type: 'deal/getEntryOrderData' });
   },
 });
 
