@@ -66,7 +66,7 @@ class MarketPage extends Component {
         <Flex style={{ display: 'flex', marginBottom: 15.0 }}>
           <div style={{ fontSize: 20, marginLeft: 10, color: currentPrice.color }}>{currentPrice.price}</div>
           <div style={styles.price}>
-            {`≈${rates && rates['zh'] ? rates['zh']['btc'] * currentPrice.price : 0} CNY`}
+            {`≈${rates && rates['zh'] ? (rates['zh']['btc'] * currentPrice.price).toFixed(2) : 0} CNY`}
           </div>
           <Stepper maxNum={6}
             onClick={this.onChange}
@@ -75,8 +75,8 @@ class MarketPage extends Component {
         </Flex>
         <EntryOrder
           onItemClick={(data) => this.onClick(data)}
-          buyData={entryOrderInfo['bids']}
-          sellData={entryOrderInfo['asks']}
+          buyData={entryOrderInfo['bids'] ? entryOrderInfo['bids'].slice(0, 5) : []}
+          sellData={entryOrderInfo['asks'] ? entryOrderInfo['asks'].slice(0, 5) : []}
         />
       </div>
     );

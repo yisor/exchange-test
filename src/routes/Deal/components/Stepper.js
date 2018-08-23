@@ -48,7 +48,7 @@ class Stepper extends Component {
       <div style={styles.container}>
         <Flex>
           <Button onClick={() => this.onClick('-')} style={styles.button} disabled={this.state.sub}>-</Button>
-          {!hideVal ? <div>{this.state.val}</div> : null}
+          {!hideVal ? <div style={{marginLeft: 3, marginRight: 3}}>{this.state.val}</div> : null}
           <Button onClick={() => this.onClick('+')} style={styles.button} disabled={this.state.add}>+</Button>
         </Flex>
       </div>

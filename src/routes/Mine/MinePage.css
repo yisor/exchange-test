@@ -8,16 +8,42 @@
   flex: 0 0 auto;
   height: 50px;
   color: white;
-  background-color: #35BAA0;
+  background-color: dodgerblue;
 }
 
 .mainContent{
   flex: auto;
+  display: flex;
+  flex-direction:column;
 }
 
 .appFooter{
   flex: 0 0 auto;
   height: 50px;
   color: white;
-  background-color: #35BAA0;
+  background-color: dodgerblue;
+}
+
+/* 我的 头部样式 */
+.mineTop{
+  flex:0 0 auto;
+  padding: 15px 0;
+}
+.userName{
+  font-size:20px;
+  color:#323b43;
+  font-weight:bold;
+  line-height: 1.8;
+}
+.userId{
+  color: #8c9fad;
+  font-size: 14px ;
+}
+.MineList{
+  width: 100%;
+  height: auto;
+  flex:1 1 auto;
+  /*background: url("../../assets/mine/mine_order.svg") no-repeat;*/
+  /*background-size: 40% auto;*/
+  /*background-position: right bottom;*/
 }

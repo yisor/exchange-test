@@ -125,9 +125,9 @@ const styles = {
     alignItems: 'center',
     width: 44,
     color: '#797F85',
-    borderWidth: 1,
-    borderStyle: 'slid',
-    borderColor: '#D9D9D9'
+    borderColor: '#817c77',
+    borderStyle: 'solid',
+    borderWidth: 1
   },
   font11: {
     color: '#797F85', fontSize: 11, marginTop: 8

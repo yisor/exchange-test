@@ -41,9 +41,12 @@ class DealPage extends Component {
   };
 
   componentDidMount() {
+    const data = this.props.location.state;
+    console.log(data);
     const height = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.ptr).parentNode.offsetTop;
     this.setState({
       height: height,
+      data: data ? data : this.state.data,
     });
     this.props.getEntryOrderData();
     this.props.getBalanceData();
@@ -82,10 +85,14 @@ class DealPage extends Component {
       this.setState({
         selectPrice: 0,
       });
-      const params = this.state.data;
-      params['side'] = type === 0 ? 'buy' : 'sell';
-      params['side_msg'] = type === 0 ? '买入' : '卖出';
-      params['type'] = item.type;
+
+      let params = {
+        'name': item.name,
+        'key': item.key,
+        'type': item.type,
+        'side': type === 0 ? 'buy' : 'sell',
+        'side_msg': type === 0 ? '买入' : '卖出'
+      };
       this.props.submitOrder(params);
     }
   }
