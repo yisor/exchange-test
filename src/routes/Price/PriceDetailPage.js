@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 17:03:27
+ * @Last Modified time: 2018-08-22 18:35:30
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex, Tabs } from 'antd-mobile';
@@ -83,13 +83,12 @@ class PriceDetailPage extends Component {
   // 顶部基础数据
   renderTopView() {
     const { state } = this.props.location;
-    console.log('传参：', JSON.stringify(state));
     return (
       <div style={{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10,
+        padding: '10px 22px',
       }}>
         <div style={{
           display: 'flex',
@@ -179,18 +178,25 @@ class PriceDetailPage extends Component {
    */
   renderBottomView() {
     const { changeUrl } = this.props;
+    const { state: { coinInfo } } = this.props.location;
     return (
       <div className={styles.tabbar}>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
           <ActionButton
             text="买入"
             color="#35BAA0"
-            onClick={() => changeUrl('/deal')}
+            onClick={() => changeUrl({
+              pathname: '/deal',
+              state: { name: coinInfo.name, key: coinInfo.key, type: 0 }
+            })}
           />
           <ActionButton
             text="卖出"
             color="#EE5C42"
-            onClick={() => changeUrl('/deal')}
+            onClick={() => changeUrl({
+              pathname: '/deal',
+              state: { name: coinInfo.name, key: coinInfo.key, type: 1 }
+            })}
           />
         </div>
         <div className={styles.optionalTxt}>
@@ -202,14 +208,16 @@ class PriceDetailPage extends Component {
 
   renderNavBar() {
     const { goBack } = this.props;
+    const { state: { coinInfo } } = this.props.location;
     return (
       <NavBar
-        mode="dark"
+        mode="light"
+        style={{ backgroundColor: '#fff' }}
         icon={
           <Flex direction="row" align="center">
-            <Icon type="left" />
-            <span style={{ marginLeft: 8, fontSize: 14 }}>
-              BTC/USDT
+            <Icon type="left" color="#000" />
+            <span style={{ fontSize: 14, color: 'black', fontWeight: 'bold' }}>
+              {coinInfo.name}
             </span>
           </Flex>
         }

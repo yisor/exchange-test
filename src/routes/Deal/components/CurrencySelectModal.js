@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-15 16:50:14
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-17 16:18:48
+ * @Last Modified time: 2018-08-22 18:23:30
  * @Desc 币种选择
  */
 import React from 'react';
