@@ -85,11 +85,10 @@ class DealPage extends Component {
       this.setState({
         selectPrice: 0,
       });
-      console.log(JSON.stringify(item));
 
       let params = {
         'name': item.name,
-        'key': item.k,
+        'key': item.key,
         'type': item.type,
         'side': type === 0 ? 'buy' : 'sell',
         'side_msg': type === 0 ? '买入' : '卖出'

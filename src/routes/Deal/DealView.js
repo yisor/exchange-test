@@ -200,14 +200,14 @@ class DealView extends Component {
             <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center' }}>
               <List style={{flex: 1 }}>
                 <InputItem type="digit" value={coinPrice > 0 ? coinPrice : ''}
-                  maxLength={8}
-                  style={{ border: 'none', marginLeft: 10, fontSize: 16 }}
+                  maxLength={10}
+                  style={{ border: 'none', fontSize: 16 }}
                   onChange={this.coinPriceChange}
                   placeholder={formatMessage({ id: 'deal.price' })}
                 />
               </List>
               <div style={{display: 'flex', alignItems: 'center' }}>
-                <div className={DealCss['product-buyer-name']} style={{ marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>
+                <div className={DealCss['product-buyer-name']} style={{ flex: 1, width: 90, marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>
                   {`≈${priceName && rates && rates['zh'] ? (rates['zh'][priceName.toLowerCase()] * coinPrice).toFixed(2) : 0} CNY`}
                 </div>
                 <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>{priceName}</div>
@@ -234,7 +234,7 @@ class DealView extends Component {
           <Flex style={styles.moneyInput2}>
             <div style={{
               display: 'flex',
-              flex: 1, flexDirection: 'row', marginLeft: 10, color: '#A0A4A8',
+              flex: 1, flexDirection: 'row', color: '#A0A4A8',
               alignItems: 'center',
             }}>
               以当前最优价格交易
@@ -246,7 +246,7 @@ class DealView extends Component {
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
             <List>
               <InputItem type="digit" value={coinNum > 0 ? coinNum : ''}
-                style={{ flex: 1, border: 'none', marginLeft: 10, fontSize: 16 }}
+                style={{ flex: 1, border: 'none', fontSize: 16 }}
                 onChange={this.coinNumChange}
                 placeholder={formatMessage({ id: 'deal.number' })}
               />
