@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { Flex } from 'antd-mobile';
 import PropTypes from 'prop-types';
-
+import btnCss from './EntryOrder.css';
 
 
 class EntryOrderItem extends Component {
@@ -31,7 +31,7 @@ class EntryOrderItem extends Component {
           }}
           />
 
-          <div style={styles.container} onClick={() => {
+          <div className={type ? btnCss.btn2 : btnCss.btn1} style={styles.container} onClick={() => {
             this.onClick(item[i].price);
           }}>
             {type ?
