@@ -15,8 +15,8 @@ const FooterNo = () => (
 );
 
 const NoDataShow = (props) => (
-  <Flex justify="center" align="center" direction="column">
-    <div>{props.text}</div>
+  <Flex justify="center" align="center" direction="column" style={{ height: '50vh' }}>
+    <font>{props.text}</font>
   </Flex>
 );
 
