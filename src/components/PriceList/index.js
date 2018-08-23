@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:31:49
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 13:47:33
+ * @Last Modified time: 2018-08-23 11:42:38
  */
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';

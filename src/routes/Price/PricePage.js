@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 18:33:32
+ * @Last Modified time: 2018-08-23 13:47:58
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -168,7 +168,6 @@ class PricePage extends Component {
                   offsetHeight={100}
                 />
             }
-
           </Tabs>
         </div>
       </DocumentTitle>
