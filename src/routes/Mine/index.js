@@ -16,8 +16,8 @@ class MinePage extends Component {
       <DocumentTitle title={formatMsg({ id: 'title.user' })}>
         <div className={styles.app}>
           <div className={styles.mainContent}>
-            <MineTop/>
-            <MineListView/>
+            <MineTop />
+            <MineListView />
           </div>
         </div>
       </DocumentTitle>
