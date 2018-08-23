@@ -21,7 +21,6 @@ const textStyleArr = [
 ];
 
 const DealItem = (item, index, data) => {
-  console.log(data);
   let name = data ? data.name : '';
   return (
     <div style={styles.container} key={index}>
@@ -177,7 +176,7 @@ class DealView extends Component {
           </Flex>
         </div>
         <div style={{ marginBottom: 64 }}>
-          {orderList && orderList.map((item, index) => (
+          {orderList && orderList.slice(0, 10).map((item, index) => (
             DealItem(item, index, data)
           ))
           }
@@ -446,7 +445,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: 44,
-    backgroundColor: '#E26A6A',
+    // backgroundColor: '#E26A6A',
     borderColor: '#817c77',
     borderStyle: 'solid',
     borderWidth: 1

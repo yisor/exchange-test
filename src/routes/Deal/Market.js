@@ -75,8 +75,8 @@ class MarketPage extends Component {
         </Flex>
         <EntryOrder
           onItemClick={(data) => this.onClick(data)}
-          buyData={entryOrderInfo['bids']}
-          sellData={entryOrderInfo['asks']}
+          buyData={entryOrderInfo['bids'] ? entryOrderInfo['bids'].slice(0, 5) : []}
+          sellData={entryOrderInfo['asks'] ? entryOrderInfo['asks'].slice(0, 5) : []}
         />
       </div>
     );
