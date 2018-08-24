@@ -5,10 +5,11 @@ import dayjs from 'dayjs';
 import { intlShape } from 'react-intl';
 import { routerRedux } from 'dva/router';
 import { Flex, PullToRefresh } from 'antd-mobile';
-import MarketPage from './Market';
+import MarketView from './Market';
 import DealView from './DealView';
 import { DocumentTitle } from 'components';
 import CurrencySelectModal from './components/CurrencySelectModal';
+import OrderList from './OrderList';
 
 
 const Header = ({ data, onSwitch = () => { } }) => {
@@ -87,11 +88,18 @@ class DealPage extends Component {
       });
 
       let params = {
+        'baseCoin': '',
         'name': item.name,
         'key': item.key,
         'type': item.type,
         'side': type === 0 ? 'buy' : 'sell',
-        'side_msg': type === 0 ? '买入' : '卖出'
+        'side_msg': type === 0 ? '买入' : '卖出',
+        'volume': '',
+        'symbol': '',
+        'quoteCoin': '',
+        'feeIsUserPlatformCoin': '',
+
+
       };
       this.props.submitOrder(params);
     }
@@ -105,10 +113,10 @@ class DealPage extends Component {
         <div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Header onSwitch={this.showModal('switchVisible')} data={this.state.data} />
-            <MarketPage onClick={this.onSelectPrice} entryOrderInfo={entryOrderInfo} />
+            <MarketView onClick={this.onSelectPrice} entryOrderInfo={entryOrderInfo} />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', marginTop: 10 }}>
             <PullToRefresh
               damping={100}
               ref={el => { this.ptr = el }}
@@ -141,6 +149,10 @@ class DealPage extends Component {
                 data={this.state.data}
                 orderList={orderList}
                 balanceInfo={balanceInfo}
+              />
+              <OrderList
+                data={this.state.data}
+                orderList={orderList}
               />
             </PullToRefresh>
           </div>

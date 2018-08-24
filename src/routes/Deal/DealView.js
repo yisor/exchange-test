@@ -20,50 +20,6 @@ const textStyleArr = [
   { margin: 5, color: '#CC4D4D', textAlign: 'center' }
 ];
 
-const DealItem = (item, index, data) => {
-  let name = data ? data.name : '';
-  return (
-    <div style={styles.container} key={index}>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <div style={styles.font16}>进度{index * 13}%</div>
-      </div>
-
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'left'
-      }}>
-        <div style={styles.font16}>{name}</div>
-        <div style={{ color: item.side === 'sell' ? '#E26A6A' : '#35BAA0' }}>({item.side === 'buy' ? '买' : '卖'})</div>
-      </div>
-
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'left'
-      }}>
-        <div style={styles.font16}> {item.price['amount']}</div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={styles.font16}> {item.volume['amount']}</div>
-        {item.label['click'] === 1 ?
-          <div style={styles.button}>
-            <div className={DealCss.btn} style={{ color: '#353237' }}
-              onClick={() => {
-                console.log('1111');
-              }}>
-              取消
-            </div>
-          </div> : null
-        }
-      </div>
-    </div>
-  );
-};
-
 class DealView extends Component {
 
   static contextTypes = {
@@ -76,8 +32,8 @@ class DealView extends Component {
       modal: false,
       val: '',
       buyOrSell: 0, // 0 是买入 1是卖出
-      coinPrice: 0,
-      coinNum: 0,
+      coinPrice: '',
+      coinNum: '',
       available: 0,
       sub: false,
       add: false,
@@ -91,7 +47,7 @@ class DealView extends Component {
       priceName: '',
       coinPrice: selectPrice,
       coinNumName: '',
-      coinNum: 0,
+      coinNum: '',
       buyOrSell: data.type ? data.type : 0,
       val: formatMessage({ id: 'deal.limit' }),
       available: 133.4444222,
@@ -154,52 +110,19 @@ class DealView extends Component {
     }
   }
 
-
-
-  renderList = () => {
-    const formatMessage = this.context.intl.formatMessage;
-    const { orderList, data } = this.props;
-    return (
-      <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
-        <div>
-          <Flex style={{ marginTop: 10, marginBottom: 10 }}>
-            <div style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 10, flex: 1 }}>
-              {formatMessage({ id: 'deal.currentorder' })}
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}
-              onClick={() => this.props.changeUrl('/order')}
-            >
-              <img
-                src={require('../../assets/deal/change.svg')}
-                style={{ width: 12, height: 12, marginRight: 12, marginLeft: 10 }} alt=""
-              />
-              <div>{formatMessage({ id: 'deal.all' })}</div>
-            </div>
-          </Flex>
-        </div>
-        <div style={{ marginBottom: 64 }}>
-          {orderList && orderList.slice(0, 10).map((item, index) => (
-            DealItem(item, index, data)
-          ))
-          }
-        </div>
-      </div>
-    );
-  }
-
   renderInputBtn = () => {
     const formatMessage = this.context.intl.formatMessage;
     const { rates } = this.props;
     const { coinNum, coinPrice, available, priceName, coinNumName } = this.state;
     let price = coinPrice > 0 && coinNum > 0 ? coinNum * coinPrice : 0;
+    console.log(this.state.coinPrice);
     return (
       <div >
         {this.state.val === '限价' || this.state.val === 'Limit' ?
           <Flex style={styles.moneyInput}>
             <div style={{ display: 'flex', flex: 3, flexDirection: 'row', justifyContent: 'center' }}>
               <List style={{flex: 1 }}>
-                <InputItem type="digit" value={coinPrice > 0 ? coinPrice : ''}
+                <InputItem type="digit" value={coinPrice}
                   maxLength={10}
                   style={{ border: 'none', fontSize: 16 }}
                   onChange={this.coinPriceChange}
@@ -207,7 +130,8 @@ class DealView extends Component {
                 />
               </List>
               <div style={{display: 'flex', alignItems: 'center' }}>
-                <div className={DealCss['product-buyer-name']} style={{ flex: 1, width: 90, marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>
+                <div className={DealCss['product-buyer-name']}
+                  style={{ flex: 1, width: 90, marginRight: 10, fontSize: 12, color: '#A0A4A8', marginTop: 4 }}>
                   {`≈${priceName && rates && rates['zh'] ? (rates['zh'][priceName.toLowerCase()] * coinPrice).toFixed(2) : 0} CNY`}
                 </div>
                 <div style={{ marginRight: 10, fontSize: 16, color: '#A0A4A8' }}>{priceName}</div>
@@ -235,6 +159,7 @@ class DealView extends Component {
             <div style={{
               display: 'flex',
               flex: 1, flexDirection: 'row', color: '#A0A4A8',
+              marginLeft: 10,
               alignItems: 'center',
             }}>
               以当前最优价格交易
@@ -245,15 +170,17 @@ class DealView extends Component {
         <Flex style={styles.numberInput}>
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
             <List>
-              <InputItem type="digit" value={coinNum > 0 ? coinNum : ''}
+              <InputItem type="digit" value={coinNum}
                 style={{ flex: 1, border: 'none', fontSize: 16 }}
                 onChange={this.coinNumChange}
-                placeholder={formatMessage({ id: 'deal.number' })}
+                placeholder={(this.state.val === '市价' || this.state.val === 'market') && this.state.buyOrSell === 0 ?
+                  formatMessage({ id: 'deal.volumeoftrade' }) : formatMessage({ id: 'deal.number' })}
               />
             </List>
             <div style={{display: 'flex', marginRight: 10, alignItems: 'center' }}>
               <div style={{fontSize: 14, color: '#A0A4A8', }}>
-                {coinNumName}
+                {(this.state.val === '市价' || this.state.val === 'market') && this.state.buyOrSell === 0 ?
+                  priceName : coinNumName}
               </div>
             </div>
           </div>
@@ -277,7 +204,8 @@ class DealView extends Component {
         </Flex>
 
         <div style={{ marginLeft: 10, color: '#A0A4A8', }}>
-          {formatMessage({ id: 'deal.avail' })} {available} {priceName}
+          {formatMessage({ id: 'deal.avail' })} {available}
+          {this.state.buyOrSell === 0 ? priceName : coinNumName}
         </div>
         {this.state.val === '限价' || this.state.val === 'Limit' ?
           <Flex style={{ marginTop: 15 }}>
@@ -295,9 +223,13 @@ class DealView extends Component {
 
   // 设置inputValue
   coinPriceChange = (e) => {
-    this.setState({
-      coinPrice: e
-    });
+    let regex = /^[0-9]{1,8}([.][0-9]{1,5})?$/;
+    console.log(regex.test(e));
+    if (regex.test(e) || e === '') {
+      this.setState({
+        coinPrice: e
+      });
+    }
   }
   // 设置textareaValue
   coinNumChange = (e) => {
@@ -342,7 +274,6 @@ class DealView extends Component {
 
   onSubmit = () => {
     let type = this.state.val === '限价' || this.state.val === 'Limit' ? 'limitPriceEntrust' : 'marketPriceEntrust';
-
     let params = {
       coinPrice: this.state.coinPrice,
       coinNum: this.state.coinNum,
@@ -357,11 +288,11 @@ class DealView extends Component {
     const formatMessage = this.context.intl.formatMessage;
     const { coinNumName } = this.state;
     return (
-      <div style={{ display: 'flex', width: '100%', flexDirection: 'column', marginTop: 5 }} >
+      <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }} >
         <div>
           <Flex style={{ marginLeft: 10, height: 60 }}>
 
-            <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+            <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginBottom: 10}}>
               <div style={this.state.buyOrSell === 0 ? styleArr[0] : styleArr[1]}
                 onClick={() => this.buyOrSellStatus(0)}>
                 <div style={this.state.buyOrSell === 0 ? textStyleArr[0] : textStyleArr[1]}>
@@ -411,7 +342,6 @@ class DealView extends Component {
 
         <div style={{ width: '100%', height: 8, backgroundColor: '#F0F0F0' }} />
 
-        {this.renderList()}
         <Modal
           popup
           visible={this.state.modal}
@@ -507,8 +437,9 @@ const styles = {
     borderWidth: 1,
     borderStyle: 'solid',
     height: 44,
-    margin: 10,
-    backgroundColor: '#F0F0F0'
+    backgroundColor: '#F0F0F0',
+    marginLeft: 10,
+    marginRight: 10,
   },
   btnsStyle: {
     display: 'flex',
