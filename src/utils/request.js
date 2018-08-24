@@ -12,6 +12,7 @@ const checkStatus = (response) => {
   };
 };
 
+
 const request = (url, params, method = 'get') => {
   return new Promise((resolve, reject) => {
     axios({

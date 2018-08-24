@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:31:49
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-23 15:12:09
+ * @Last Modified time: 2018-08-24 16:37:22
  */
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
@@ -28,7 +28,10 @@ const PriceItem = (props) => {
         alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
-          {itemInfo.coinInfo.name}<font style={{ ...styles.font11, marginLeft: 7 }} />
+          {itemInfo.coinInfo.baseCoin.toUpperCase()}
+          <font style={{ ...styles.font11, marginLeft: 7 }}>
+            {`/${itemInfo.coinInfo.quoteCoin.toUpperCase()}`}
+          </font>
         </div>
         <div style={{ ...styles.font11, marginTop: 8 }}>
           {`24h量 ${Math.round(itemInfo.vol)}`}
@@ -71,15 +74,16 @@ class PriceList extends Component {
   filterTickers = (currency) => {
     const { tickers } = this.props;
     const curTickers = tickers.filter((item) => {
-      const { name, key } = item.coinInfo;
-      return name.indexOf(currency) !== -1 || key.indexOf(currency) !== -1;
+      const { baseCoin, quoteCoin } = item.coinInfo;
+      return baseCoin.indexOf(currency) !== -1 || quoteCoin.indexOf(currency) !== -1;
     });
     this.setState({ curTickers });
   }
 
   render() {
-    const { tickers, loading, onCancel, showCancelButton = false } = this.props;
+    const { curTickers } = this.state;
     const formatMsg = this.context.intl.formatMessage;
+    const { tickers, loading, onCancel, showCancelButton = false } = this.props;
     return (
       <div>
         <SearchBar
@@ -99,7 +103,7 @@ class PriceList extends Component {
           onChange={this.onTabChange}
         >
           <ListView
-            data={tickers}
+            data={curTickers ? curTickers : tickers}
             ListItem={PriceItem}
             loading={loading}
             onItemClick={this.onItemClick}

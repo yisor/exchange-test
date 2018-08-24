@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 18:40:49
+ * @Last Modified time: 2018-08-24 16:43:47
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -23,7 +23,10 @@ const SymbolItem = (props) => {
           fontSize: 16,
           color: '#323B43',
         }}>
-        {itemInfo.name}
+        {itemInfo.baseCoin.toUpperCase()}
+        <font style={{ color: '#797F85', fontSize: 11, marginLeft: 7 }}>
+          {`/${itemInfo.quoteCoin.toUpperCase()}`}
+        </font>
       </div>
       <Icon
         type="check-circle-o"
@@ -40,19 +43,21 @@ class OptionalAddPage extends Component {
   state = { searchSymbols: [] }
 
   onSearch = (txt) => {
-    const { symbols } = this.props;
-    const searchSymbols = symbols.filter((item) => {
-      const { name, key } = item;
-      return name.indexOf(txt) !== -1 || key.indexOf(txt) !== -1;
+    const { coinPairs } = this.props;
+    const searchSymbols = coinPairs.filter((item) => {
+      const { baseCoin, quoteCoin } = item;
+      return quoteCoin.indexOf(txt) !== -1 || baseCoin.indexOf(txt) !== -1;
     });
     this.setState({ searchSymbols });
   }
 
   // 点击子项
   onItemClick = (item) => {
+    const { baseCoin, quoteCoin } = item;
+    const name = `${baseCoin.toUpperCase()}/${quoteCoin.toUpperCase()}`;
     const path = {
       pathname: '/deal',
-      state: { name: item.name, key: item.key, type: 1 }
+      state: { name, key: item.key, type: 1 }
     };
     this.props.changeUrl(path);
   }
@@ -87,17 +92,8 @@ class OptionalAddPage extends Component {
   }
 }
 
-const select = (symbol) => {
-  const values = Object.values(symbol);
-  if (values && values.length > 0) {
-    return values.reduce((prev, cur) => (cur.concat(prev)));
-  } else {
-    return [];
-  }
-};
-
 const mapStateToProps = (state) => ({
-  symbols: select(state.app.symbol)
+  coinPairs: state.app.coinPairs
 });
 
 const mapDispatchToProps = (dispatch) => ({
