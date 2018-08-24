@@ -21,11 +21,11 @@
   font-weight: bold;
   border-width: 0px;
   border-color: transparent;
-  background-color: transparent;
+  background-color: #35BAA0;
 }
 .btn1:active{
   border-color: rgba(0,0,0,.3);
-  background-color: #35BAA0;
+  background-color: #48E6C0;
 }
 
 
@@ -37,16 +37,16 @@
   font-weight: bold;
   border-width: 0px;
   border-color: transparent;
-  background-color: transparent;
+  background-color: #E26A6A;
 }
 .btn2:active{
   border-color: rgba(0,0,0,.3);
-  background-color: #E26A6A;
+  background-color: #FF7070;
 }
 
-.product-buyer-name {
-  max-width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.title{
+  width:80px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }

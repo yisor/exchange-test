@@ -6,49 +6,65 @@ import React, {Component} from 'react';
 import {connect} from 'dva';
 import {Flex} from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import DealCss from './DealPage.css';
+import Circle from 'react-circle';
 import { intlShape } from 'react-intl';
 
-const DealItem = (item, index, data) => {
-  let name = data ? data.name : '';
+const DealItem = (item, index) => {
+  console.log(item);
   return (
     <div style={styles.container} key={index}>
       <div style={{
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>进度{index * 13}%</div>
+        <Circle
+          animate={true}
+          animationDuration="1s"
+          responsive={false} // Boolean: Make SVG adapt to parent size
+          size={60} // Number: Defines the size of the circle.
+          lineWidth={20} // Number: Defines the thickness of the circle's stroke.
+          progress={69} // Number: Update to change the progress and percentage.
+          progressColor="cornflowerblue"  // String: Color of "progress" portion of circle.
+          bgColor="whitesmoke" // String: Color of "empty" portion of circle.
+          textColor="hotpink" // String: Color of percentage text color.
+          textStyle={{font: 'bold 5rem Helvetica, Arial, sans-serif'}}
+          percentSpacing={20} // Number: Adjust spacing of "%" symbol and number.
+          roundedStroke={true} // Boolean: Rounded/Flat line ends
+          showPercentage={true} // Boolean: Show/hide percentage.
+          showPercentageSymbol={true} // Boolean: Show/hide only the "%" symbol.
+        />
+      </div>
+      <div>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'left'
+        }}>
+          <div style={styles.font16}>BTC/LCT</div>
+          <div style={{ color: index % 2 === 0 ? '#E26A6A' : '#35BAA0' }}>({item.side === 'buy' ? '买' : '卖'})</div>
+        </div>
+        <div style={{marginTop: 26}}>{item.created_at}</div>
       </div>
 
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'left'
-      }}>
-        <div style={styles.font16}>{name}</div>
-        <div style={{ color: item.side === 'sell' ? '#E26A6A' : '#35BAA0' }}>({item.side === 'buy' ? '买' : '卖'})</div>
-      </div>
 
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left'
       }}>
-        <div style={styles.font16}> {item.price['amount']}</div>
+        <div style={styles.font16}> 6956.09</div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={styles.font16}> {item.volume['amount']}</div>
-        {item.label['click'] === 1 ?
-          <div style={styles.button}>
-            <div className={DealCss.btn} style={{ color: '#353237' }}
-              onClick={() => {
-                console.log('1111');
-              }}>
-              取消
-            </div>
-          </div> : null
-        }
-      </div>
+      {item.label.click === 1 ?
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={styles.font16}> 193676</div>
+          <div style={{...styles.button, marginTop: 26}}
+            onClick={() => {
+              console.log('1111');
+            }}>
+          取消
+          </div>
+        </div> : null
+      }
     </div>
   );
 };
@@ -91,6 +107,13 @@ class OrderList extends Component {
             </div>
           </Flex>
         </div>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div style={{flex: 1}}></div>
+          <div style={{flex: 1}}>市场</div>
+          <div style={{flex: 1}}>价格</div>
+          <div style={{flex: 1}}>数量</div>
+        </div>
+
         <div style={{ marginBottom: 64 }}>
           {orderList && orderList.slice(0, 10).map((item, index) => (
             DealItem(item, index, data)
@@ -116,26 +139,27 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: 30,
     justifyContent: 'space-between',
     paddingTop: 5,
     paddingBottom: 5,
+    margin: 10,
   },
   button: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#E26A6A',
-    height: 30,
-    width: 65,
+    // backgroundColor: '#E26A6A',
     justifyContent: 'center',
     alignItems: 'center',
+    width: 44,
+    color: '#797F85',
+    borderColor: '#817c77',
+    borderStyle: 'solid',
+    borderWidth: 1
   },
   font11: {
-    color: '#797F85',
-    fontSize: 11,
-    textAlign: 'center'
+    color: '#797F85', fontSize: 11, marginTop: 8
   },
   font16: {
-    fontSize: 16
-  }
+    color: '#323B43', fontSize: 16
+  },
 };

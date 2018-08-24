@@ -110,7 +110,7 @@ class DealPage extends Component {
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.deal' })}>
-        <div>
+        <div >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Header onSwitch={this.showModal('switchVisible')} data={this.state.data} />
             <MarketView onClick={this.onSelectPrice} entryOrderInfo={entryOrderInfo} />
