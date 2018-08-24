@@ -4,6 +4,7 @@ import { DocumentTitle, ListView } from 'components';
 import { NavBar, Icon, Flex, Tabs } from 'antd-mobile';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
+import Circle from 'react-circle';
 
 const tabs = (formatMsg) => (
   [
@@ -20,7 +21,22 @@ const OrderItem = (item) => {
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={styles.font16}>进度{index * 13}%</div>
+        <Circle
+          animate={true}
+          animationDuration="1s"
+          responsive={false} // Boolean: Make SVG adapt to parent size
+          size={60} // Number: Defines the size of the circle.
+          lineWidth={20} // Number: Defines the thickness of the circle's stroke.
+          progress={69} // Number: Update to change the progress and percentage.
+          progressColor="cornflowerblue"  // String: Color of "progress" portion of circle.
+          bgColor="whitesmoke" // String: Color of "empty" portion of circle.
+          textColor="hotpink" // String: Color of percentage text color.
+          textStyle={{font: 'bold 5rem Helvetica, Arial, sans-serif'}}
+          percentSpacing={20} // Number: Adjust spacing of "%" symbol and number.
+          roundedStroke={true} // Boolean: Rounded/Flat line ends
+          showPercentage={true} // Boolean: Show/hide percentage.
+          showPercentageSymbol={true} // Boolean: Show/hide only the "%" symbol.
+        />
       </div>
 
       <div style={{
