@@ -115,7 +115,9 @@ class DealView extends Component {
 
   renderInputBtn = () => {
     const formatMessage = this.context.intl.formatMessage;
-    const { rates: { zh }} = this.props;
+    const { rates } = this.props;
+    const zhCoin = rates.filter((item, index) => (item.legalCoinType === 'zh'))[0];
+    const zh = zhCoin ? zhCoin.rates : {};
     const { coinNum, coinPrice, available, priceName, coinNumName } = this.state;
     let price = coinPrice > 0 && coinNum > 0 ? Number(coinNum) * Number(coinPrice) : 0;
     return (
@@ -171,8 +173,8 @@ class DealView extends Component {
             placeholder={(this.state.val === '市价' || this.state.val === 'market') && this.state.buyOrSell === 0 ?
               formatMessage({ id: 'deal.volumeoftrade' }) : formatMessage({ id: 'deal.number' })}
           />
-          <div style={{display: 'flex', marginRight: 10, alignItems: 'center' }}>
-            <div style={{fontSize: 14, color: '#A0A4A8', }}>
+          <div style={{ display: 'flex', marginRight: 10, alignItems: 'center' }}>
+            <div style={{ fontSize: 14, color: '#A0A4A8', }}>
               {(this.state.val === '市价' || this.state.val === 'market') && this.state.buyOrSell === 0 ?
                 priceName : coinNumName}
             </div>
@@ -282,7 +284,7 @@ class DealView extends Component {
       <div style={{ display: 'flex', width: '100%', flexDirection: 'column' }} >
         <div>
           <Flex style={{ marginLeft: 10, height: 60 }}>
-            <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginBottom: 10}}>
+            <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginBottom: 10 }}>
               <div style={this.state.buyOrSell === 0 ? styleArr[0] : styleArr[1]}
                 onClick={() => this.buyOrSellStatus(0)}>
                 <div style={this.state.buyOrSell === 0 ? textStyleArr[0] : textStyleArr[1]}>

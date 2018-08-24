@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-24 16:45:57
+ * @Last Modified time: 2018-08-24 17:52:14
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -137,7 +137,8 @@ class PricePage extends Component {
 
   render() {
     const { selectOptionalEmpty, curTickers } = this.state;
-    const { tickers, loading, changeUrl, rates: { zh } } = this.props;
+    const { tickers, loading, changeUrl, rates } = this.props;
+    const zh = rates.filter((item, index) => (item.legalCoinType === 'zh'))[0];
     console.log('汇率:', JSON.stringify(zh));
     const formatMessage = this.context.intl.formatMessage;
     return (

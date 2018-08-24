@@ -99,8 +99,6 @@ class DealPage extends Component {
         'symbol': '',
         'quoteCoin': '',
         'feeIsUserPlatformCoin': '',
-
-
       };
       this.props.submitOrder(params);
     }
