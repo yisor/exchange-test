@@ -115,9 +115,7 @@ class DealView extends Component {
 
   renderInputBtn = () => {
     const formatMessage = this.context.intl.formatMessage;
-    const { rates } = this.props;
-    const zhCoin = rates.filter((item, index) => (item.legalCoinType === 'zh'))[0];
-    const zh = zhCoin ? zhCoin.rates : {};
+    const { zh } = this.props;
     const { coinNum, coinPrice, available, priceName, coinNumName } = this.state;
     let price = coinPrice > 0 && coinNum > 0 ? Number(coinNum) * Number(coinPrice) : 0;
     return (
@@ -354,9 +352,13 @@ class DealView extends Component {
 
 }
 
-const mapStateToProps = (state) => ({
-  rates: state.app.rates
+const selectZh = (rates) => {
+  const zh = rates.filter((item, index) => (item.legalCoinType === 'zh'))[0];
+  return zh ? zh.rates : {};
+};
 
+const mapStateToProps = (state) => ({
+  zh: selectZh(state.app.rates)
 });
 
 const mapDispatchToProps = (dispatch) => ({
