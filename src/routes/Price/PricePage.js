@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-23 13:47:58
+ * @Last Modified time: 2018-08-24 16:45:57
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -30,7 +30,10 @@ const PriceItem = (props) => {
         alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
-          {itemInfo.coinInfo.name}<font style={{ ...styles.font11, marginLeft: 7 }} />
+          {itemInfo.coinInfo.baseCoin.toUpperCase()}
+          <font style={{ ...styles.font11, marginLeft: 7 }}>
+            {`/${itemInfo.coinInfo.quoteCoin.toUpperCase()}`}
+          </font>
         </div>
         <div style={{ ...styles.font11, marginTop: 8 }}>
           {`24h量 ${Math.round(itemInfo.vol)}`}
@@ -47,7 +50,7 @@ const PriceItem = (props) => {
       <div style={styles.button}>
         {`${(itemInfo.rose).toFixed(2)}%`}
       </div>
-    </div>
+    </div >
   );
 };
 
@@ -86,11 +89,9 @@ class PricePage extends Component {
   }
 
   componentDidMount() {
-    const { symbol } = this.props;
-    const values = Object.values(symbol);
-    if (values && values.length > 0) {
-      const symbols = values.reduce((prev, cur) => (cur.concat(prev)));
-      this.fetchTicker(symbols);
+    const { coinPairs } = this.props;
+    if (coinPairs && coinPairs.length > 0) {
+      this.fetchTicker(coinPairs);
     }
   }
 
@@ -104,16 +105,15 @@ class PricePage extends Component {
   filterTickers = (currency) => {
     const { tickers } = this.props;
     const curTickers = tickers.filter((item) => {
-      const { name, key } = item.coinInfo;
-      return name.indexOf(currency) !== -1 || key.indexOf(currency) !== -1;
+      const { baseCoin, quoteCoin } = item.coinInfo;
+      return baseCoin.indexOf(currency) !== -1 || quoteCoin.indexOf(currency) !== -1;
     });
     this.setState({ curTickers });
   }
 
   onTabChange = (tab, index) => {
     console.log('onTabChange:', JSON.stringify(tab));
-    const { optionals, symbol } = this.props;
-    const symbols = symbol.hasOwnProperty(tab.key) ? symbol[tab.key] : [];
+    const { optionals, coinPairs } = this.props;
     switch (tab.key) {
       case 'favorites':
         // 自选
@@ -121,7 +121,7 @@ class PricePage extends Component {
         this.setState({ selectOptionalEmpty: optionals.length < 1 });
         break;
       default:
-        this.fetchTicker(symbols);
+        this.fetchTicker(coinPairs);
         this.setState({ selectOptionalEmpty: false });
         break;
     }
@@ -137,7 +137,7 @@ class PricePage extends Component {
 
   render() {
     const { selectOptionalEmpty, curTickers } = this.state;
-    const { tickers, loading, changeUrl, rates: { zh }} = this.props;
+    const { tickers, loading, changeUrl, rates: { zh } } = this.props;
     console.log('汇率:', JSON.stringify(zh));
     const formatMessage = this.context.intl.formatMessage;
     return (
@@ -177,7 +177,7 @@ class PricePage extends Component {
 
 const mapStateToProps = (state) => ({
   rates: state.app.rates,
-  symbol: state.app.symbol,
+  coinPairs: state.app.coinPairs,
   tickers: state.price.tickers,
   optionals: state.app.optionals,
   loading: state.loading.effects['price/getTicker']

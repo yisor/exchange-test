@@ -10,6 +10,8 @@ module.exports = {
     "no-trailing-spaces": "off",
     'react/jsx-wrap-multilines': "error",
     'react/no-find-dom-node': 'off',
-    'object-curly-spacing': 'off'
+    'object-curly-spacing': 'off',
+    'handle-callback-err': 'off',
+    'no-path-concat': 'off'
   }
 }

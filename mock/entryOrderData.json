@@ -1,0 +1,148 @@
+{
+  "data": {
+    "asks": [ 
+      {
+        "agePrice": 123,
+        "baseCoin": "string",
+        "dealVolume": 0.234,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 1112.32,
+        "quoteCoin": "string",
+        "side": "BUY",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 123,
+        "baseCoin": "string",
+        "dealVolume": 10.34,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 324.02,
+        "quoteCoin": "string",
+        "side": "BUY",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 123,
+        "baseCoin": "string",
+        "dealVolume": 36.23,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 324.22,
+        "quoteCoin": "string",
+        "side": "BUY",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 123,
+        "baseCoin": "string",
+        "dealVolume": 321.22,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 1233.2,
+        "quoteCoin": "string",
+        "side": "BUY",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 123,
+        "baseCoin": "string",
+        "dealVolume": 753.56,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 854.32,
+        "quoteCoin": "string",
+        "side": "BUY",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      }
+    ],
+    "bids": [ 
+      {
+        "agePrice": 0,
+        "baseCoin": "string",
+        "dealVolume": 934.2,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 324.3,
+        "quoteCoin": "string",
+        "side": "SELL",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 0,
+        "baseCoin": "string",
+        "dealVolume": 982,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 2947,
+        "quoteCoin": "string",
+        "side": "SELL",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 0,
+        "baseCoin": "string",
+        "dealVolume": 64.82,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 42.56,
+        "quoteCoin": "string",
+        "side": "SELL",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 0,
+        "baseCoin": "string",
+        "dealVolume": 592,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 62.731,
+        "quoteCoin": "string",
+        "side": "SELL",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      },
+      {
+        "agePrice": 0,
+        "baseCoin": "string",
+        "dealVolume": 6402,
+        "feeIsUserPlatformCoin": false,
+        "orderId": "string",
+        "price": 2423.93,
+        "quoteCoin": "string",
+        "side": "SELL",
+        "status": "INIT",
+        "symbol": "string",
+        "type": "limitPriceEntrust",
+        "volume": 0
+      }
+    ]
+  }
+}

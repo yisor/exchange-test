@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:43
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-22 18:35:30
+ * @Last Modified time: 2018-08-24 16:07:50
  */
 import React, { Component } from 'react';
 import { NavBar, Icon, Flex, Tabs } from 'antd-mobile';
@@ -209,6 +209,8 @@ class PriceDetailPage extends Component {
   renderNavBar() {
     const { goBack } = this.props;
     const { state: { coinInfo } } = this.props.location;
+    const { baseCoin, quoteCoin } = coinInfo;
+    const coinPairName = `${baseCoin.toUpperCase()}/${quoteCoin.toUpperCase()}`;
     return (
       <NavBar
         mode="light"
@@ -217,7 +219,7 @@ class PriceDetailPage extends Component {
           <Flex direction="row" align="center">
             <Icon type="left" color="#000" />
             <span style={{ fontSize: 14, color: 'black', fontWeight: 'bold' }}>
-              {coinInfo.name}
+              {coinPairName}
             </span>
           </Flex>
         }

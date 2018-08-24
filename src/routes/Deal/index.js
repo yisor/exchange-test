@@ -69,9 +69,10 @@ class DealPage extends Component {
   }
 
   onItemClick = (item) => {
-    console.log('选择币种：' + JSON.stringify(item));
+    const { baseCoin, quoteCoin } = item.coinInfo;
+    const coinPairName = `${baseCoin}/${quoteCoin}`.toUpperCase();
     this.setState({
-      data: { 'name': item.coinInfo['name'], 'key': item.coinInfo['key'] },
+      data: { 'name': coinPairName, 'key': item.coinInfo['key'] },
     });
   }
 

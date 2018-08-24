@@ -1,21 +1,21 @@
-import { getSymbol, queryRate } from '../services/app';
+import { getCoinPairs, queryRate } from '../services/app';
 
 export default {
   namespace: 'app',
   state: {
     tab: 'home',
     rates: [],
-    symbol: {},
+    coinPairs: [],
     optionals: [],
   },
   effects: {
     * getBasicSysData({ payload = {}}, { call, put, all }) {
-      const [symbol, rates] = yield all([call(getSymbol), call(queryRate)]);
-      yield put({ type: 'initParams', payload: { symbol, rates }});
+      const [coinPairs, rates] = yield all([call(getCoinPairs), call(queryRate)]);
+      yield put({ type: 'initParams', payload: { coinPairs, rates }});
     },
-    * getSymbol({ payload = {}}, { call, put }) {
-      const response = yield call(getSymbol);
-      yield put({ type: 'saveSymbol', payload: { symbol: response.rates }});
+    * getCoinPairs({ payload = {}}, { call, put }) {
+      const response = yield call(getCoinPairs);
+      yield put({ type: 'saveCoinPairs', payload: { coinPairs: response.rates }});
     },
     * queryRate({ payload = {}}, { call, put }) {
       const response = yield call(queryRate);
@@ -36,8 +36,8 @@ export default {
     saveRates(state, action) {
       return { ...state, rates: action.payload };
     },
-    saveSymbol(state, action) {
-      return { ...state, symbol: action.payload };
+    saveCoinPairs(state, action) {
+      return { ...state, coinPairs: action.payload };
     },
   },
   subscriptions: {

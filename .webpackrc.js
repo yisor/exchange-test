@@ -17,6 +17,7 @@ export default {
       ]
     }
   },
+  extraBabelIncludes: [],
   "proxy": {
     // "/api": {
     //   "target": " http://staging.365os.com/exchange-api/",

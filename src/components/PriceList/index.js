@@ -2,12 +2,12 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:31:49
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-23 11:42:38
+ * @Last Modified time: 2018-08-24 16:37:22
  */
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { Tabs } from 'antd-mobile';
-import { ListView } from 'components';
+import { ListView, SearchBar } from 'components';
 
 const tabs = (formatMessage) => (
   [
@@ -28,7 +28,10 @@ const PriceItem = (props) => {
         alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
-          {itemInfo.coinInfo.name}<font style={{ ...styles.font11, marginLeft: 7 }} />
+          {itemInfo.coinInfo.baseCoin.toUpperCase()}
+          <font style={{ ...styles.font11, marginLeft: 7 }}>
+            {`/${itemInfo.coinInfo.quoteCoin.toUpperCase()}`}
+          </font>
         </div>
         <div style={{ ...styles.font11, marginTop: 8 }}>
           {`24h量 ${Math.round(itemInfo.vol)}`}
@@ -55,6 +58,10 @@ class PriceList extends Component {
     intl: intlShape
   }
 
+  state = {
+    curTickers: null,
+  }
+
   onTabChange = (tab, index) => {
     // tab切换
   }
@@ -64,24 +71,46 @@ class PriceList extends Component {
     onItemClick && onItemClick(item);
   }
 
+  filterTickers = (currency) => {
+    const { tickers } = this.props;
+    const curTickers = tickers.filter((item) => {
+      const { baseCoin, quoteCoin } = item.coinInfo;
+      return baseCoin.indexOf(currency) !== -1 || quoteCoin.indexOf(currency) !== -1;
+    });
+    this.setState({ curTickers });
+  }
+
   render() {
-    const { tickers, loading } = this.props;
-    const formatMessage = this.context.intl.formatMessage;
+    const { curTickers } = this.state;
+    const formatMsg = this.context.intl.formatMessage;
+    const { tickers, loading, onCancel, showCancelButton = false } = this.props;
     return (
-      <Tabs
-        tabs={tabs(formatMessage)}
-        initialPage={1}
-        tabBarActiveTextColor="#35BAA0"
-        tabBarInactiveTextColor="#797F85"
-        onChange={this.onTabChange}
-      >
-        <ListView
-          data={tickers}
-          ListItem={PriceItem}
-          loading={loading}
-          onItemClick={this.onItemClick}
+      <div>
+        <SearchBar
+          placeholder={formatMsg({ id: 'price.search' })}
+          maxLength={20}
+          showCancelButton={showCancelButton}
+          onCancel={() => { onCancel() }}
+          onChange={(text) => {
+            this.filterTickers(text);
+          }}
         />
-      </Tabs>
+        <Tabs
+          tabs={tabs(formatMsg)}
+          initialPage={1}
+          tabBarActiveTextColor="#35BAA0"
+          tabBarInactiveTextColor="#797F85"
+          onChange={this.onTabChange}
+        >
+          <ListView
+            data={curTickers ? curTickers : tickers}
+            ListItem={PriceItem}
+            loading={loading}
+            onItemClick={this.onItemClick}
+            offsetHeight={100}
+          />
+        </Tabs>
+      </div>
     );
   }
 }
