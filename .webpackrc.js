@@ -19,11 +19,11 @@ export default {
   },
   extraBabelIncludes: [],
   "proxy": {
-    // "/api": {
-    //   "target": " http://staging.365os.com/exchange-api/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/api": "" }
-    // }
+    "/exchange": {
+      "target": "http://192.168.1.149:6674/exchange",
+      "changeOrigin": true,
+      "pathRewrite": { "^/exchange": "" }
+    }
   },
   alias: {
     components: resolve(__dirname, "./src/components"),

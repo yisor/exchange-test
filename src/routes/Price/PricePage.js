@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-24 18:12:21
+ * @Last Modified time: 2018-08-27 11:00:51
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -137,8 +137,7 @@ class PricePage extends Component {
 
   render() {
     const { selectOptionalEmpty, curTickers } = this.state;
-    const { tickers, loading, changeUrl, rates } = this.props;
-    console.log('汇率:', JSON.stringify(rates));
+    const { tickers, loading, changeUrl } = this.props;
     const formatMessage = this.context.intl.formatMessage;
     return (
       <DocumentTitle title={formatMessage({ id: 'title.price' })}>

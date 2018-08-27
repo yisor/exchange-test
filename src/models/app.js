@@ -9,19 +9,21 @@ export default {
     optionals: [],
   },
   effects: {
-    * getBasicSysData({ payload = {}}, { call, put, all }) {
-      const [coinPairs, rates] = yield all([call(getCoinPairs), call(queryRate)]);
-      yield put({ type: 'initParams', payload: { coinPairs, rates }});
+    * getBasicSysData({ payload = {} }, { call, put, all }) {
+      const [coinPair, rate] = yield all([call(getCoinPairs), call(queryRate)]);
+      const coinPairs = coinPair.data ? coinPair.data : [];
+      const rates = rate.data ? rate.data : [];
+      yield put({ type: 'initParams', payload: { coinPairs, rates } });
     },
-    * getCoinPairs({ payload = {}}, { call, put }) {
-      const response = yield call(getCoinPairs);
-      yield put({ type: 'saveCoinPairs', payload: { coinPairs: response.rates }});
+    * getCoinPairs({ payload = {} }, { call, put }) {
+      const response = (yield call(getCoinPairs)).data;
+      yield put({ type: 'saveCoinPairs', payload: { coinPairs: response.rates } });
     },
-    * queryRate({ payload = {}}, { call, put }) {
-      const response = yield call(queryRate);
+    * queryRate({ payload = {} }, { call, put }) {
+      const response = (yield call(queryRate)).data;
       yield put({ type: 'saveRates', payload: response });
     },
-    * addOptional({ payload = {}}, { call, put }) {
+    * addOptional({ payload = {} }, { call, put }) {
       // TODO 添加自选
     }
   },
