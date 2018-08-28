@@ -2,7 +2,7 @@
  * @Author: lsl
  * @Date: 2018-08-16 09:30:36
  * @Last Modified by: lsl
- * @Last Modified time: 2018-08-27 11:00:51
+ * @Last Modified time: 2018-08-28 18:52:46
  */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -30,9 +30,9 @@ const PriceItem = (props) => {
         alignItems: 'flex-start',
       }}>
         <div style={styles.font16}>
-          {itemInfo.coinInfo.baseCoin.toUpperCase()}
+          {itemInfo.baseCoin.toUpperCase()}
           <font style={{ ...styles.font11, marginLeft: 7 }}>
-            {`/${itemInfo.coinInfo.quoteCoin.toUpperCase()}`}
+            {`/${itemInfo.quoteCoin.toUpperCase()}`}
           </font>
         </div>
         <div style={{ ...styles.font11, marginTop: 8 }}>
@@ -48,7 +48,7 @@ const PriceItem = (props) => {
         <div style={{ ...styles.font11, marginTop: 8 }}>￥1600.38</div>
       </div>
       <div style={styles.button}>
-        {`${(itemInfo.rose).toFixed(2)}%`}
+        {`+0.25%`}
       </div>
     </div >
   );
@@ -90,16 +90,21 @@ class PricePage extends Component {
 
   componentDidMount() {
     const { coinPairs } = this.props;
-    if (coinPairs && coinPairs.length > 0) {
-      this.fetchTicker(coinPairs);
-    }
+    console.log('币对', JSON.stringify(coinPairs));
+    const param = {
+      'baseCoin': 'za',
+      'depthStep': '1',
+      'event': 'SUB',
+      'klineTime': '5min',
+      'quoteCoin': 'aaa',
+      'symbol': 'zaaaa',
+      'type': 'MARKET'
+    };
+    this.fetchTicker(param);
   }
 
-  fetchTicker = (symbols) => {
-    const { getTicker } = this.props;
-    symbols.forEach(ele => {
-      getTicker(ele);
-    });
+  fetchTicker = (symbol) => {
+    this.props.getTicker(symbol);
   }
 
   filterTickers = (currency) => {
@@ -114,6 +119,7 @@ class PricePage extends Component {
   onTabChange = (tab, index) => {
     console.log('onTabChange:', JSON.stringify(tab));
     const { optionals, coinPairs } = this.props;
+    console.log('币对', JSON.stringify(coinPairs));
     switch (tab.key) {
       case 'favorites':
         // 自选

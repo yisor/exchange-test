@@ -4,6 +4,7 @@ const mockToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IjE4Njk4
 
 // axios 配置
 axios.defaults.timeout = 5000;  // 设置超时时间
+axios.defaults.baseURL = 'http://192.168.1.149:6674';
 axios.interceptors.request.use(
   config => {
     const token = mockToken;

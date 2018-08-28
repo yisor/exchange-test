@@ -12,6 +12,7 @@ module.exports = {
     'react/no-find-dom-node': 'off',
     'object-curly-spacing': 'off',
     'handle-callback-err': 'off',
-    'no-path-concat': 'off'
+    'no-path-concat': 'off',
+    'no-param-reassign': 'off'
   }
 }
