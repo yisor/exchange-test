@@ -18,7 +18,7 @@ export default {
     }
   },
   extraBabelIncludes: [],
-  "proxy": {
+  proxy: {
     "/exchange": {
       "target": "http://192.168.1.149:6674/exchange",
       "changeOrigin": true,

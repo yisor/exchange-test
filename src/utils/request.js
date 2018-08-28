@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const mockToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IjE4Njk4NTc1NjkyIiwidHMiOjE1MzUzNDkzNjQ0ODJ9.k9Td7UVDAKWQ-amKEitXf9l5FMGJx-Y_I6ET5brq4FY';
+const mockToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IjE4Njk4NTc1NjkyIiwidHMiOjE1MzU0MjQ1OTY0NjF9.JCTllT3P497QaoqlUQIn3r3f9OPsu-xlLmDgD7hvvcM';
 
 // axios 配置
 axios.defaults.timeout = 5000;  // 设置超时时间

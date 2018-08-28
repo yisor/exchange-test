@@ -3,10 +3,10 @@ let closeSign = false;
 let ws = null;
 const wsUrl = 'ws://192.168.1.149:8082/exchange/appapi/ws';
 
-export const createWebSocket = () => {
+export const createWebSocket = (params, onCallback = () => { }) => {
   try {
     ws = new WebSocket(wsUrl);
-    initEventHandle(wsUrl);
+    initEventHandle(wsUrl, params, onCallback);
   } catch (err) {
     reconnect(wsUrl);
     console.error(err);
@@ -23,41 +23,28 @@ export const closeWebSocket = () => {
   }
 };
 
-const initEventHandle = (wsUrl) => {
+const initEventHandle = (wsUrl, params, onCallback) => {
   ws.onopen = () => {
     // 心跳检测重置
     heartCheck.reset().start();
     console.log('连接成功!' + new Date().toUTCString());
-    ws.send({
-      'baseCoin': 'btc',
-      'depthStep': '1',
-      'event': 'SUB',
-      'klineTime': '5min',
-      'quoteCoin': 'usdt',
-      'symbol': 'btcusdt',
-      'token': 'string',
-      'type': 'TICKER'
-    }
-    );
+    ws.send(JSON.stringify(params));
+  };
+  ws.onmessage = (event) => {
+    // 如果获取到消息，心跳检测重置
+    heartCheck.reset().start();
+    // 拿到任何消息都说明当前连接是正常的
+    onCallback(event.data);
   };
   ws.onclose = () => {
-    if (!closeSign) {
-      // reconnect(wsUrl);
-      console.log('连接关闭!' + new Date().toUTCString());
-    } else {
-      console.log('连接关闭2!' + new Date().toUTCString());
+    console.log('连接关闭!' + new Date().toUTCString());
+    if (closeSign) {
       closeSign = false;
     }
   };
   ws.onerror = () => {
     reconnect(wsUrl);
     console.log('连接错误!');
-  };
-  ws.onmessage = (event) => {
-    // 如果获取到消息，心跳检测重置
-    heartCheck.reset().start();
-    // 拿到任何消息都说明当前连接是正常的
-    console.log(event.data);
   };
 };
 
