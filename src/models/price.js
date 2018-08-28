@@ -12,7 +12,7 @@ export default {
   },
   effects: {
     * getTicker({ payload }, { call, put }) {
-      const response = yield call(getTicker, payload.key);
+      const response = (yield call(getTicker, payload.key)).data;
       response['coinInfo'] = payload;
       yield put({ type: 'save', payload: response });
     },

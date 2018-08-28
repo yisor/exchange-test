@@ -1,14 +1,19 @@
-[
-  {
-    "baseCoin": "eth",
-    "pricePrecision": 0,
-    "quoteCoin": "btc",
-    "symbol": "ethbtc"
-  },
-  {
-    "baseCoin": "ltc",
-    "pricePrecision": 6,
-    "quoteCoin": "btc",
-    "symbol": "ltcbtc"
-  }
-]
+{
+  "code": "0000",
+  "data": [
+    {
+      "baseCoin": "eth",
+      "pricePrecision": 0,
+      "quoteCoin": "btc",
+      "symbol": "ethbtc"
+    },
+    {
+      "baseCoin": "ltc",
+      "pricePrecision": 6,
+      "quoteCoin": "btc",
+      "symbol": "ltcbtc"
+    }
+  ],
+  "message": "string",
+  "successful": true
+}

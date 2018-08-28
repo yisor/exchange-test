@@ -1,21 +1,16 @@
-[
-  {
-    "baseCoin": "btc",
-    "data": {
-      "amount": 30232.26315,
-      "close": 0,
-      "high": 1,
-      "low": 0.01,
-      "open": 0,
-      "rose": -0.2922,
-      "timePoint": 1514448473626,
-      "vol": 10232.26315789
-    },
-    "depthStep": "2",
-    "event": "SUB",
-    "klineTime": "1min",
-    "quoteCoin": "usdt",
-    "symbol": "usdtbtc",
-    "type": "TICKER"
-  }
-]
+{
+  "code": "0000",
+  "data": {
+    "amount": 30232.26315,
+    "close": 0,
+    "high": 1,
+    "low": 0.01,
+    "last": 0.01,
+    "open": 0,
+    "rose": -0.2922,
+    "timePoint": 1514448473626,
+    "vol": 10232.26315789
+  },
+  "message": "string",
+  "successful": true
+}
