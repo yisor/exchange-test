@@ -8,7 +8,7 @@ export const createWebSocket = (params, onCallback = () => { }) => {
     ws = new WebSocket(wsUrl);
     initEventHandle(wsUrl, params, onCallback);
   } catch (err) {
-    reconnect(wsUrl);
+    reconnect(wsUrl, params, onCallback);
     console.error(err);
   }
 };
@@ -43,17 +43,17 @@ const initEventHandle = (wsUrl, params, onCallback) => {
     }
   };
   ws.onerror = () => {
-    reconnect(wsUrl);
+    reconnect(wsUrl, params, onCallback);
     console.log('连接错误!');
   };
 };
 
-const reconnect = (url) => {
+const reconnect = (url, params, onCallback) => {
   if (lockReconnect) return;
   lockReconnect = true;
   // 没连接上会一直重连，设置延迟避免请求过多
   setTimeout(() => {
-    createWebSocket(url);
+    createWebSocket(url, params, onCallback);
     lockReconnect = false;
   }, 3000);
 };
